@@ -59,7 +59,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Permission selectById(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return permissionMapper.selectPermission(map).get(0);
+        List<Permission> selectPermission = permissionMapper.selectPermission(map);
+        return selectPermission.size()!=0?selectPermission.get(0):null;
     }
 
     /* (非 Javadoc)

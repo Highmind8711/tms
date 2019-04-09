@@ -59,7 +59,8 @@ public  class RuleServiceImpl implements RuleService{
     @Override
     public Rule selectById(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return ruleMapper.selectRule(map).get(0);
+        List<Rule> selectRule = ruleMapper.selectRule(map);
+        return selectRule.size()!=0?selectRule.get(0):null;
     }
 
     /* (非 Javadoc)

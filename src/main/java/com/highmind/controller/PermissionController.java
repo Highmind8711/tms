@@ -30,9 +30,10 @@
 package com.highmind.controller;
 
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.Permission;
 
@@ -43,7 +44,7 @@ import com.highmind.entity.Permission;
  * @Date 2019年4月3日 上午11:41:26
  * @version 1.0.0
  */
-@Controller
+@RestController
 public class PermissionController extends BaseController<Permission>{
     /* (非 Javadoc)
      * Description:
@@ -60,8 +61,8 @@ public class PermissionController extends BaseController<Permission>{
      * @see com.highmind.controller.BaseController#getOne()
      */
     @Override
-    @RequestMapping(value="/permissions/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
+    @RequestMapping(value="/permissions/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getOne(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.getOneResult(permissionService,id);
     }
@@ -70,7 +71,7 @@ public class PermissionController extends BaseController<Permission>{
      * @see com.highmind.controller.BaseController#getAll()
      */
     @Override
-    @RequestMapping(value="/permissions",method=RequestMethod.GET)
+    @RequestMapping(value="/permissions",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAll() {
         // TODO Auto-generated method stub
         return super.getAllResult(permissionService);
@@ -80,7 +81,7 @@ public class PermissionController extends BaseController<Permission>{
      * @see com.highmind.controller.BaseController#update()
      */
     @Override
-    @RequestMapping(value="/permissions/{id}",method=RequestMethod.PUT)
+    @RequestMapping(value="/permissions",method=RequestMethod.PUT)
     public String update(Permission t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionService,t);
@@ -93,7 +94,7 @@ public class PermissionController extends BaseController<Permission>{
      */
     @Override
     @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(permissionService,id);
     }

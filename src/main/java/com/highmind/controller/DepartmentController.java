@@ -31,11 +31,11 @@ package com.highmind.controller;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.highmind.entity.Department;
 
@@ -46,7 +46,7 @@ import com.highmind.entity.Department;
  * @Date 2019年4月3日 上午11:39:41
  * @version 1.0.0
  */
-@Controller
+@RestController
 public class DepartmentController extends BaseController<Department>{
     /* (非 Javadoc)
      * Description:
@@ -63,8 +63,8 @@ public class DepartmentController extends BaseController<Department>{
      * @see com.highmind.controller.BaseController#getOne()
      */
     @Override
-    @RequestMapping(value="/departments/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
+    @RequestMapping(value="/departments/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getOne(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.getOneResult(departmentService,id);
     }
@@ -73,7 +73,7 @@ public class DepartmentController extends BaseController<Department>{
      * @see com.highmind.controller.BaseController#getAll()
      */
     @Override
-    @RequestMapping(value="/departments",method=RequestMethod.GET)
+    @RequestMapping(value="/departments",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAll() {
         // TODO Auto-generated method stub
         return super.getAllResult(departmentService);
@@ -83,14 +83,14 @@ public class DepartmentController extends BaseController<Department>{
      * @Description
      * @return
      */
-    @RequestMapping(value="/departmentNames",method=RequestMethod.GET)
+    @RequestMapping(value="/departmentnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAllName() {
         // TODO Auto-generated method stub
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.selectDepartmentName();
         if(selectAll.size()>=0) {
             jsonObject.put("status", 1);
-            jsonObject.put("data",JSON.toJSONString(selectAll));
+            jsonObject.put("data",selectAll);
         }else {
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");
@@ -102,9 +102,10 @@ public class DepartmentController extends BaseController<Department>{
      * @see com.highmind.controller.BaseController#update()
      */
     @Override
-    @RequestMapping(value="/departments/{id}",method=RequestMethod.PUT)
+    @RequestMapping(value="/departments",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(Department t) {
         // TODO Auto-generated method stub
+        System.out.println(t.getName());
         return super.updateResult(departmentService,t);
        
     }
@@ -114,8 +115,8 @@ public class DepartmentController extends BaseController<Department>{
      * @see com.highmind.controller.BaseController#delete()
      */
     @Override
-    @RequestMapping(value="/departments/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    @RequestMapping(value="/departments/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
+    public String delete(@PathVariable("id")Long id) {
         return super.deleteResult(departmentService,id);
     }
 }

@@ -30,9 +30,10 @@
 package com.highmind.controller;
 
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.Menu;
 
@@ -43,14 +44,14 @@ import com.highmind.entity.Menu;
  * @Date 2019年4月3日 上午11:40:24
  * @version 1.0.0
  */
-@Controller
+@RestController
 public class MenuController extends BaseController<Menu>{
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.controller.BaseController#add()
      */
     @Override
-    @RequestMapping(value="/menus",method=RequestMethod.POST)
+    @RequestMapping(value="/menus",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(Menu t) {
         return super.addResult(menuService,t);
     }
@@ -60,8 +61,8 @@ public class MenuController extends BaseController<Menu>{
      * @see com.highmind.controller.BaseController#getOne()
      */
     @Override
-    @RequestMapping(value="/menus/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
+    @RequestMapping(value="/menus/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getOne(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.getOneResult(menuService,id);
     }
@@ -70,7 +71,7 @@ public class MenuController extends BaseController<Menu>{
      * @see com.highmind.controller.BaseController#getAll()
      */
     @Override
-    @RequestMapping(value="/menus",method=RequestMethod.GET)
+    @RequestMapping(value="/menus",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAll() {
         // TODO Auto-generated method stub
         return super.getAllResult(menuService);
@@ -80,7 +81,7 @@ public class MenuController extends BaseController<Menu>{
      * @see com.highmind.controller.BaseController#update()
      */
     @Override
-    @RequestMapping(value="/menus/{id}",method=RequestMethod.PUT)
+    @RequestMapping(value="/menus",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(Menu t) {
         // TODO Auto-generated method stub
         return super.updateResult(menuService,t);
@@ -92,8 +93,8 @@ public class MenuController extends BaseController<Menu>{
      * @see com.highmind.controller.BaseController#delete()
      */
     @Override
-    @RequestMapping(value="/menus/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    @RequestMapping(value="/menus/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
+    public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(menuService,id);
     }

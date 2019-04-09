@@ -58,7 +58,8 @@ public class OperationServiceImpl implements OperationService{
     @Override
     public Operation selectById(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return operationMapper.selectOperation(map).get(0);
+        List<Operation> selectOperation = operationMapper.selectOperation(map);
+        return selectOperation.size()!=0?selectOperation.get(0):null;
     }
 
     /* (非 Javadoc)

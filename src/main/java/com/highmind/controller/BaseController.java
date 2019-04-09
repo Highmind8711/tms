@@ -34,9 +34,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.highmind.service.*;
 
@@ -68,24 +67,20 @@ public abstract class BaseController<T> {
     RuleEmployeeService ruleEmployeeService;
     @Autowired
     RulePermissionService rulePermissionService;
-    @ResponseBody
     public String add(T t) {
         return null;
-    }
-    @ResponseBody
+    }   
     public String getAll() {
         return null;
-    }
-    @ResponseBody
-    public String getOne(Long id) {
+    }    
+    public String getOne(@PathVariable("id") Long id) {
         return null;
-    }
-    @ResponseBody
+    }    
     public String update(T t) {
         return null;
     }
-    @ResponseBody
-    public String delete(Long id) {
+    
+    public String delete(@PathVariable("id")Long id) {
         return null;
     }
     public String addResult(BaseService<T> baseService,T t) {
@@ -109,7 +104,7 @@ public abstract class BaseController<T> {
         T selectById = baseService.selectById(hashMap);
         if(selectById!=null) {
             jsonObject.put("status", 1);
-            jsonObject.put("data",JSON.toJSONString(selectById));
+            jsonObject.put("data",selectById);
         }else {
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");
@@ -121,7 +116,7 @@ public abstract class BaseController<T> {
         List<T> selectAll = baseService.selectAll();
         if(selectAll.size()>=0) {
             jsonObject.put("status", 1);
-            jsonObject.put("data",JSON.toJSONString(selectAll));
+            jsonObject.put("data",selectAll);
         }else {
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");

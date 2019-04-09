@@ -29,8 +29,10 @@
  *****************************************************************/
 package com.highmind.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.PermissionOperation;
 
@@ -41,6 +43,7 @@ import com.highmind.entity.PermissionOperation;
  * @Date 2019年4月6日 上午9:03:14
  * @version 1.0.0
  */
+@RestController
 public class PermissionOperationController  extends BaseController<PermissionOperation>{
 
     @Override
@@ -51,21 +54,7 @@ public class PermissionOperationController  extends BaseController<PermissionOpe
     }
 
     @Override
-    @RequestMapping(value="/permissionoperations",method=RequestMethod.GET)
-    public String getAll() {
-        // TODO Auto-generated method stub
-        return super.getAllResult(permissionOperationService);
-    }
-
-    @Override
-    @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
-        // TODO Auto-generated method stub
-        return super.getOneResult(permissionOperationService, id);
-    }
-
-    @Override
-    @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/permissionoperations",method=RequestMethod.PUT)
     public String update(PermissionOperation t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionOperationService, t);
@@ -73,7 +62,7 @@ public class PermissionOperationController  extends BaseController<PermissionOpe
 
     @Override
     @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(permissionOperationService, id);
     }

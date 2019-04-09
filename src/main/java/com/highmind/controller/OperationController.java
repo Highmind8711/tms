@@ -30,9 +30,10 @@
 package com.highmind.controller;
 
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.Operation;
 
@@ -43,14 +44,14 @@ import com.highmind.entity.Operation;
  * @Date 2019年4月3日 上午11:41:05
  * @version 1.0.0
  */
-@Controller
+@RestController
 public class OperationController extends BaseController<Operation>{
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.controller.BaseController#add()
      */
     @Override
-    @RequestMapping(value="/operations",method=RequestMethod.POST)
+    @RequestMapping(value="/operations",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(Operation t) {
         return super.addResult(operationService,t);
     }
@@ -60,8 +61,8 @@ public class OperationController extends BaseController<Operation>{
      * @see com.highmind.controller.BaseController#getOne()
      */
     @Override
-    @RequestMapping(value="/operations/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
+    @RequestMapping(value="/operations/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getOne(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.getOneResult(operationService,id);
     }
@@ -70,7 +71,7 @@ public class OperationController extends BaseController<Operation>{
      * @see com.highmind.controller.BaseController#getAll()
      */
     @Override
-    @RequestMapping(value="/operations",method=RequestMethod.GET)
+    @RequestMapping(value="/operations",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAll() {
         // TODO Auto-generated method stub
         return super.getAllResult(operationService);
@@ -80,7 +81,7 @@ public class OperationController extends BaseController<Operation>{
      * @see com.highmind.controller.BaseController#update()
      */
     @Override
-    @RequestMapping(value="/operations/{id}",method=RequestMethod.PUT)
+    @RequestMapping(value="/operations",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(Operation t) {
         // TODO Auto-generated method stub
         return super.updateResult(operationService,t);
@@ -92,8 +93,8 @@ public class OperationController extends BaseController<Operation>{
      * @see com.highmind.controller.BaseController#delete()
      */
     @Override
-    @RequestMapping(value="/operations/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    @RequestMapping(value="/operations/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
+    public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(operationService,id);
     }

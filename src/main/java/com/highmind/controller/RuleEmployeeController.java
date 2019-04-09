@@ -29,8 +29,10 @@
  *****************************************************************/
 package com.highmind.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.RuleEmployee;
 
@@ -41,31 +43,18 @@ import com.highmind.entity.RuleEmployee;
  * @Date 2019年4月6日 上午9:42:05
  * @version 1.0.0
  */
+@RestController
 public class RuleEmployeeController extends BaseController<RuleEmployee>{
 
     @Override
-    @RequestMapping(value="/ruleemployees",method=RequestMethod.POST)
+    @RequestMapping(value="/ruleemployees",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(RuleEmployee t) {
         // TODO Auto-generated method stub
         return super.addResult(ruleEmployeeService, t);
     }
-
+    
     @Override
-    @RequestMapping(value="/ruleemployees",method=RequestMethod.GET)
-    public String getAll() {
-        // TODO Auto-generated method stub
-        return super.getAllResult(ruleEmployeeService);
-    }
-
-    @Override
-    @RequestMapping(value="/ruleemployees/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
-        // TODO Auto-generated method stub
-        return super.getOneResult(ruleEmployeeService, id);
-    }
-
-    @Override
-    @RequestMapping(value="/ruleemployees/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/ruleemployees",method=RequestMethod.PUT)
     public String update(RuleEmployee t) {
         // TODO Auto-generated method stub
         return super.updateResult(ruleEmployeeService, t);
@@ -73,7 +62,7 @@ public class RuleEmployeeController extends BaseController<RuleEmployee>{
 
     @Override
     @RequestMapping(value="/ruleemployees/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(ruleEmployeeService, id);
     }

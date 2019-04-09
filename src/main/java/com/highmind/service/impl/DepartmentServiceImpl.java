@@ -58,7 +58,8 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public Department selectById(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return departmentMapper.selectDepartment(map).get(0);
+        List<Department> selectDepartment = departmentMapper.selectDepartment(map);
+        return selectDepartment.size()!=0?selectDepartment.get(0):null;
     }
     /* (非 Javadoc)
      * Description:

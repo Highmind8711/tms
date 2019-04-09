@@ -9,16 +9,16 @@
     <result column="remark" jdbcType="NCHAR" property="remark" />
     <collection property="permissOperations" ofType="PermissionOperation">
     	<id column="POid" jdbcType="BIGINT" property="id" />
-    	<result column="domainid" jdbcType="BIGINT" property="domainid" />
+    	<result column="POdomainid" jdbcType="BIGINT" property="domainid" />
     	<result column="permission_id" jdbcType="BIGINT" property="permission_id" />
     	<result column="operation_id" jdbcType="BIGINT" property="operation_id" />
     	<association property="permission" javaType="com.highmind.entity.Permission">
     		<id column="Pid" jdbcType="BIGINT" property="id" />
-    		<result column="domainid" jdbcType="BIGINT" property="domainid" />
-    		<result column="name" jdbcType="NCHAR" property="name" />
+    		<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
+    		<result column="Pname" jdbcType="NCHAR" property="name" />
     		<result column="type" jdbcType="NCHAR" property="type" />
     		<result column="grouping" jdbcType="NCHAR" property="grouping" />
-    		<result column="remark" jdbcType="NCHAR" property="remark" />
+    		<result column="Premark" jdbcType="NCHAR" property="remark" />
     	</association>
     </collection>
   </resultMap>
@@ -29,6 +29,8 @@
     select 
     <include refid="Base_Column_List" />
     ,Sys_Permission.*,Sys_Permission_Operation.*,Sys_Permission.id as 'pid',Sys_Permission_Operation.id as 'POid'
+    ,Sys_Permission_Operation.domainid as 'POdomainid' ,Sys_Permission.domainid as 'Pdomainid',
+    Sys_Permission.remark as 'Premark',Sys_Permission.name as 'Pname'
     from Sys_Operation
     Left join Sys_Permission_Operation on Sys_Permission_Operation.operation_id = Sys_Operation.id
     Left join Sys_Permission on Sys_Permission.id= Sys_Permission_Operation.permission_id

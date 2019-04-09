@@ -62,7 +62,8 @@ public  class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Employee selectById(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return employeeMapper.selectEmployee(map).get(0);
+        List<Employee> selectEmployee = employeeMapper.selectEmployee(map);
+        return selectEmployee.size()!=0?selectEmployee.get(0):null;
     }
 
     /* (非 Javadoc)

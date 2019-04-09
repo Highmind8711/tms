@@ -29,8 +29,10 @@
  *****************************************************************/
 package com.highmind.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.PermissionMenu;
 
@@ -41,6 +43,7 @@ import com.highmind.entity.PermissionMenu;
  * @Date 2019年4月6日 上午8:53:25
  * @version 1.0.0
  */
+@RestController
 public class PermissionMenuController extends BaseController<PermissionMenu>{
 
     @Override
@@ -50,22 +53,9 @@ public class PermissionMenuController extends BaseController<PermissionMenu>{
         return super.addResult(permissionMenuService, t);
     }
 
-    @Override
-    @RequestMapping(value="/permissionmenus",method=RequestMethod.GET)
-    public String getAll() {
-        // TODO Auto-generated method stub
-        return super.getAllResult(permissionMenuService);
-    }
 
     @Override
-    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.GET)
-    public String getOne(Long id) {
-        // TODO Auto-generated method stub
-        return super.getOneResult(permissionMenuService, id);
-    }
-
-    @Override
-    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.PUT)
+    @RequestMapping(value="/permissionmenus",method=RequestMethod.PUT)
     public String update(PermissionMenu t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionMenuService, t);
@@ -73,9 +63,9 @@ public class PermissionMenuController extends BaseController<PermissionMenu>{
 
     @Override
     @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.DELETE)
-    public String delete(Long id) {
+    public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
-        return super.delete(id);
+        return super.deleteResult(permissionMenuService, id);
     }
     
 }
