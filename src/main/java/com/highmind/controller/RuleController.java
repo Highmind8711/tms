@@ -30,11 +30,17 @@
 package com.highmind.controller;
 
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.highmind.entity.Department;
 import com.highmind.entity.Rule;
 
 /**
@@ -97,5 +103,19 @@ public class RuleController extends BaseController<Rule> {
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(ruleService,id);
+    }
+    @RequestMapping(value="/rulesnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getAllName() {
+        // TODO Auto-generated method stub
+        JSONObject jsonObject=new JSONObject();
+        List<Department> selectAll = departmentService.selectDepartmentName();
+        if(selectAll.size()>=0) {
+            jsonObject.put("status", 1);
+            jsonObject.put("data",selectAll);
+        }else {
+            jsonObject.put("status", 0);
+            jsonObject.put("error", "数据获取失败");
+        }
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
 }

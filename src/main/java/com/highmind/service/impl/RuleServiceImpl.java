@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.highmind.dao.RuleMapper;
+import com.highmind.entity.Department;
 import com.highmind.entity.Rule;
 import com.highmind.service.RuleService;
 
@@ -102,6 +103,16 @@ public  class RuleServiceImpl implements RuleService{
     public int del(Long id) {
         // TODO Auto-generated method stub
         return ruleMapper.deleteByPrimaryKey(id);
+    }
+
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.RuleService#selectRuleName()
+     */
+    @Override
+    public List<Department> selectRuleName() {
+        // TODO Auto-generated method stub
+        return ruleMapper.selectRuleName();
     }
 
     

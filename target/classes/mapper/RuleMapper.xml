@@ -114,4 +114,9 @@
       remark = #{remark,jdbcType=NCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectRuleName" resultType="com.highmind.entity.Rule">
+  	select 
+    <include refid="Base_Column_List" />
+    from Sys_Rule
+  </select>
 </mapper>

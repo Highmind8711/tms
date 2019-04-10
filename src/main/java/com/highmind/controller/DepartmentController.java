@@ -36,7 +36,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Department;
 
 /**
@@ -95,7 +97,7 @@ public class DepartmentController extends BaseController<Department>{
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");
         }
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
     /* (非 Javadoc)
      * Description:

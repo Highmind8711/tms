@@ -3,6 +3,7 @@ package com.highmind.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.highmind.entity.Department;
 import com.highmind.entity.Rule;
 
 public interface RuleMapper {
@@ -19,4 +20,10 @@ public interface RuleMapper {
     int updateByPrimaryKey(Rule record);
     
     List<Rule> selectRule(Map<String,Object> map);
+    /**
+             * 查询所有的角色名字
+     * @Description
+     * @return
+     */
+    List<Department> selectRuleName();
 }

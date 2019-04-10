@@ -29,6 +29,9 @@
  *****************************************************************/
 package com.highmind.service;
 
+import java.util.List;
+
+import com.highmind.entity.Department;
 import com.highmind.entity.Rule;
 
 /**
@@ -39,5 +42,10 @@ import com.highmind.entity.Rule;
  * @version 1.0.0
  */
 public interface RuleService extends BaseService<Rule>{
-    
+    /**
+         * 查询所有的角色名字
+    * @Description
+    * @return
+    */
+    List<Department> selectRuleName();
 }

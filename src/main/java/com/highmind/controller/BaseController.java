@@ -36,7 +36,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.service.*;
 
 /**
@@ -94,7 +96,7 @@ public abstract class BaseController<T> {
             jsonObject.put("status", 0);
             jsonObject.put("error", "插入数据失败");
         }
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
         
     }
     public String getOneResult(BaseService<T> baseService,Long id) {
@@ -109,7 +111,7 @@ public abstract class BaseController<T> {
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");
         }
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
     public String getAllResult(BaseService<T> baseService) {
         JSONObject jsonObject=new JSONObject();
@@ -121,7 +123,7 @@ public abstract class BaseController<T> {
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");
         }
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
     public String updateResult(BaseService<T> baseService,T t) {
         JSONObject jsonObject=new JSONObject();
@@ -133,7 +135,7 @@ public abstract class BaseController<T> {
             jsonObject.put("status", 0);
             jsonObject.put("error", "更新数据失败");
         }
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
     public String deleteResult(BaseService<T> baseService,Long id) {
         JSONObject jsonObject=new JSONObject();
@@ -145,7 +147,7 @@ public abstract class BaseController<T> {
             jsonObject.put("status", 0);
             jsonObject.put("error", "删除数据失败");
         }
-        return jsonObject.toJSONString();
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
         
     }
 }
