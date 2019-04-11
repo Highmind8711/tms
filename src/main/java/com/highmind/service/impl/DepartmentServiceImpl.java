@@ -107,5 +107,14 @@ public class DepartmentServiceImpl implements DepartmentService{
         // TODO Auto-generated method stub
         return departmentMapper.selectDepartmentName();
     }
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.DepartmentService#findAllRecursion()
+     */
+    @Override
+    public List<Department> findAllRecursion() {
+        // TODO Auto-generated method stub
+        return departmentMapper.findAllRecursion();
+    }
 
 }

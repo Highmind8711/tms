@@ -48,5 +48,11 @@ public interface DepartmentService extends BaseService<Department>{
      * @return
      */
     public List<Department> selectDepartmentName();
+    /**
+     * 递归查询全部部门
+     * @Description
+     * @return
+     */
+    public List<Department> findAllRecursion();
 
 }

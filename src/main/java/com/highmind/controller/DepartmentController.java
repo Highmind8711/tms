@@ -121,4 +121,17 @@ public class DepartmentController extends BaseController<Department>{
     public String delete(@PathVariable("id")Long id) {
         return super.deleteResult(departmentService,id);
     }
+    @RequestMapping(value="/departmentrecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String findAllRecursion() {
+        JSONObject jsonObject=new JSONObject();
+        List<Department> selectAll = departmentService.findAllRecursion();
+        if(selectAll.size()>=0) {
+            jsonObject.put("status", 1);
+            jsonObject.put("data",selectAll);
+        }else {
+            jsonObject.put("status", 0);
+            jsonObject.put("error", "数据获取失败");
+        }
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+    }
 }

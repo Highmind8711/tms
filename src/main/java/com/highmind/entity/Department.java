@@ -58,8 +58,19 @@ public class Department {
     public List<Employee> getEmployees() {
         return employees;
     }
-
+    
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+    
+    private List<Department> children;
+    
+    public List<Department> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Department> children) {
+        this.children = children;
+    }
+    
 }

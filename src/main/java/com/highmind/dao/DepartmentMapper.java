@@ -27,9 +27,15 @@ public interface DepartmentMapper {
      */
     List<Department> selectDepartment(Map<String, Object> hashMap);
     /**
-     * 查询所有的部门名字
+             * 查询所有的部门名字
      * @Description
      * @return
      */
     List<Department> selectDepartmentName();
+    /**
+     * 
+     * @Description
+     * @return
+     */
+    List<Department> findAllRecursion();
 }
