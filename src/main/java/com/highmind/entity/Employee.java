@@ -20,8 +20,6 @@ public class Employee {
 
     private Date birthday;
 
-    private String msn;
-
     private String qq;
 
     private Long sex;
@@ -30,6 +28,7 @@ public class Employee {
     
     private String password;
     
+    private boolean seller;
     public Long getId() {
         return id;
     }
@@ -94,14 +93,6 @@ public class Employee {
         this.birthday = birthday;
     }
 
-    public String getMsn() {
-        return msn;
-    }
-
-    public void setMsn(String msn) {
-        this.msn = msn == null ? null : msn.trim();
-    }
-
     public String getQq() {
         return qq;
     }
@@ -142,7 +133,14 @@ public class Employee {
     public void setDepartment(Department department) {
         this.department = department;
     }
+    
+    public boolean isSeller() {
+        return seller;
+    }
 
+    public void setSeller(boolean seller) {
+        this.seller = seller;
+    }
     public List<Rule> getRules() {
         return rules;
     }
@@ -150,6 +148,7 @@ public class Employee {
     public void setRules(List<Rule> rules) {
         this.rules = rules;
     }
+
     private List<Rule> rules;
     
    

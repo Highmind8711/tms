@@ -10,7 +10,7 @@
     <result column="loginId" jdbcType="VARCHAR" property="loginId" />
     <result column="isLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-    <result column="msn" jdbcType="VARCHAR" property="msn" />
+    <result column="seller" jdbcType="BIT" property="seller" />
     <result column="qq" jdbcType="VARCHAR" property="qq" />
     <result column="sex" jdbcType="BIGINT" property="sex" />
     <result column="photo" jdbcType="VARCHAR" property="photo" />
@@ -30,7 +30,7 @@
     	</collection>
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Employee.id as 'id', Sys_Employee.domainId 'domainId', Sys_Employee.name 'name', email, department_id, loginId, isLoginEnabled, birthday, msn, 
+    Sys_Employee.id as 'id', Sys_Employee.domainId 'domainId', Sys_Employee.name 'name', email, department_id, loginId, isLoginEnabled, birthday, seller, 
     qq, sex, photo, password
   </sql>
   <select id="selectEmployee" parameterType="Map" resultMap="BaseResultMap">
@@ -63,11 +63,11 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
     insert into Sys_Employee (domainId, name, email, 
       department_id, loginId, isLoginEnabled, 
-      birthday, msn, qq, 
+      birthday, seller, qq, 
       sex, photo)
     values (#{domainId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{department_id,jdbcType=BIGINT}, #{loginId,jdbcType=VARCHAR}, #{isLoginEnabled,jdbcType=TINYINT}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{msn,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{seller,jdbcType=BIT}, #{qq,jdbcType=VARCHAR}, 
       #{sex,jdbcType=BIGINT}, #{photo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
@@ -94,8 +94,8 @@
       <if test="birthday != null">
         birthday,
       </if>
-      <if test="msn != null">
-        msn,
+      <if test="seller != null">
+        seller,
       </if>
       <if test="qq != null">
         qq,
@@ -129,8 +129,8 @@
       <if test="birthday != null">
         #{birthday,jdbcType=TIMESTAMP},
       </if>
-      <if test="msn != null">
-        #{msn,jdbcType=VARCHAR},
+      <if test="seller != null">
+        #{seller,jdbcType=BIT},
       </if>
       <if test="qq != null">
         #{qq,jdbcType=VARCHAR},
@@ -167,8 +167,8 @@
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=TIMESTAMP},
       </if>
-      <if test="msn != null">
-        msn = #{msn,jdbcType=VARCHAR},
+      <if test="seller != null">
+        seller = #{seller,jdbcType=BIT},
       </if>
       <if test="qq != null">
         qq = #{qq,jdbcType=VARCHAR},
@@ -191,7 +191,7 @@
       loginId = #{loginId,jdbcType=VARCHAR},
       isLoginEnabled = #{isLoginEnabled,jdbcType=TINYINT},
       birthday = #{birthday,jdbcType=TIMESTAMP},
-      msn = #{msn,jdbcType=VARCHAR},
+      seller = #{seller,jdbcType=BIT},
       qq = #{qq,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=BIGINT},
       photo = #{photo,jdbcType=VARCHAR}
