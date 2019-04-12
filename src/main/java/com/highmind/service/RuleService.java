@@ -47,5 +47,5 @@ public interface RuleService extends BaseService<Rule>{
     * @Description
     * @return
     */
-    List<Department> selectRuleName();
+    List<Rule> selectRuleName();
 }

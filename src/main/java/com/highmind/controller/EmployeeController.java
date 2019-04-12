@@ -62,7 +62,9 @@ public class EmployeeController extends BaseController<Employee>{
      */
     @Override
     @RequestMapping(value="/employees",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+
     public String add(Employee t) {
+        System.out.println(JSONObject.toJSONString(t));
         return super.addResult(employeeService,t);
     }
     

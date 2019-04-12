@@ -108,8 +108,8 @@ public class RuleController extends BaseController<Rule> {
     public String getAllName() {
         // TODO Auto-generated method stub
         JSONObject jsonObject=new JSONObject();
-        List<Department> selectAll = departmentService.selectDepartmentName();
-        if(selectAll.size()>=0) {
+        List<Rule> selectAll = ruleService.selectRuleName();
+        if(!selectAll.isEmpty()) {
             jsonObject.put("status", 1);
             jsonObject.put("data",selectAll);
         }else {

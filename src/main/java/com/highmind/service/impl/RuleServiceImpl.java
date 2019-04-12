@@ -110,7 +110,7 @@ public  class RuleServiceImpl implements RuleService{
      * @see com.highmind.service.RuleService#selectRuleName()
      */
     @Override
-    public List<Department> selectRuleName() {
+    public List<Rule> selectRuleName() {
         // TODO Auto-generated method stub
         return ruleMapper.selectRuleName();
     }

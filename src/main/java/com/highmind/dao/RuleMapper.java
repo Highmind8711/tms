@@ -25,5 +25,5 @@ public interface RuleMapper {
      * @Description
      * @return
      */
-    List<Department> selectRuleName();
+    List<Rule> selectRuleName();
 }

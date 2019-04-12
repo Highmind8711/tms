@@ -89,7 +89,8 @@ public abstract class BaseController<T> {
         JSONObject jsonObject=new JSONObject();
         // TODO Auto-generated method stub
         int id =baseService.add(t);
-        if(id>=-1) {
+        System.out.println(id);
+        if(id>0) {
             jsonObject.put("status", 1);
             jsonObject.put("data", id);
         }else {
@@ -116,7 +117,7 @@ public abstract class BaseController<T> {
     public String getAllResult(BaseService<T> baseService) {
         JSONObject jsonObject=new JSONObject();
         List<T> selectAll = baseService.selectAll();
-        if(selectAll.size()>=0) {
+        if(!selectAll.isEmpty()) {
             jsonObject.put("status", 1);
             jsonObject.put("data",selectAll);
         }else {
@@ -128,7 +129,7 @@ public abstract class BaseController<T> {
     public String updateResult(BaseService<T> baseService,T t) {
         JSONObject jsonObject=new JSONObject();
         int id =baseService.update(t);
-        if(id>=-1) {
+        if(id>0) {
             jsonObject.put("status", 1);
             jsonObject.put("data",  id);
         }else {
@@ -140,7 +141,7 @@ public abstract class BaseController<T> {
     public String deleteResult(BaseService<T> baseService,Long id) {
         JSONObject jsonObject=new JSONObject();
         int result=baseService.del(id);
-        if(result>=-1) {
+        if(result>01) {
             jsonObject.put("status", 1);
             jsonObject.put("data", id);
         }else {
