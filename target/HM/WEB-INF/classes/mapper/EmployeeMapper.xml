@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.highmind.dao.EmployeeMapper">
+  <resultMap id="BaseResultMap" type="com.highmind.entity.Employee">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="domainId" jdbcType="BIGINT" property="domainId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="department_id" jdbcType="BIGINT" property="department_id" />
+    <result column="loginId" jdbcType="VARCHAR" property="loginId" />
+    <result column="isLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="seller" jdbcType="BIT" property="seller" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="sex" jdbcType="BIGINT" property="sex" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <association property="department" javaType="com.highmind.entity.Department">
+    	<id column="Did" jdbcType="BIGINT" property="id" />
+    	<result column="domainId" jdbcType="BIGINT" property="domainId" />
+    	<result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
+    	<result column="Dname" jdbcType="VARCHAR" property="name" />
+    	<result column="Dremark" jdbcType="VARCHAR" property="remark" />
+    </association>
+    <collection property="rules" ofType="com.highmind.entity.Rule">
+    	<id column="Rid" jdbcType="BIGINT" property="id" />
+    	<result column="domainid" jdbcType="BIGINT" property="domainid" />
+    	<result column="rulename" jdbcType="NCHAR" property="rulename" />
+    	<result column="Rremark" jdbcType="NCHAR" property="remark" />
+    	</collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    Sys_Employee.id as 'id', Sys_Employee.domainId 'domainId', Sys_Employee.name 'name', email, department_id, loginId, isLoginEnabled, birthday, seller, 
+    qq, sex, photo, password
+  </sql>
+  <select id="selectEmployee" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,Sys_Department.*,Sys_Rule.*,Sys_Department.id as 'Did',Sys_Department.name as 'Dname',
+    Sys_Department.remark 'Dremark',Sys_Rule.id 'Rid',Sys_Rule.remark 'Rremark'
+    from Sys_Employee Left join Sys_Department on  Sys_Employee.department_id=Sys_Department.id
+    Left join Sys_Rule_Employee on Sys_Rule_Employee.employee_id=Sys_Employee.id
+    Left join Sys_Rule on Sys_Rule.id=Sys_Rule_Employee.rule_id
+    <where>
+    	<if test="id!=null">
+    		Sys_Employee.id=#{id}
+    	</if>
+    	<if test="domainId!=null">
+    		Sys_Employee.domainId=#{domainId,jdbcType=BIGINT}
+    	</if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Employee
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from Sys_Employee
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
+    insert into Sys_Employee (domainId, name, email, 
+      department_id, loginId, isLoginEnabled, 
+      birthday, seller, qq, 
+      sex, photo)
+    values (#{domainId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{department_id,jdbcType=BIGINT}, #{loginId,jdbcType=VARCHAR}, #{isLoginEnabled,jdbcType=TINYINT}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{seller,jdbcType=BIT}, #{qq,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=BIGINT}, #{photo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
+    insert into Sys_Employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="domainId != null">
+        domainId,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="department_id != null">
+        department_id,
+      </if>
+      <if test="loginId != null">
+        loginId,
+      </if>
+      <if test="isLoginEnabled != null">
+        isLoginEnabled,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="seller != null">
+        seller,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="domainId != null">
+        #{domainId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="department_id != null">
+        #{department_id,jdbcType=BIGINT},
+      </if>
+      <if test="loginId != null">
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLoginEnabled != null">
+        #{isLoginEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seller != null">
+        #{seller,jdbcType=BIT},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIGINT},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.highmind.entity.Employee">
+    update Sys_Employee
+    <set>
+      <if test="domainId != null">
+        domainId = #{domainId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="department_id != null">
+        department_id = #{department_id,jdbcType=BIGINT},
+      </if>
+      <if test="loginId != null">
+        loginId = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="isLoginEnabled != null">
+        isLoginEnabled = #{isLoginEnabled,jdbcType=TINYINT},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seller != null">
+        seller = #{seller,jdbcType=BIT},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIGINT},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.highmind.entity.Employee">
+    update Sys_Employee
+    set domainId = #{domainId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      department_id = #{department_id,jdbcType=BIGINT},
+      loginId = #{loginId,jdbcType=VARCHAR},
+      isLoginEnabled = #{isLoginEnabled,jdbcType=TINYINT},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      seller = #{seller,jdbcType=BIT},
+      qq = #{qq,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIGINT},
+      photo = #{photo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

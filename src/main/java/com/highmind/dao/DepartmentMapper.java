@@ -33,9 +33,21 @@ public interface DepartmentMapper {
      */
     List<Department> selectDepartmentName();
     /**
-     * 
+     *遍历所有的部门
      * @Description
      * @return
      */
     List<Department> findAllRecursion();
+    /**
+     * 查询根节点
+     * @Description
+     * @return
+     */
+    List<Department> findRoot();
+    /**
+     * 查询根节点下的子节点
+     * @Description
+     * @return
+     */
+    List<Department> findChild(Long id);
 }

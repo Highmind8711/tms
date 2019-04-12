@@ -117,4 +117,14 @@ public class DepartmentServiceImpl implements DepartmentService{
         return departmentMapper.findAllRecursion();
     }
 
+    @Override
+    public List<Department> findRoot(){
+        return departmentMapper.findRoot();
+    }
+
+    @Override
+    public List<Department> findChild(Long id){
+        return departmentMapper.findChild(id);
+    }
+
 }

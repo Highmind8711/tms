@@ -134,4 +134,30 @@ public class DepartmentController extends BaseController<Department>{
         }
         return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
+    @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String findRoot() {
+        JSONObject jsonObject=new JSONObject();
+        List<Department> selectAll = departmentService.findRoot();
+        if(selectAll.size()>=0) {
+            jsonObject.put("status", 1);
+            jsonObject.put("data",selectAll);
+        }else {
+            jsonObject.put("status", 0);
+            jsonObject.put("error", "数据获取失败");
+        }
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+    }
+    @RequestMapping(value="/findchild/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String findchild(@PathVariable("id")Long id) {
+        JSONObject jsonObject=new JSONObject();
+        List<Department> selectAll = departmentService.findChild(id);
+        if(selectAll.size()>=0) {
+            jsonObject.put("status", 1);
+            jsonObject.put("data",selectAll);
+        }else {
+            jsonObject.put("status", 0);
+            jsonObject.put("error", "数据获取失败");
+        }
+        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+    }
 }

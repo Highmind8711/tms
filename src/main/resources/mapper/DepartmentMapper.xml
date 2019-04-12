@@ -125,7 +125,7 @@
 		<result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
-      	<collection property="children" ofType="com.highmind.entity.Department" column="id" select="findDepartmentByParentId"/>
+      	<collection property="children" ofType="com.highmind.entity.Department" column="id" select="findChild"/>
   </resultMap>
 	<!-- 递归查询部门 -->
     <select id="findAllRecursion" resultMap="recursionMenuMap">
@@ -133,8 +133,14 @@
     	<include refid="Base_Column_List" />
     	From Sys_Department WHERE ml_parent='' or ml_parent is NULL or ml_parent=0
     </select>
+    <!-- 查询父部门 -->
+    <select id="findRoot" resultType="com.highmind.entity.Department">
+    	select 
+    	<include refid="Base_Column_List" />
+    	From Sys_Department WHERE ml_parent='' or ml_parent is NULL or ml_parent=0
+    </select>
     <!-- 查询父部门下的子部门 -->
-    <select id="findDepartmentByParentId" resultType="com.highmind.entity.Department">
+    <select id="findChild" resultType="com.highmind.entity.Department">
     	select 
     	<include refid="Base_Column_List" />
     	From Sys_Department WHERE ml_parent=#{id} 

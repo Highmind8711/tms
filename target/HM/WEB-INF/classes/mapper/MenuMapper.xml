@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.highmind.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.highmind.entity.Menu">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="domainid" jdbcType="BIGINT" property="domainid" />
+    <result column="name" jdbcType="NCHAR" property="name" />
+    <result column="url" jdbcType="NCHAR" property="url" />
+    <collection property="permissionMenus" ofType="PermissionMenu">
+    	<id column="PMid" jdbcType="BIGINT" property="id" />
+    	<result column="PMdomainid" jdbcType="BIGINT" property="domainid" />
+    	<result column="pemission_id" jdbcType="BIGINT" property="pemission_id" />
+    	<result column="menu_id" jdbcType="BIGINT" property="menu_id" />
+    	<association property="permission" javaType="com.highmind.entity.Permission">
+    		<id column="Pid" jdbcType="BIGINT" property="id" />
+	    	<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
+		    <result column="name" jdbcType="NCHAR" property="name" />
+		    <result column="type" jdbcType="NCHAR" property="type" />
+		    <result column="grouping" jdbcType="NCHAR" property="grouping" />
+		    <result column="remark" jdbcType="NCHAR" property="remark" />
+    	</association>
+    	
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    Sys_Menu.id as 'id', Sys_Menu.domainid, Sys_Menu.name, Sys_Menu.url
+  </sql>
+  <select id="selectMenu" parameterType="Map" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+    ,Sys_Permission_Menu.domainid as 'PMdomainid',Sys_Permission_Menu.id as 'PMid',
+    Sys_Permission.id as 'Pid',
+    Sys_Permission_Menu.*,Sys_Permission.*
+    from Sys_Menu Left join Sys_Permission_Menu on Sys_Permission_Menu.menu_id=Sys_Menu.id
+    Left join Sys_Permission on Sys_Permission_Menu.pemission_id=Sys_Permission.id
+    <where>
+    	<if test="id!=null">
+    		 Sys_Menu.id=#{id}
+    	</if>
+    	<if test="domainId!=null">
+    		Sys_Menu.domainId=#{domainId,jdbcType=BIGINT}
+    	</if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from Sys_Menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Menu" useGeneratedKeys="true">
+    insert into Sys_Menu (domainid, name, url
+      )
+    values (#{domainid,jdbcType=BIGINT}, #{name,jdbcType=NCHAR}, #{url,jdbcType=NCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Menu" useGeneratedKeys="true">
+    insert into Sys_Menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="domainid != null">
+        domainid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="domainid != null">
+        #{domainid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=NCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=NCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.highmind.entity.Menu">
+    update Sys_Menu
+    <set>
+      <if test="domainid != null">
+        domainid = #{domainid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=NCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=NCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.highmind.entity.Menu">
+    update Sys_Menu
+    set domainid = #{domainid,jdbcType=BIGINT},
+      name = #{name,jdbcType=NCHAR},
+      url = #{url,jdbcType=NCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

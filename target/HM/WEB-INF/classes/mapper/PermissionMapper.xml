@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.highmind.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.highmind.entity.Permission">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="domainid" jdbcType="BIGINT" property="domainid" />
+    <result column="name" jdbcType="NCHAR" property="name" />
+    <result column="type" jdbcType="NCHAR" property="type" />
+    <result column="grouping" jdbcType="NCHAR" property="grouping" />
+    <result column="remark" jdbcType="NCHAR" property="remark" />
+    <collection property="rulePermissions" ofType="com.highmind.entity.RulePermission">
+    	<id column="RPid" jdbcType="BIGINT" property="id" />
+    	<result column="RPdomainid" jdbcType="BIGINT" property="domainid" />
+    	<result column="rule_id" jdbcType="BIGINT" property="rule_id" />
+    	<result column="permission_id" jdbcType="BIGINT" property="permission_id" />
+    	<association property="rule" javaType="com.highmind.entity.Rule">
+    		<id column="Rid" jdbcType="BIGINT" property="id" />
+    		<result column="Rdomainid" jdbcType="BIGINT" property="domainid" />
+    		<result column="rulename" jdbcType="NCHAR" property="rulename" />
+    		<result column="Rremark" jdbcType="NCHAR" property="remark" />
+    	</association>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    Sys_Permission.id as 'id', Sys_Permission.domainid, name, type, grouping, Sys_Permission.remark
+  </sql>
+  <select id="selectPermission" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    ,Sys_Rule_Permission.id as 'RPid',Sys_Rule.id as 'Rid',
+    Sys_Rule.domainid as 'Rdomainid',Sys_Rule.remark as 'Rremark',
+    Sys_Rule_Permission.domainid as 'RPdomainid',Sys_Rule_Permission.*,Sys_Rule.*
+    from Sys_Permission
+    Left join Sys_Rule_Permission on Sys_Rule_Permission.permission_id=Sys_Permission.id
+    Left join Sys_Rule on Sys_Rule_Permission.rule_id=Sys_Rule.id
+    <where>
+    	<if test="domainid!=null">
+    	 	Sys_Permission.domainid=#{domainid}
+    	</if>
+    	<if test="id!=null">
+    		Sys_Permission.id=#{id}
+    	</if>
+    	<if test="Rid!=null">
+    		Rid=#{Rid}
+    	</if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from Sys_Permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Permission" useGeneratedKeys="true">
+    insert into Sys_Permission (domainid, name, type, 
+      grouping, remark)
+    values (#{domainid,jdbcType=BIGINT}, #{name,jdbcType=NCHAR}, #{type,jdbcType=NCHAR}, 
+      #{grouping,jdbcType=NCHAR}, #{remark,jdbcType=NCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Permission" useGeneratedKeys="true">
+    insert into Sys_Permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="domainid != null">
+        domainid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="grouping != null">
+        grouping,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="domainid != null">
+        #{domainid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=NCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=NCHAR},
+      </if>
+      <if test="grouping != null">
+        #{grouping,jdbcType=NCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.highmind.entity.Permission">
+    update Sys_Permission
+    <set>
+      <if test="domainid != null">
+        domainid = #{domainid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=NCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=NCHAR},
+      </if>
+      <if test="grouping != null">
+        grouping = #{grouping,jdbcType=NCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=NCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.highmind.entity.Permission">
+    update Sys_Permission
+    set domainid = #{domainid,jdbcType=BIGINT},
+      name = #{name,jdbcType=NCHAR},
+      type = #{type,jdbcType=NCHAR},
+      grouping = #{grouping,jdbcType=NCHAR},
+      remark = #{remark,jdbcType=NCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
