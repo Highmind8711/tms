@@ -47,5 +47,12 @@ public interface EmployeeService extends BaseService<Employee>{
     * @param map 传递的参数为用户id 和角色id
     * @return 
     */
-   int addRoleForEmployee(Map<String,String> map);
+   int addRoleForEmployee(Map<String,Object> map);
+
+   /**
+    * 判断用户是否存在
+    * @param map 传递的参数为loginId
+    * @return
+    */
+   int checkUser(Map<String,Object> map);
 }

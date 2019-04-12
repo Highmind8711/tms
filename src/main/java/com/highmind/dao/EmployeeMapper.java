@@ -18,5 +18,10 @@ public interface EmployeeMapper {
 
     int updateByPrimaryKey(Employee record);
 
+    /**
+     *
+     * @param map 参数为id ，loginid，或者loginId
+     * @return
+     */
     List<Employee> selectEmployee(Map<String,Object> map);
 }

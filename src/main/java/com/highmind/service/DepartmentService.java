@@ -47,25 +47,25 @@ public interface DepartmentService extends BaseService<Department>{
      * @Description
      * @return
      */
-    public List<Department> selectDepartmentName();
+    List<Department> selectDepartmentName();
     /**
      * 递归查询全部部门
      * @Description
      * @return
      */
-    public List<Department> findAllRecursion();
+   List<Department> findAllRecursion();
     
     /**
          * 查询根节点
      * @Description
      * @return
      */
-    public List<Department> findRoot();
+    List<Department> findRoot();
     /**
          * 查询根节点下的子节点
      * @Description
      * @return
      */
-    public List<Department> findChild(Long id);
+    List<Department> findChild(Long id);
 
 }

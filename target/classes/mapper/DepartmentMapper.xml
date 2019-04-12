@@ -16,11 +16,12 @@
 	    <result column="loginId" jdbcType="VARCHAR" property="loginId" />
 	    <result column="isLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
 	    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-	    <result column="msn" jdbcType="VARCHAR" property="msn" />
+        <result column="seller" jdbcType="BIT" property="seller" />
 	    <result column="qq" jdbcType="VARCHAR" property="qq" />
 	    <result column="sex" jdbcType="BIGINT" property="sex" />
 	    <result column="photo" jdbcType="VARCHAR" property="photo" />
 	    <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="tel" jdbcType="VARCHAR" property="tel"/>
     </collection>
   </resultMap>
   <sql id="Base_Column_List">

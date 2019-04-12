@@ -31,6 +31,8 @@ package com.highmind.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -163,5 +165,15 @@ public class EmployeeController extends BaseController<Employee>{
             return jsonObject.toString();
         }
     }
-    
+    @RequestMapping(value="/checkIsExist/{loginId}",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    public String checkIsExist(@PathVariable("loginId")Long id) {
+        // TODO Auto-generated method stub
+        JSONObject jsonObject=new JSONObject();
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("loginId",id);
+        int resultId=employeeService.checkUser(map);
+        jsonObject.put("status", 1);
+        jsonObject.put("data", resultId);
+        return jsonObject.toJSONString();
+    }
 }

@@ -113,15 +113,23 @@ public  class EmployeeServiceImpl implements EmployeeService{
      * @see com.highmind.service.EmployeeService#addRoleForEmployee(java.util.Map)
      */
     @Override
-    public int addRoleForEmployee(Map<String, String> map) {
+    public int addRoleForEmployee(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        String rid=map.get("rid");
-        String eid=map.get("eid");
+        String rid=map.get("rid").toString();
+        String eid=map.get("eid").toString();
         RuleEmployee ruleEmployee = new RuleEmployee();
         ruleEmployee.setEmployee_id(Long.valueOf(eid));
         ruleEmployee.setRule_id(Long.valueOf(rid));
         return ruleEmployeeMapper.insertSelective(ruleEmployee);
     }
-    
 
+    @Override
+    public int checkUser(Map<String, Object> map) {
+        List<Employee> employees = employeeMapper.selectEmployee(map);
+        if(employees.isEmpty()){
+            return 0;
+        }else{
+            return  1;
+        }
+    }
 }

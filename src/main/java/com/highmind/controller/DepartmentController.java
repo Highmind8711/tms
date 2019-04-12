@@ -87,17 +87,9 @@ public class DepartmentController extends BaseController<Department>{
      */
     @RequestMapping(value="/departmentnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAllName() {
-        // TODO Auto-generated method stub
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.selectDepartmentName();
-        if(selectAll.size()>=0) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",selectAll);
-        }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
-        }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+        return getString(jsonObject, selectAll, selectAll.size()>=0);
     }
     /* (非 Javadoc)
      * Description:
@@ -125,39 +117,37 @@ public class DepartmentController extends BaseController<Department>{
     public String findAllRecursion() {
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findAllRecursion();
-        if(selectAll.size()>=0) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",selectAll);
-        }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
-        }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+        return getString(jsonObject, selectAll, selectAll.size()>=0);
     }
     @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findRoot() {
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findRoot();
-        if(selectAll.size()>=0) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",selectAll);
-        }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
-        }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+        return getString(jsonObject, selectAll, !selectAll.isEmpty());
     }
+
     @RequestMapping(value="/findchild/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findchild(@PathVariable("id")Long id) {
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findChild(id);
-        if(selectAll.size()>=0) {
+        return getString(jsonObject, selectAll, !selectAll.isEmpty());
+    }
+
+    /**
+     * 文字处理
+     * @param jsonObject
+     * @param selectAll
+     * @param b
+     * @return
+     */
+    private String getString(JSONObject jsonObject, List<Department> selectAll, boolean b) {
+        if (b) {
             jsonObject.put("status", 1);
-            jsonObject.put("data",selectAll);
-        }else {
+            jsonObject.put("data", selectAll);
+        } else {
             jsonObject.put("status", 0);
             jsonObject.put("error", "数据获取失败");
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+        return JSON.toJSONString(jsonObject, SerializerFeature.WriteMapNullValue);
     }
 }

@@ -15,6 +15,7 @@
     <result column="sex" jdbcType="BIGINT" property="sex" />
     <result column="photo" jdbcType="VARCHAR" property="photo" />
     <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="tel" jdbcType="VARCHAR" property="tel"/>
     <association property="department" javaType="com.highmind.entity.Department">
     	<id column="Did" jdbcType="BIGINT" property="id" />
     	<result column="domainId" jdbcType="BIGINT" property="domainId" />
@@ -31,7 +32,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     Sys_Employee.id as 'id', Sys_Employee.domainId 'domainId', Sys_Employee.name 'name', email, department_id, loginId, isLoginEnabled, birthday, seller, 
-    qq, sex, photo, password
+    qq, sex, photo, password,Sys_Employee.tel
   </sql>
   <select id="selectEmployee" parameterType="Map" resultMap="BaseResultMap">
     select 
@@ -48,6 +49,9 @@
     	<if test="domainId!=null">
     		Sys_Employee.domainId=#{domainId,jdbcType=BIGINT}
     	</if>
+    	<if test="loginId!=null">
+            Sys_Employee.loginId=#{loginId,jdbcType=BIGINT}
+        </if>
     </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -63,7 +67,7 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
     insert into Sys_Employee (domainId, name, email, 
       department_id, loginId, isLoginEnabled, 
-      birthday, seller, qq, 
+      birthday, seller, qq, tel,
       sex, photo)
     values (#{domainId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{department_id,jdbcType=BIGINT}, #{loginId,jdbcType=VARCHAR}, #{isLoginEnabled,jdbcType=TINYINT}, 
@@ -81,6 +85,9 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="tel !=null">
+        tel,
       </if>
       <if test="department_id != null">
         department_id,
@@ -116,6 +123,9 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="tel !=null">
+        #{tel,jdbcType=VARCHAR},
       </if>
       <if test="department_id != null">
         #{department_id,jdbcType=BIGINT},
@@ -155,6 +165,9 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="tel !=null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
       <if test="department_id != null">
         department_id = #{department_id,jdbcType=BIGINT},
       </if>
@@ -192,6 +205,7 @@
       isLoginEnabled = #{isLoginEnabled,jdbcType=TINYINT},
       birthday = #{birthday,jdbcType=TIMESTAMP},
       seller = #{seller,jdbcType=BIT},
+      tel = #{tel,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=BIGINT},
       photo = #{photo,jdbcType=VARCHAR}

@@ -27,7 +27,9 @@ public class Employee {
     private String photo;
     
     private String password;
-    
+    private String tel;
+
+
     private boolean seller;
     public Long getId() {
         return id;
@@ -122,6 +124,14 @@ public class Employee {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
     //雇员所属的部门
     private Department department;
