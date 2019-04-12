@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../resource/css/bootstrap.min.css">
+<link rel="stylesheet" href="../resource/table/css/demo_table.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+<!-- <link rel="stylesheet" href="../resource/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="../resource/css/main.css">
+
+
+<!-- Javascript -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+
+
+<title>票务平台用户管理</title>
+
+<style type="text/css">
+
+.modal-backdrop.fade{
+	opacity:0.5;
+}
+
+ul.activity-timeline > li{
+	margin-top:25px;
+	margin-bottom:15px;
+}
+
+.modal .panel-heading{
+	border-bottom:1px solid #ddd;
+}
+
+</style>
+
+</head> 
+<body class="">
+	
+	<div id="wrapper">
+	
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href=""><img src="../resource/img/logo.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth" id="menubtn"><i class="lnr lnr-arrow-left-circle"></i></button> 
+				</div>
+				<div class="navbar-menu">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o"></i>&nbsp;<span>Administrator</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+							<ul class="dropdown-menu">
+								<li><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
+								<li><a href="#"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
+							</ul>
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+			
+		</nav>
+		<!-- END NAVBAR -->
+		
+		<!-- SIDEBAR -->
+		<aside id="sidebar-nav" class="sidebar">
+			<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 95%;">
+				<div calss="sidebar-scroll" style="overflow: hidden; width: auto; height: 95%;">
+					<nav>
+						<ul class="nav">
+							<li>
+								<a href="#userManage" data-toggle="collapse" class="collapsed active" aria-expanded="false"><i class="lnr lnr-users"></i> <span>用户管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+								<div id="userManage" class="collapse" aria-expanded="false" style="height: 0px;">
+									<ul class="nav">
+										<li><a href="" class="">部门管理</a></li>
+										<li><a href="" class="">用户信息管理</a></li>
+									</ul>
+								</div>
+							</li>
+							<li><a href="" class=""><i class="lnr lnr-graduation-hat"></i> <span>角色管理</span></a></li>
+							<li>
+								<a href="#subPages" data-toggle="collapse" class="collapsed" aria-expanded="false"><i class="lnr lnr-link"></i> <span>权限管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+								<div id="subPages" class="collapse" aria-expanded="false" style="height: 0px;">
+									<ul class="nav">
+										<li><a href="" class="">菜单管理</a></li>
+										<li><a href="" class="">操作管理</a></li>
+										<li><a href="" class="">权限信息管理</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</nav>				
+				</div>
+			</div>
+		</aside>
+		<!-- END SIDEBAR -->
+		
+		<!-- MAIN -->
+		<div class="main">
+			<div class="main-content">
+				<div class="container-fluid">
+					<!-- <h4 class="page-title">用户信息管理</h4> -->
+					<div class="row">
+						<div class="col-md-12">
+							<!-- TABLE STRIPED -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h3 class="panel-title">部门管理</h3>
+								</div>
+								<div class="panel-body">
+
+									
+									<p> 
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userAdd"><i class="fa fa-user-plus"></i>&nbsp;添加部门</button>
+									</p>
+									<table class="table table-bordered table-hover" id="dapartmentTable"></table>
+								</div>
+							</div>
+							<!-- END TABLE STRIPED -->
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		
+		
+		</div>
+		<!-- END MAIN -->
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade in" id="userAdd" tabindex="-1" role="dialog" aria-labelledby="userAddLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">添加部门</h3>
+					<div class="right">
+						<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<ul class="list-unstyled activity-timeline">
+						<li>
+							<i class="fa fa-comment activity-icon"></i>
+							<p>部门信息<span class="timestamp">Department Information</span></p>
+						</li>
+					</ul>
+					
+					<div class="form-horizontal tasi-form" >
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>部门名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入部门名称">
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>所属区域</label>
+                            <div class="col-sm-9" >
+                                <select class="form-control" id="domainArea">
+									<option value="cheese">1</option>
+									<option value="tomatoes">2</option>
+									<option value="mozarella">3</option>
+								</select>
+                            </div>
+                        </div>
+                                  
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">联系方式</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入联系方式">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">QQ</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入qq号码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">邮箱</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入邮箱地址">
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled activity-timeline">
+						<li>
+							<i class="fa fa-user activity-icon"></i>
+							<p>账号信息<span class="timestamp">Account Info</span></p>
+						</li>
+					</ul>
+                    <div class="form-horizontal tasi-form">
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label">账号</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入账号">
+                            </div>
+                        </div>
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label">密码</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" placeholder="请输入密码">
+                            </div>
+                        </div>
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-9">
+                            	<label class="fancy-checkbox">
+									<input type="checkbox">
+									<span>是否允许登录</span>
+								</label>
+                            </div>
+                        </div>
+                    </div>					
+				</div>
+				<div class="panel-footer" style="text-align:right;">
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                   	<button class="btn btn-success" type="button" id="">确认添加</button>
+				</div>
+			</div>
+        </div>
+    </div>
+	<!-- End Modal -->
+	
+	<!-- Javascript -->
+	<script src="../resource/js/jquery-3.2.1.js"></script>
+	<script src="../resource/js/bootstrap.min.js"></script>
+	<script src="../resource/js/jquery.dataTables.min.js"></script>
+	<script src="../resource/js/public.js"></script>
+	<script src="../js/employee.js"></script>
+
+</body>
+</html>
