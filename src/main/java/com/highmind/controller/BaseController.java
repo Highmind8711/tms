@@ -141,7 +141,7 @@ public abstract class BaseController<T> {
     public String deleteResult(BaseService<T> baseService,Long id) {
         JSONObject jsonObject=new JSONObject();
         int result=baseService.del(id);
-        if(result>01) {
+        if(result>0) {
             jsonObject.put("status", 1);
             jsonObject.put("data", id);
         }else {

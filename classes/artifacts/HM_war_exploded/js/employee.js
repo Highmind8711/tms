@@ -21,7 +21,9 @@ function setEmployeeTable(){
             },{ 
             	data: "domainId" ,
             	title: "所属区域"
-            },{ 
+            },{
+            	// 缺省值
+				defaultContent:"",
             	data: "department.name" ,
             	title: "所属部门"
             },{
@@ -104,9 +106,7 @@ function createEmployee(){
 	employee.append("qq",$("input[name='qqArea']").val());
 	employee.append("tel",$("input[name='telArea']").val());
 	employee.append("sex",$('input:radio[name="sex"]:checked').val());
-	/**
-	employee.append("birthday",null);
-	 **/
+	/*employee.append("birthday",null);*/
 	employee.append("photo",null);
 
 	employee.append("loginId ",$("input[name='loginIdArea']").val());
