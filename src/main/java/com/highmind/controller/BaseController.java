@@ -33,6 +33,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.serializer.PropertyFilter;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.highmind.entity.CodeMsg;
+import com.highmind.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -85,70 +89,54 @@ public abstract class BaseController<T> {
     public String delete(@PathVariable("id")Long id) {
         return null;
     }
+
+    SimplePropertyPreFilter successFilter = new SimplePropertyPreFilter(Result.class, "status","data");
+    SimplePropertyPreFilter errorFilter = new SimplePropertyPreFilter(Result.class, "status","error");
     public String addResult(BaseService<T> baseService,T t) {
-        JSONObject jsonObject=new JSONObject();
         // TODO Auto-generated method stub
         int id =baseService.add(t);
-        System.out.println(id);
         if(id>0) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data", id);
+            return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "插入数据失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.INSERT_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
         
     }
     public String getOneResult(BaseService<T> baseService,Long id) {
-        JSONObject jsonObject=new JSONObject();
         Map<String,Object> hashMap=new HashMap<String,Object>();
         hashMap.put("id",id);
         T selectById = baseService.selectById(hashMap);
         if(selectById!=null) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",selectById);
+            return JSONObject.toJSONString(Result.success(selectById),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+
     }
     public String getAllResult(BaseService<T> baseService) {
-        JSONObject jsonObject=new JSONObject();
         List<T> selectAll = baseService.selectAll();
         if(!selectAll.isEmpty()) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",selectAll);
+            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
+
     }
     public String updateResult(BaseService<T> baseService,T t) {
-        JSONObject jsonObject=new JSONObject();
         int id =baseService.update(t);
         if(id>0) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",  id);
+            return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "更新数据失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.UPDATE_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
     public String deleteResult(BaseService<T> baseService,Long id) {
-        JSONObject jsonObject=new JSONObject();
         int result=baseService.del(id);
         if(result>0) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data", id);
+            return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "删除数据失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.DELETE_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
         
     }
 }

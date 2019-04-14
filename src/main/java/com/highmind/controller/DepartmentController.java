@@ -31,6 +31,8 @@ package com.highmind.controller;
 
 import java.util.List;
 
+import com.highmind.entity.CodeMsg;
+import com.highmind.entity.Result;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,7 +91,7 @@ public class DepartmentController extends BaseController<Department>{
     public String getAllName() {
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.selectDepartmentName();
-        return getString(jsonObject, selectAll, selectAll.size()>=0);
+        return getString(jsonObject, selectAll, !selectAll.isEmpty());
     }
     /* (非 Javadoc)
      * Description:
@@ -99,7 +101,6 @@ public class DepartmentController extends BaseController<Department>{
     @RequestMapping(value="/departments",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(Department t) {
         // TODO Auto-generated method stub
-        System.out.println(t.getName());
         return super.updateResult(departmentService,t);
        
     }
@@ -117,7 +118,7 @@ public class DepartmentController extends BaseController<Department>{
     public String findAllRecursion() {
         JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findAllRecursion();
-        return getString(jsonObject, selectAll, selectAll.size()>=0);
+        return getString(jsonObject, selectAll, !selectAll.isEmpty());
     }
     @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findRoot() {
@@ -142,12 +143,9 @@ public class DepartmentController extends BaseController<Department>{
      */
     private String getString(JSONObject jsonObject, List<Department> selectAll, boolean b) {
         if (b) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data", selectAll);
+            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
         } else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject, SerializerFeature.WriteMapNullValue);
     }
 }
