@@ -51,7 +51,7 @@ public class PermissionController extends BaseController<Permission>{
      * @see com.highmind.controller.BaseController#add()
      */
     @Override
-    @RequestMapping(value="/permissions",method=RequestMethod.POST)
+    @RequestMapping(value="/permissions",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(Permission t) {
         return super.addResult(permissionService,t);
     }
@@ -81,7 +81,7 @@ public class PermissionController extends BaseController<Permission>{
      * @see com.highmind.controller.BaseController#update()
      */
     @Override
-    @RequestMapping(value="/permissions",method=RequestMethod.PUT)
+    @RequestMapping(value="/permissions",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(Permission t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionService,t);
@@ -93,7 +93,7 @@ public class PermissionController extends BaseController<Permission>{
      * @see com.highmind.controller.BaseController#delete()
      */
     @Override
-    @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(permissionService,id);

@@ -54,14 +54,14 @@ public class RuleEmployeeController extends BaseController<RuleEmployee>{
     }
     
     @Override
-    @RequestMapping(value="/ruleemployees",method=RequestMethod.PUT)
+    @RequestMapping(value="/ruleemployees",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(RuleEmployee t) {
         // TODO Auto-generated method stub
         return super.updateResult(ruleEmployeeService, t);
     }
 
     @Override
-    @RequestMapping(value="/ruleemployees/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/ruleemployees/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(ruleEmployeeService, id);

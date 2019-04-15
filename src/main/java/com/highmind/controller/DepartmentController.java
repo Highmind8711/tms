@@ -56,7 +56,7 @@ public class DepartmentController extends BaseController<Department>{
      * @see com.highmind.controller.BaseController#add()
      */
     @Override
-    @RequestMapping(value="/departments",method=RequestMethod.POST)
+    @RequestMapping(value="/departments",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(Department t) {
         return super.addResult(departmentService,t);
     }

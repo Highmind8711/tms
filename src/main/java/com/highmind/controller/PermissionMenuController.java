@@ -47,7 +47,7 @@ import com.highmind.entity.PermissionMenu;
 public class PermissionMenuController extends BaseController<PermissionMenu>{
 
     @Override
-    @RequestMapping(value="/permissionmenus",method=RequestMethod.POST)
+    @RequestMapping(value="/permissionmenus",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(PermissionMenu t) {
         // TODO Auto-generated method stub
         return super.addResult(permissionMenuService, t);
@@ -55,14 +55,14 @@ public class PermissionMenuController extends BaseController<PermissionMenu>{
 
 
     @Override
-    @RequestMapping(value="/permissionmenus",method=RequestMethod.PUT)
+    @RequestMapping(value="/permissionmenus",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(PermissionMenu t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionMenuService, t);
     }
 
     @Override
-    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(permissionMenuService, id);

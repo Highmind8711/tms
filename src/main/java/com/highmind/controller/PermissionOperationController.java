@@ -47,21 +47,21 @@ import com.highmind.entity.PermissionOperation;
 public class PermissionOperationController  extends BaseController<PermissionOperation>{
 
     @Override
-    @RequestMapping(value="/permissionoperations",method=RequestMethod.POST)
+    @RequestMapping(value="/permissionoperations",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String add(PermissionOperation t) {
         // TODO Auto-generated method stub
         return super.addResult(permissionOperationService, t);
     }
 
     @Override
-    @RequestMapping(value="/permissionoperations",method=RequestMethod.PUT)
+    @RequestMapping(value="/permissionoperations",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
     public String update(PermissionOperation t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionOperationService, t);
     }
 
     @Override
-    @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.DELETE)
+    @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(permissionOperationService, id);

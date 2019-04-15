@@ -18,7 +18,7 @@
 
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Operation.id, Sys_Operation.domainid, Sys_Operation.name, botton_id, Sys_Operation.remark
+    Sys_Operation.id, Sys_Operation.domainid, Sys_Operation.name, Sys_Operation.botton_id, Sys_Operation.remark
   </sql>
   <sql id="Permission_Base_Column_List">
     Sys_Permission.id as Pid, Sys_Permission.domainid as Pdomainid, 
