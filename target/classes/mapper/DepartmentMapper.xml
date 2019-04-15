@@ -9,28 +9,37 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <collection property="employees"  ofType="com.highmind.entity.Employee">
         <id column="Eid" jdbcType="BIGINT" property="id" />
-	    <result column="domainId" jdbcType="BIGINT" property="domainId" />
-	    <result column="name" jdbcType="VARCHAR" property="name" />
-	    <result column="email" jdbcType="VARCHAR" property="email" />
-	    <result column="department_id" jdbcType="BIGINT" property="department_id" />
-	    <result column="loginId" jdbcType="VARCHAR" property="loginId" />
-	    <result column="isLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
-	    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-        <result column="seller" jdbcType="BIT" property="seller" />
-	    <result column="qq" jdbcType="VARCHAR" property="qq" />
-	    <result column="sex" jdbcType="BIGINT" property="sex" />
-	    <result column="photo" jdbcType="VARCHAR" property="photo" />
-	    <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="tel" jdbcType="VARCHAR" property="tel"/>
+	    <result column="EdomainId" jdbcType="BIGINT" property="domainId" />
+	    <result column="Ename" jdbcType="VARCHAR" property="name" />
+	    <result column="Eemail" jdbcType="VARCHAR" property="email" />
+	    <result column="Edepartment_id" jdbcType="BIGINT" property="department_id" />
+	    <result column="EloginId" jdbcType="VARCHAR" property="loginId" />
+	    <result column="EisLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
+	    <result column="Ebirthday" jdbcType="TIMESTAMP" property="birthday" />
+        <result column="Eseller" jdbcType="BIT" property="seller" />
+	    <result column="Eqq" jdbcType="VARCHAR" property="qq" />
+	    <result column="Esex" jdbcType="BIGINT" property="sex" />
+	    <result column="Ephoto" jdbcType="VARCHAR" property="photo" />
+	    <result column="Epassword" jdbcType="VARCHAR" property="password"/>
+        <result column="Etel" jdbcType="VARCHAR" property="tel"/>
     </collection>
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Department.id as id, Sys_Department.domainId , Sys_Department.ml_parent, Sys_Department.name, Sys_Department.remark
+    Sys_Department.id, Sys_Department.domainId  , Sys_Department.ml_parent, Sys_Department.name, Sys_Department.remark
+  </sql>
+  <sql id="Employee_Base_Column_List">
+    Sys_Employee.id as Eid, Sys_Employee.domainId as EdomainId, Sys_Employee.name as Ename, 
+    Sys_Employee.email as Eemail, Sys_Employee.department_id as Edepartment_id, 
+    Sys_Employee.loginId as EloginId, Sys_Employee.isLoginEnabled as EisLoginEnabled, 
+    Sys_Employee.birthday as Ebirthday,Sys_Employee.seller as Eseller,Sys_Employee.qq as Eqq ,
+    Sys_Employee.sex as Esex, Sys_Employee.photo as Ephoto, Sys_Employee.password as Epassword,
+    Sys_Employee.Sys_Employee.tel as Etel
   </sql>
   <select id="selectDepartment" parameterType="Map" resultMap="BaseResultMap">
 	select 
     <include refid="Base_Column_List" />
-    ,Sys_Employee.*,Sys_Employee.id as 'Eid'
+    ,
+	<include refid="Employee_Base_Column_List"/>
     from Sys_Department Left join Sys_Employee on  Sys_Employee.department_id=Sys_Department.id
     <where>
     	<if test="id!=null">

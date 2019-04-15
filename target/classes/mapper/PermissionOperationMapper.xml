@@ -8,7 +8,7 @@
     <result column="operation_id" jdbcType="BIGINT" property="operation_id" />
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Permission_Operation.id as 'id', domainid, permission_id, operation_id
+    Sys_Permission_Operation.id, Sys_Permission_Operation.domainid, Sys_Permission_Operation.permission_id, Sys_Permission_Operation.operation_id
   </sql>
   <select id=" selectAllPermissionOperation" parameterType="Map" resultMap="BaseResultMap">
     select 

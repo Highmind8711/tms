@@ -11,21 +11,25 @@
    		<id column="Pid" jdbcType="BIGINT" property="id" />
    		<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
    		<result column="Pname" jdbcType="NCHAR" property="name" />
-   		<result column="type" jdbcType="NCHAR" property="type" />
-   		<result column="grouping" jdbcType="NCHAR" property="grouping" />
+   		<result column="Ptype" jdbcType="NCHAR" property="type" />
+   		<result column="Pgrouping" jdbcType="NCHAR" property="grouping" />
    		<result column="Premark" jdbcType="NCHAR" property="remark" />
    	</association>
 
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Operation.id as 'id', Sys_Operation.domainid 'domainid', Sys_Operation.name 'name', botton_id, Sys_Operation.remark 'remark'
+    Sys_Operation.id, Sys_Operation.domainid, Sys_Operation.name, botton_id, Sys_Operation.remark
+  </sql>
+  <sql id="Permission_Base_Column_List">
+    Sys_Permission.id as Pid, Sys_Permission.domainid as Pdomainid, 
+    Sys_Permission.name as Pname , Sys_Permission.type as Ptype, Sys_Permission.grouping as Pgrouping, 
+    Sys_Permission.remark as Premark
   </sql>
   <select id="selectOperation" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,Sys_Permission.*,Sys_Permission_Operation.*,Sys_Permission.id as 'pid',Sys_Permission_Operation.id as 'POid'
-    ,Sys_Permission_Operation.domainid as 'POdomainid' ,Sys_Permission.domainid as 'Pdomainid',
-    Sys_Permission.remark as 'Premark',Sys_Permission.name as 'Pname'
+    ,
+    <include refid="Permission_Base_Column_List"/>
     from Sys_Operation
     Left join Sys_Permission_Operation on Sys_Permission_Operation.operation_id = Sys_Operation.id
     Left join Sys_Permission on Sys_Permission.id= Sys_Permission_Operation.permission_id

@@ -8,7 +8,7 @@
     <result column="menu_id" jdbcType="BIGINT" property="menu_id" />
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Permission_Menu.id as 'id', domainid, pemission_id, menu_id
+    Sys_Permission_Menu.id , Sys_Permission_Menu.domainid, Sys_Permission_Menu.pemission_id, Sys_Permission_Menu.menu_id
   </sql>
   <select id="selectPermissionMenu" parameterType="Map" resultMap="BaseResultMap">
     select 

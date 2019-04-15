@@ -8,7 +8,7 @@
     <result column="rule_id" jdbcType="BIGINT" property="rule_id" />
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Rule_Employee.id as 'id', Sys_Rule_Employee.domainid as 'domainid', employee_id, rule_id
+    Sys_Rule_Employee.id, Sys_Rule_Employee.domainid, Sys_Rule_Employee.employee_id, Sys_Rule_Employee.rule_id
   </sql>
   <select id="selectAllRuleEmployee" parameterType="Map" resultMap="BaseResultMap">
     select 
