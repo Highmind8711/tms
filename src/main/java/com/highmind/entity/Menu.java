@@ -1,6 +1,5 @@
 package com.highmind.entity;
 
-import java.util.List;
 
 public class Menu {
     private Long id;
@@ -44,14 +43,15 @@ public class Menu {
     }
     
     //权限菜单
-    private List<PermissionMenu> permissionMenus;
+    private Permission permission;
     
-    public List<PermissionMenu> getPermissionMenus() {
-        return permissionMenus;
+    public Permission getPermission() {
+        return permission;
     }
 
-    public void setPermissionMenus(List<PermissionMenu> permissionMenus) {
-        this.permissionMenus = permissionMenus;
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
+    
 
 }

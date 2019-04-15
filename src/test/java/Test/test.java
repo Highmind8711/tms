@@ -47,6 +47,7 @@ public class test {
     @Test
     public void verify_behaviour(){
      // mock creation
+        @SuppressWarnings("unchecked")
         List<String> mockedList = mock(List.class);
       //using mock
         mockedList.add("once");

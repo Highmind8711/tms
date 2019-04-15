@@ -30,11 +30,18 @@
 package com.highmind.controller;
 
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.highmind.entity.Menu;
 
 /**
@@ -97,5 +104,24 @@ public class MenuController extends BaseController<Menu>{
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(menuService,id);
+    }
+    
+    
+    @RequestMapping(value="/menusbypage",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getAllByPage(HttpServletRequest request){
+        // TODO Auto-generated method stub
+        int draw=Integer.parseInt(request.getParameter("draw"));
+        int start=Integer.parseInt(request.getParameter("start"));
+        int length=Integer.parseInt(request.getParameter("length"));
+        int page=start/length+1;
+        JSONObject jsonObject=new JSONObject();
+        PageHelper.startPage(page,length);
+        List<Menu> selectAll = menuService.selectAll();
+        int total = (int) new PageInfo<>(selectAll).getTotal();
+        jsonObject.put("draw", draw);
+        jsonObject.put("recordsTotal", total);
+        jsonObject.put("recordsFiltered", total);
+        jsonObject.put("data", selectAll);
+        return JSONObject.toJSONString(jsonObject);
     }
 }

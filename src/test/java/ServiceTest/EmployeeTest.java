@@ -71,13 +71,13 @@ public class EmployeeTest {
     }
     @Test
     public void selectOne() {
-        Map map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Employee de=employeeService.selectById(map);
     }
     @Test
     public void update() {
-        Map map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Employee de=employeeService.selectById(map);
         de.setDomainId((long) 5);

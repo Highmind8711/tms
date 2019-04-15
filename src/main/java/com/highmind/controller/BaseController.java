@@ -33,14 +33,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.highmind.entity.CodeMsg;
 import com.highmind.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.service.*;
@@ -53,6 +51,9 @@ import com.highmind.service.*;
  * @version 1.0.0
  */
 public abstract class BaseController<T> {
+    /**
+     * 基本系统快注入
+     */
     @Autowired
     DepartmentService departmentService;
     @Autowired
@@ -73,6 +74,12 @@ public abstract class BaseController<T> {
     RuleEmployeeService ruleEmployeeService;
     @Autowired
     RulePermissionService rulePermissionService;
+    
+    /**
+     * 票务系统基础注入
+     */
+    @Autowired
+    TicketService ticketService;
     public String add(T t) {
         return null;
     }   

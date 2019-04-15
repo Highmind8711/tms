@@ -37,10 +37,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.highmind.entity.Department;
+import com.highmind.entity.CodeMsg;
+import com.highmind.entity.Result;
 import com.highmind.entity.Rule;
 
 /**
@@ -107,15 +107,11 @@ public class RuleController extends BaseController<Rule> {
     @RequestMapping(value="/rulesnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAllName() {
         // TODO Auto-generated method stub
-        JSONObject jsonObject=new JSONObject();
         List<Rule> selectAll = ruleService.selectRuleName();
         if(!selectAll.isEmpty()) {
-            jsonObject.put("status", 1);
-            jsonObject.put("data",selectAll);
+            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            jsonObject.put("status", 0);
-            jsonObject.put("error", "数据获取失败");
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
         }
-        return JSON.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
     }
 }

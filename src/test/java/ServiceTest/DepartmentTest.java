@@ -65,13 +65,13 @@ public class DepartmentTest {
     }
     @Test
     public void selectOne() {
-        Map map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Department de=departmentService.selectById(map);
     }
     @Test
     public void update() {
-        Map map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Department de=departmentService.selectById(map);
         de.setDomainId((long) 5);

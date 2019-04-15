@@ -6,32 +6,29 @@
     <result column="domainid" jdbcType="BIGINT" property="domainid" />
     <result column="name" jdbcType="NCHAR" property="name" />
     <result column="url" jdbcType="NCHAR" property="url" />
-    <collection property="permissionMenus" ofType="PermissionMenu">
-    	<id column="PMid" jdbcType="BIGINT" property="id" />
-    	<result column="PMdomainid" jdbcType="BIGINT" property="domainid" />
-    	<result column="pemission_id" jdbcType="BIGINT" property="pemission_id" />
-    	<result column="menu_id" jdbcType="BIGINT" property="menu_id" />
-    	<association property="permission" javaType="com.highmind.entity.Permission">
-    		<id column="Pid" jdbcType="BIGINT" property="id" />
-	    	<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
-		    <result column="name" jdbcType="NCHAR" property="name" />
-		    <result column="type" jdbcType="NCHAR" property="type" />
-		    <result column="grouping" jdbcType="NCHAR" property="grouping" />
-		    <result column="remark" jdbcType="NCHAR" property="remark" />
-    	</association>
-    	
-    </collection>
+   	<association property="permission" javaType="com.highmind.entity.Permission">
+   		<id column="Pid" jdbcType="BIGINT" property="id" />
+    	<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
+	    <result column="Pname" jdbcType="NCHAR" property="name" />
+	    <result column="Ptype" jdbcType="NCHAR" property="type" />
+	    <result column="Pgrouping" jdbcType="NCHAR" property="grouping" />
+	    <result column="Premark" jdbcType="NCHAR" property="remark" />
+   	</association>
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Menu.id as 'id', Sys_Menu.domainid, Sys_Menu.name, Sys_Menu.url
+    Sys_Menu.id, Sys_Menu.domainid, Sys_Menu.name, Sys_Menu.url
+  </sql>
+  <sql id="Permission_Base_Column_List">
+    Sys_Permission.id as Pid, Sys_Permission.domainid as Pdomainid, 
+    Sys_Permission.name as Pname , Sys_Permission.type as Ptype, Sys_Permission.grouping as Pgrouping, 
+    Sys_Permission.remark as Premark
   </sql>
   <select id="selectMenu" parameterType="Map" resultMap="BaseResultMap">
 	select 
     <include refid="Base_Column_List" />
-    ,Sys_Permission_Menu.domainid as 'PMdomainid',Sys_Permission_Menu.id as 'PMid',
-    Sys_Permission.id as 'Pid',
-    Sys_Permission_Menu.*,Sys_Permission.*
-    from Sys_Menu Left join Sys_Permission_Menu on Sys_Permission_Menu.menu_id=Sys_Menu.id
+    ,
+    <include refid="Permission_Base_Column_List"/>
+    from Sys_Permission_Menu Left join Sys_Menu on Sys_Permission_Menu.menu_id=Sys_Menu.id
     Left join Sys_Permission on Sys_Permission_Menu.pemission_id=Sys_Permission.id
     <where>
     	<if test="id!=null">

@@ -40,10 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.highmind.entity.Employee;
-import com.highmind.entity.Menu;
 import com.highmind.entity.Operation;
-import com.highmind.service.EmployeeService;
 import com.highmind.service.OperationService;
 
 /**
@@ -69,13 +66,13 @@ public class Operationtest {
     }
     @Test
     public void selectOne() {
-        Map map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Operation de=operationService.selectById(map);
     }
     @Test
     public void update() {
-        Map map=new HashMap<String,String>();
+        Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Operation de=operationService.selectById(map);
         de.setDomainid((long) 5);

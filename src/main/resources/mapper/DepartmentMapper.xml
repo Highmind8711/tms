@@ -25,7 +25,7 @@
     </collection>
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Department.id as 'id', Sys_Department.domainId , Sys_Department.ml_parent, Sys_Department.name, Sys_Department.remark
+    Sys_Department.id as id, Sys_Department.domainId , Sys_Department.ml_parent, Sys_Department.name, Sys_Department.remark
   </sql>
   <select id="selectDepartment" parameterType="Map" resultMap="BaseResultMap">
 	select 

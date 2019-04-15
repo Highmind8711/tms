@@ -47,7 +47,16 @@
     	<property name="typeAliasesPackage" value="com.highmind.entity"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
-        
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
     </bean>
  
     <!--Mybatis的Mapper文件识别-->

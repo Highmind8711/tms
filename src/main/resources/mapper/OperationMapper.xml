@@ -7,20 +7,15 @@
     <result column="name" jdbcType="NCHAR" property="name" />
     <result column="botton_id" jdbcType="NCHAR" property="botton_id" />
     <result column="remark" jdbcType="NCHAR" property="remark" />
-    <collection property="permissOperations" ofType="PermissionOperation">
-    	<id column="POid" jdbcType="BIGINT" property="id" />
-    	<result column="POdomainid" jdbcType="BIGINT" property="domainid" />
-    	<result column="permission_id" jdbcType="BIGINT" property="permission_id" />
-    	<result column="operation_id" jdbcType="BIGINT" property="operation_id" />
-    	<association property="permission" javaType="com.highmind.entity.Permission">
-    		<id column="Pid" jdbcType="BIGINT" property="id" />
-    		<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
-    		<result column="Pname" jdbcType="NCHAR" property="name" />
-    		<result column="type" jdbcType="NCHAR" property="type" />
-    		<result column="grouping" jdbcType="NCHAR" property="grouping" />
-    		<result column="Premark" jdbcType="NCHAR" property="remark" />
-    	</association>
-    </collection>
+   	<association property="permission" javaType="com.highmind.entity.Permission">
+   		<id column="Pid" jdbcType="BIGINT" property="id" />
+   		<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
+   		<result column="Pname" jdbcType="NCHAR" property="name" />
+   		<result column="type" jdbcType="NCHAR" property="type" />
+   		<result column="grouping" jdbcType="NCHAR" property="grouping" />
+   		<result column="Premark" jdbcType="NCHAR" property="remark" />
+   	</association>
+
   </resultMap>
   <sql id="Base_Column_List">
     Sys_Operation.id as 'id', Sys_Operation.domainid 'domainid', Sys_Operation.name 'name', botton_id, Sys_Operation.remark 'remark'

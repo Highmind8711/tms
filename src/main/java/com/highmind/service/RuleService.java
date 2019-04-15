@@ -31,7 +31,6 @@ package com.highmind.service;
 
 import java.util.List;
 
-import com.highmind.entity.Department;
 import com.highmind.entity.Rule;
 
 /**

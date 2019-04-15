@@ -3,7 +3,6 @@ package com.highmind.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.highmind.entity.Department;
 import com.highmind.entity.Rule;
 
 public interface RuleMapper {

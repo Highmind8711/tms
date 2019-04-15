@@ -1,6 +1,5 @@
 package com.highmind.entity;
 
-import java.util.List;
 
 public class Operation {
     private Long id;
@@ -54,14 +53,14 @@ public class Operation {
     }
     
 
-
-    private List<PermissionOperation> permissOperations;
+    //权限
+    private Permission permission;
     
-    public List<PermissionOperation> getPermissOperation() {
-        return permissOperations;
+    public Permission getPermission() {
+        return permission;
     }
 
-    public void setPermissOperation(List<PermissionOperation> permissOperation) {
-        this.permissOperations = permissOperation;
+    public void setPermission(Permission permission) {
+        this.permission = permission;
     }
 }
