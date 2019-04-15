@@ -2,6 +2,8 @@
  * 
  */
 
+var table;
+
 function setEmployeeTable(){
 	table = $('#employeeTable').DataTable( {
 		ajax: {
@@ -15,7 +17,10 @@ function setEmployeeTable(){
 	            data:null,
 	            defaultContent: ''
 	        },*/
-            { 
+			{ 
+            	data: "id" ,
+            	title: "id"
+            },{ 
             	data: "name" ,
             	title: "员工姓名"
             },{ 
@@ -38,14 +43,14 @@ function setEmployeeTable(){
             }
         ], 
         "columnDefs" : [{
-        	"targets" : 5,
+        	"targets" : 6,
         	"data" : null,
         	"render" : function(data, type, row) {
-	        	
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo'><i class='lnr lnr-magnifier'></i></button>" 
-	        			 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit'><i class='lnr lnr-pencil'></i></button>"
-	        			 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRule'><i class='lnr lnr-bookmark'></i></button>"
-	        			 + "&nbsp;<button type='button' class='btn btn-danger btn-xs'><i class='lnr lnr-trash'></i></button>"
+        		var id = '"' + row.id + '"';
+	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo' onclick='getEmployee("+ id + ")'><i class='lnr lnr-magnifier'></i></button>" 
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployee("+ id + ")'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRules' onclick='rulesInit()'><i class='lnr lnr-bookmark'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id + ")'><i class='lnr lnr-trash'></i></button>"
 	        			 
 	        	return html;
         	}
@@ -66,12 +71,12 @@ function setEmployeeTable(){
         	"oPaginate": {                   
         		"sFirst" : "第一页",                   
         		"sPrevious" : "上一页",                   
-        		"sNext" : "下一页",                   
+        		"sNext" : "下一页",                    
         		"sLast" : "最后一页"               
         	}
         },
-        "searching": false,
-        "lengthChange": false,
+        "searching": true,
+        "lengthChange": true,
        
     });	
 }
@@ -97,9 +102,23 @@ function departmentNamesInit(){
 	});
 }
 
+function rulesInit(){
+	var str="";
+	$.get("../rulesnames", function(data) {
+		var _rules = data.data;
+		console.log(_rules);
+		$.each(_rules,function(i,v){
+			str += "<label class='fancy-checkbox'><input type='checkbox' id="+ v.id +"><span>"
+				+ v.rulename
+				+ "</span></label>"
+		});
+		$("#employeeRules_Init").html(str);
+	});
+}
+
 function createEmployee(){
 	var employee = new FormData();
-	employee.append("name",$("#nameArea").val());
+	employee.append("name",$("input[name='nameArea']").val());
 	employee.append("department_id",$("#departmentArea_children option:selected").val());
 	employee.append("domainId",$("#domainArea option:selected").val());
 	employee.append("email",$("input[name='emailArea']").val());
@@ -107,6 +126,7 @@ function createEmployee(){
 	employee.append("tel",$("input[name='telArea']").val());
 	employee.append("sex",$('input:radio[name="sex"]:checked').val());
 	//做个判断吧，没有就不要发数据过来，有的再加参数
+
 	/*employee.append("birthday",null);*/
 	employee.append("photo",null);
 
@@ -119,19 +139,19 @@ function createEmployee(){
 	}else{
 		employee.append("isLoginEnabled ", "0");
 	}
-	
-	console.log(employee);
 
 	$.ajax({
         type: "POST",
         url: "../employees",
         data: employee,
 		contentType:false,
-		//取消帮我们格式化数据，是什么就是什么
 		processData:false,
         success: function (data) {
         	if(data.status == 1){
-    			alert("添加成功！");
+    			alert("添加成功！");   			
+    			table.ajax.reload();
+    			$('#employeeCreate').modal('hide');
+    			
     		}else{
     			alert("添加失败！");
     		}
@@ -142,20 +162,98 @@ function createEmployee(){
     });
 }
 
-
-function rulesInit(){
-	var str="";
-	$.get("../rules", function(data) {
-		$.each(data.data,function(i,v){
-			str += "<option value='"+v.id+"'>" 
-				+ v.rulename
-				+ "</option>";			
-		});
-		$("#rulesArea").html(str);
-	});
+function delEmployee(employeeID){
+	console.log(employeeID);
+	if(confirm("确认删除？") == true){
+		$.ajax({
+	        type: "delete",
+	        url: "../employees/"+employeeID,	        
+			contentType:'json',			
+	        success: function (data) {
+	        	if(data.status == 1){
+	    			alert("删除成功！");
+	    			table.ajax.reload();
+	    		}else{
+	    			alert("删除失败！");
+	    		}
+	        },
+	        error: function (message) {
+	            console.log(message);
+	        }
+	    });
+	}
 }
 
+function getEmployee(employeeID){
+	console.log(employeeID);
+	var str="";
+	$.ajax({
+		type: "get",
+        url: "../employees/"+employeeID,
+        dataSrc: 'data',	
+		contentType:'json',
+        success: function (data) {
+        	var _employee = data.data;
+        	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li>姓名 <span>"
+    			+ _employee.name 
+    			+ "</span></li><li>所属区域 <span>" 
+    			+ _employee.domainId
+    			+ "</span></li><li>所属部门 <span>" 
+    			+ _employee.department.name
+    			+ "</span></li><li>性别 <span>" 
+    			
+    		if( _employee.sex == 1){
+    			str += "男";
+    		}else{
+    			str += "女";
+    		}
+        	     
+        	str += "</span></li><li>出生年月 <span>" 
+    			+ _employee.birthday
+    			+ "</span></li><li>联系方式 <span>" 
+    			+ _employee.tel
+    			+ "</span></li><li>QQ <span>" 
+    			+ _employee.qq
+    			+ "</span></li><li>邮箱 <span>" 
+    			+ _employee.email 
+    			+ "</span></li></ul></div>" 
+    			+ "<div class='profile-info'><h4 class='heading'>账号信息</h4><ul class='list-unstyled list-justify'><li>登录账号 <span>" 
+    			+ _employee.loginId
+    			+ "</span></li><li>是否允许登录 <span>" 
+    			
+			if( _employee.isLoginEnabled == 1){
+    			str += "是";
+    		}else{
+    			str += "否";
+    		}	
+        	
+        	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>角色分配</h4>" 
+    		
+        	if(_employee.rules.length != 0){
+        		$.each(_employee.rules,function(i,v){
+        			str += "<p>" 
+        				+ v.rulename
+        				+ "</p>";   						   			
+        		});            	
+        	}else{
+        		str += "<p>暂无</p>";
+        	}
+    		
+    		$("#employeeInfo_detail").html(str);
+    		console.log(data);
+        },
+        error: function (message) {
+            console.log(message);
+        }
+	})	
+}
 
+function editEmployee(employeeID){
+	
+	
+	console.log(employeeID);
+	
+}
 
 
 $(document).ready(function() {
@@ -168,10 +266,6 @@ $(document).ready(function() {
 	})
 	
 });
-
-function isFocus(){
-	$("#nameArea").focus();
-}
 
 
 
