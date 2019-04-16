@@ -43,6 +43,7 @@ public class Rule {
         this.remark = remark == null ? null : remark.trim();
     }
     // 这个角色下所有的雇员
+    private List<RuleEmployee> RuleEmployees;
     
     public List<RuleEmployee> getRuleEmployees() {
         return RuleEmployees;
@@ -52,5 +53,16 @@ public class Rule {
         RuleEmployees = ruleEmployees;
     }
 
-    private List<RuleEmployee> RuleEmployees;
+    
+    // 角色下对应的权限
+    private List<Permission> permissions;
+    
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
 }

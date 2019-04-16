@@ -5,7 +5,7 @@ public class PermissionMenu {
 
     private Long domainid;
 
-    private Long pemission_id;
+    private Long permission_id;
 
     private Long menu_id;
 
@@ -25,12 +25,12 @@ public class PermissionMenu {
         this.domainid = domainid;
     }
 
-    public Long getPemission_id() {
-        return pemission_id;
+    public Long getPermission_id() {
+        return permission_id;
     }
 
-    public void setPemission_id(Long pemission_id) {
-        this.pemission_id = pemission_id;
+    public void setPermission_id(Long permission_id) {
+        this.permission_id = permission_id;
     }
 
     public Long getMenu_id() {

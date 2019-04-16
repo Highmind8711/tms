@@ -17,8 +17,20 @@ public interface RuleMapper {
     int updateByPrimaryKeySelective(Rule record);
 
     int updateByPrimaryKey(Rule record);
-    
-    List<Rule> selectRule(Map<String,Object> map);
+    /**
+     * 查询角色下的雇员
+     * @Description
+     * @param map
+     * @return
+     */
+    List<Rule> selectRuleEmployee(Map<String,Object> map);
+    /**
+     * 查询角色下的权限
+     * @Description
+     * @param map
+     * @return
+     */
+    List<Rule> selectRulePermission(Map<String,Object> map);
     /**
              * 查询所有的角色名字
      * @Description

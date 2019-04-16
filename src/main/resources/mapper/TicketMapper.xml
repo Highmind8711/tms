@@ -57,7 +57,7 @@
   </sql>
   <sql id="Spot_Base_Column_List">
     DYNA_Tms_Spot.id as Sid, DYNA_Tms_Spot.domainid as Sdomainid, DYNA_Tms_Spot.spotname as Sspotname, DYNA_Tms_Spot.spotremark as Sspotremark, DYNA_Tms_Spot.limited as Slimited,
-    DYNA_Tms_Spot.qty as Sqty, DYNA_Tms_Spot.autoleavetime as 'Sautoleavetime', DYNA_Tms_Spot.autoleave as 'Sautoleave'
+    DYNA_Tms_Spot.qty as Sqty, DYNA_Tms_Spot.autoleavetime as Sautoleavetime, DYNA_Tms_Spot.autoleave as Sautoleave
   </sql>
   <select id="selectTicket" parameterType="Map" resultMap="BaseResultMap">
     select

@@ -9,7 +9,7 @@
     <result column="enabled" jdbcType="BIT" property="enabled" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, domainid, agency_id, empolyee_id, enabled
+    DYNA_Tms_Agency_Employee.id, DYNA_Tms_Agency_Employee.domainid, DYNA_Tms_Agency_Employee.agency_id, DYNA_Tms_Agency_Employee.empolyee_id, DYNA_Tms_Agency_Employee.enabled
   </sql>
   <select id="selectByAgencyEmployee" parameterType="Map" resultMap="BaseResultMap">
     select

@@ -13,7 +13,9 @@
     <result column="enabled" jdbcType="BIT" property="enabled" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, domainid, agencycode, agencyname, shotname, person, phone, address, enabled
+    DYNA_Tms_Agency.id, DYNA_Tms_Agency.domainid, DYNA_Tms_Agency.agencycode, DYNA_Tms_Agency.agencyname,
+    DYNA_Tms_Agency.shotname, DYNA_Tms_Agency.person, DYNA_Tms_Agency.phone, DYNA_Tms_Agency.address,
+    DYNA_Tms_Agency.enabled
   </sql>
   <select id="selectAgency" parameterType="Map" resultMap="BaseResultMap">
     select

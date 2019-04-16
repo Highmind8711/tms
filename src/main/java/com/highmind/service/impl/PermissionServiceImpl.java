@@ -29,6 +29,7 @@
  *****************************************************************/
 package com.highmind.service.impl;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.highmind.dao.MenuMapper;
+import com.highmind.dao.OperationMapper;
 import com.highmind.dao.PermissionMapper;
+import com.highmind.dao.PermissionMenuMapper;
+import com.highmind.dao.PermissionOperationMapper;
 import com.highmind.entity.Permission;
+import com.highmind.entity.PermissionMenu;
+import com.highmind.entity.PermissionOperation;
 import com.highmind.service.PermissionService;
 
 /**
@@ -51,7 +58,14 @@ import com.highmind.service.PermissionService;
 public class PermissionServiceImpl implements PermissionService {
     @Autowired 
     PermissionMapper permissionMapper;
-
+    @Autowired
+    OperationMapper operationMapper;
+    @Autowired
+    MenuMapper menuMapper;
+    @Autowired
+    PermissionMenuMapper permissionMenuMapper;
+    @Autowired
+    PermissionOperationMapper permissionOperationMapper;
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.service.baseService#selectById(java.util.Map)
@@ -59,8 +73,24 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Permission selectById(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        List<Permission> selectPermission = permissionMapper.selectPermission(map);
-        return selectPermission.size()!=0?selectPermission.get(0):null;
+        List<Permission> permissions=permissionMapper.selectPermission(map);
+        for (int i = 0; i < permissions.size(); i++) {
+            Permission permission = permissions.get(i);
+            if(permission.getType().equals("1")) {
+                Map<String,Object> tempMap=new HashMap<String,Object>();
+                tempMap.put("id", permission.getId());
+                List<PermissionOperation> permissionOperations = permissionOperationMapper.selectPermissionOperation(tempMap);
+                PermissionOperation permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
+                permission.setOperation(permissionOperation.getOperation());
+            }else if(permission.getType().equals("2")) {
+                Map<String,Object> tempMap=new HashMap<String,Object>();
+                tempMap.put("id", permission.getId());
+                List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);
+                PermissionMenu permissionMenu=selectPermissionMenu.size()!=0?selectPermissionMenu.get(0):null;
+                permission.setMenu(permissionMenu.getMenu());
+            }
+        }
+        return !permissions.isEmpty()?permissions.get(0):null;
     }
 
     /* (非 Javadoc)
@@ -70,8 +100,24 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public List<Permission> selectAll() {
         // TODO Auto-generated method stub
-        Map<String, Object> map = new HashMap<String,Object>();
-        return permissionMapper.selectPermission(map);
+        List<Permission> permissions=permissionMapper.selectPermission(null);
+        for (int i = 0; i < permissions.size(); i++) {
+            Permission permission = permissions.get(i);
+            if(permission.getType().equals("1")) {
+                Map<String,Object> tempMap=new HashMap<String,Object>();
+                tempMap.put("id", permission.getId());
+                List<PermissionOperation> permissionOperations = permissionOperationMapper.selectPermissionOperation(tempMap);
+                PermissionOperation permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
+                permission.setOperation(permissionOperation.getOperation());
+            }else if(permission.getType().equals("2")) {
+                Map<String,Object> tempMap=new HashMap<String,Object>();
+                tempMap.put("id", permission.getId());
+                List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);
+                PermissionMenu permissionMenu=selectPermissionMenu.size()!=0?selectPermissionMenu.get(0):null;
+                permission.setMenu(permissionMenu.getMenu());
+            }
+        }
+        return permissions;
     }
 
     /* (非 Javadoc)
@@ -81,7 +127,28 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public int add(Permission record) {
         // TODO Auto-generated method stub
-        return permissionMapper.insertSelective(record);
+        permissionMapper.insertSelective(record);
+        Long pid=record.getId();
+        int result = 0;
+        if(record.getType().equals("1")) {
+          //标志这个是表单权限 
+            Long oid=record.getOperation().getId();
+            PermissionOperation permissionOperation=new PermissionOperation();
+            permissionOperation.setDomainid(record.getDomainid());
+            permissionOperation.setOperation_id(oid);
+            permissionOperation.setPermission_id(pid);
+            result=permissionOperationMapper.insertSelective(permissionOperation);
+        }else if(record.getType().equals("2")){
+          //标志这个是菜单权限  
+            Long mid=record.getMenu().getId();
+            PermissionMenu permissionMenu=new PermissionMenu();
+            permissionMenu.setDomainid(record.getDomainid());
+            permissionMenu.setMenu_id(mid);
+            permissionMenu.setPermission_id(pid);
+            result=permissionMenuMapper.insertSelective(permissionMenu);
+            
+        }
+        return result;
     }
 
     /* (非 Javadoc)

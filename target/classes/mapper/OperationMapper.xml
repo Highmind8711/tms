@@ -7,32 +7,14 @@
     <result column="name" jdbcType="NCHAR" property="name" />
     <result column="botton_id" jdbcType="NCHAR" property="botton_id" />
     <result column="remark" jdbcType="NCHAR" property="remark" />
-   	<association property="permission" javaType="com.highmind.entity.Permission">
-   		<id column="Pid" jdbcType="BIGINT" property="id" />
-   		<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
-   		<result column="Pname" jdbcType="NCHAR" property="name" />
-   		<result column="Ptype" jdbcType="NCHAR" property="type" />
-   		<result column="Pgrouping" jdbcType="NCHAR" property="grouping" />
-   		<result column="Premark" jdbcType="NCHAR" property="remark" />
-   	</association>
-
   </resultMap>
   <sql id="Base_Column_List">
     Sys_Operation.id, Sys_Operation.domainid, Sys_Operation.name, Sys_Operation.botton_id, Sys_Operation.remark
   </sql>
-  <sql id="Permission_Base_Column_List">
-    Sys_Permission.id as Pid, Sys_Permission.domainid as Pdomainid, 
-    Sys_Permission.name as Pname , Sys_Permission.type as Ptype, Sys_Permission.grouping as Pgrouping, 
-    Sys_Permission.remark as Premark
-  </sql>
   <select id="selectOperation" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Permission_Base_Column_List"/>
     from Sys_Operation
-    Left join Sys_Permission_Operation on Sys_Permission_Operation.operation_id = Sys_Operation.id
-    Left join Sys_Permission on Sys_Permission.id= Sys_Permission_Operation.permission_id
     <where>
     	<if test="id!=null">
     		 Sys_Operation.id=#{id}

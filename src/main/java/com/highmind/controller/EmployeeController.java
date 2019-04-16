@@ -50,7 +50,7 @@ import com.highmind.tool.PropertyHolder;
 
 /**
  * @ClassName EmployeeController
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO 雇员控制
  * @author 61430
  * @Date 2019年4月3日 上午11:40:04
  * @version 1.0.0
@@ -71,7 +71,6 @@ public class EmployeeController extends BaseController<Employee>{
      */
     @Override
     @RequestMapping(value="/employees",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-
     public String add(Employee t) {
         System.out.println(JSONObject.toJSONString(t));
         return super.addResult(employeeService,t);

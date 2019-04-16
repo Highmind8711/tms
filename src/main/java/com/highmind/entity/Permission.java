@@ -1,6 +1,5 @@
 package com.highmind.entity;
 
-import java.util.List;
 
 public class Permission {
     private Long id;
@@ -64,15 +63,24 @@ public class Permission {
     }
     
     
-    private List<RulePermission> rulePermissions;
+    private Operation operation;
+    private Menu menu;
     
-    public List<RulePermission> getRulePermissions() {
-        return rulePermissions;
+
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setRulePermissions(List<RulePermission> rulePermissions) {
-        this.rulePermissions = rulePermissions;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
     
 }

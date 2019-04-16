@@ -29,7 +29,6 @@
  *****************************************************************/
 package com.highmind.controller;
 
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,57 +44,53 @@ import com.highmind.entity.Permission;
  * @version 1.0.0
  */
 @RestController
-public class PermissionController extends BaseController<Permission>{
-    /* (非 Javadoc)
-     * Description:
+public class PermissionController extends BaseController<Permission> {
+
+    /*
+     * (非 Javadoc) Description:
      * @see com.highmind.controller.BaseController#add()
      */
     @Override
-    @RequestMapping(value="/permissions",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value = "/permissions", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
     public String add(Permission t) {
-        return super.addResult(permissionService,t);
+        return super.addResult(permissionService, t);
     }
-    
-    /* (非 Javadoc)
-     * Description:
+
+    /*
+     * (非 Javadoc) Description:
      * @see com.highmind.controller.BaseController#getOne()
      */
     @Override
-    @RequestMapping(value="/permissions/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    @RequestMapping(value = "/permissions/{id}", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
+    public String getOne(@PathVariable("id") Long id) {
         // TODO Auto-generated method stub
-        return super.getOneResult(permissionService,id);
+        return super.getOneResult(permissionService, id);
     }
-    /* (非 Javadoc)
-     * Description:
+
+    /*
+     * (非 Javadoc) Description:
      * @see com.highmind.controller.BaseController#getAll()
      */
     @Override
-    @RequestMapping(value="/permissions",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value = "/permissions", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
     public String getAll() {
         // TODO Auto-generated method stub
         return super.getAllResult(permissionService);
-    }
-    /* (非 Javadoc)
-     * Description:
-     * @see com.highmind.controller.BaseController#update()
-     */
-    @Override
-    @RequestMapping(value="/permissions",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
-    public String update(Permission t) {
-        // TODO Auto-generated method stub
-        return super.updateResult(permissionService,t);
        
     }
-    
-    /* (非 Javadoc)
-     * Description:
-     * @see com.highmind.controller.BaseController#delete()
+    /*
+     * (非 Javadoc) Description:
+     * @see com.highmind.controller.BaseController#update()
      */
-    @Override
-    @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
-    public String delete(@PathVariable("id")Long id) {
-        // TODO Auto-generated method stub
-        return super.deleteResult(permissionService,id);
-    }
+    /*
+     * @Override
+     * @RequestMapping(value="/permissions",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") public String
+     * update(Permission t) { // TODO Auto-generated method stub return super.updateResult(permissionService,t); } (非
+     * Javadoc) Description:
+     * @see com.highmind.controller.BaseController#delete()
+     * @Override
+     * @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
+     * public String delete(@PathVariable("id")Long id) { // TODO Auto-generated method stub return
+     * super.deleteResult(permissionService,id); }
+     */
 }

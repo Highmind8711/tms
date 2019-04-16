@@ -30,6 +30,7 @@
 package com.highmind.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.highmind.entity.Rule;
 
@@ -47,4 +48,10 @@ public interface RuleService extends BaseService<Rule>{
     * @return
     */
     List<Rule> selectRuleName();
+    /**
+     * 查询角色下的权限
+     * @Description
+     * @return
+     */
+    List<Rule> selectRulePermission(Map<String,Object> map);
 }

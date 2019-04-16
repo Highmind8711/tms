@@ -19,4 +19,5 @@ public interface PermissionOperationMapper {
     int updateByPrimaryKey(PermissionOperation record);
     
     List<PermissionOperation> selectPermissionOperation(Map<String,Object> map);
+    
 }

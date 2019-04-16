@@ -8,7 +8,7 @@
     <result column="remark" jdbcType="NVARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, typename, equipvoice, remark
+    DYNA_Tms_TicketType.id, DYNA_Tms_TicketType.typename, DYNA_Tms_TicketType.equipvoice, DYNA_Tms_TicketType.remark
   </sql>
   <select id="selectByTicketType" parameterType="Map" resultMap="BaseResultMap">
     select

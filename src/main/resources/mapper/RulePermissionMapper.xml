@@ -8,9 +8,9 @@
     <result column="permission_id" jdbcType="BIGINT" property="permission_id" />
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Rule_Permission.id as 'id', domainid, rule_id, permission_id
+    Sys_Rule_Permission.id, Sys_Rule_Permission.domainid, Sys_Rule_Permission.rule_id, Sys_Rule_Permission.permission_id
   </sql>
-  <select id="selectAllRulePermission" parameterType="Map" resultMap="BaseResultMap">
+  <select id="selectRulePermission" parameterType="Map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from Sys_Rule_Permission

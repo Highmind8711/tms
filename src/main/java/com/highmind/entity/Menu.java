@@ -42,16 +42,6 @@ public class Menu {
         this.url = url == null ? null : url.trim();
     }
     
-    //权限菜单
-    private Permission permission;
-    
-    public Permission getPermission() {
-        return permission;
-    }
-
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
     
 
 }

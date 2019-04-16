@@ -30,6 +30,7 @@
 package com.highmind.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -108,6 +109,32 @@ public class RuleController extends BaseController<Rule> {
     public String getAllName() {
         // TODO Auto-generated method stub
         List<Rule> selectAll = ruleService.selectRuleName();
+        if(!selectAll.isEmpty()) {
+            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
+    }
+    
+    @RequestMapping(value="/rulePermissions/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getOneRulePermission(@PathVariable("id")Long id) {
+        // TODO Auto-generated method stub
+        HashMap<String, Object> hashMap=new HashMap<String,Object>();
+        hashMap.put("id",id);
+        List<Rule> selectById = ruleService.selectRulePermission(hashMap);
+        
+        Rule rule=!selectById.isEmpty()?selectById.get(0):null;
+        if(rule!=null) {
+            return JSONObject.toJSONString(Result.success(selectById),successFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
+    }
+    @RequestMapping(value="/rulePermissions",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getAllRulePermission() {
+        // TODO Auto-generated method stub
+        HashMap<String, Object> hashMap=new HashMap<String,Object>();
+        List<Rule> selectAll = ruleService.selectRulePermission(hashMap);
         if(!selectAll.isEmpty()) {
             return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
         }else {

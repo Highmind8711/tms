@@ -46,12 +46,12 @@ import com.highmind.entity.PermissionOperation;
 @RestController
 public class PermissionOperationController  extends BaseController<PermissionOperation>{
 
-    @Override
-    @RequestMapping(value="/permissionoperations",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String add(PermissionOperation t) {
-        // TODO Auto-generated method stub
-        return super.addResult(permissionOperationService, t);
-    }
+    /*
+     * @Override
+     * @RequestMapping(value="/permissionoperations",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+     * public String add(PermissionOperation t) { // TODO Auto-generated method stub return
+     * super.addResult(permissionOperationService, t); }
+     */
 
     @Override
     @RequestMapping(value="/permissionoperations",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
@@ -59,7 +59,20 @@ public class PermissionOperationController  extends BaseController<PermissionOpe
         // TODO Auto-generated method stub
         return super.updateResult(permissionOperationService, t);
     }
+    @Override
+    @RequestMapping(value="/permissionoperations",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getAll() {
+        // TODO Auto-generated method stub
+        return super.getAllResult(permissionOperationService);
+    }
 
+
+    @Override
+    @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getOne(@PathVariable("id")Long id) {
+        // TODO Auto-generated method stub
+        return super.getOneResult(permissionOperationService, id);
+    }
     @Override
     @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
     public String delete(@PathVariable("id")Long id) {

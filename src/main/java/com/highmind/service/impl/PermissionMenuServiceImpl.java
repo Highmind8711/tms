@@ -36,6 +36,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.highmind.dao.PermissionMapper;
 import com.highmind.dao.PermissionMenuMapper;
 import com.highmind.entity.PermissionMenu;
 import com.highmind.service.PermissionMenuService;
@@ -51,6 +52,8 @@ import com.highmind.service.PermissionMenuService;
 public class PermissionMenuServiceImpl implements PermissionMenuService{
     @Autowired
     PermissionMenuMapper permissionMenuMapper;
+    @Autowired 
+    PermissionMapper permissionMapper;
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.service.baseService#selectById(java.util.Map)
@@ -90,6 +93,7 @@ public class PermissionMenuServiceImpl implements PermissionMenuService{
     @Override
     public int update(PermissionMenu record) {
         // TODO Auto-generated method stub
+        permissionMapper.updateByPrimaryKey(record.getPermission());
         return permissionMenuMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -100,6 +104,8 @@ public class PermissionMenuServiceImpl implements PermissionMenuService{
     @Override
     public int del(Long id) {
         // TODO Auto-generated method stub
+        PermissionMenu permissionMenu=permissionMenuMapper.selectByPrimaryKey(id);
+        permissionMapper.deleteByPrimaryKey(permissionMenu.getPermission_id());
         return permissionMenuMapper.deleteByPrimaryKey(id);
     }
 

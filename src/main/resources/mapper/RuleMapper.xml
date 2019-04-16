@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.highmind.dao.RuleMapper">
-  <resultMap id="BaseResultMap" type="com.highmind.entity.Rule">
+  <resultMap id="BaseResultMap" type="com.highmind.entity.Rule" >
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="domainid" jdbcType="BIGINT" property="domainid" />
     <result column="rulename" jdbcType="NCHAR" property="rulename" />
@@ -9,34 +9,72 @@
     <collection property="RuleEmployees" ofType="com.highmind.entity.RuleEmployee">
     	<id column="REid" jdbcType="BIGINT" property="id" />
     	<result column="REdoid" jdbcType="BIGINT" property="domainid" />
-    	<result column="employee_id" jdbcType="BIGINT" property="employee_id" />
-    	<result column="rule_id" jdbcType="BIGINT" property="rule_id" />
+    	<result column="REemployee_id" jdbcType="BIGINT" property="employee_id" />
+    	<result column="RErule_id" jdbcType="BIGINT" property="rule_id" />
     	<association property="employee" javaType="com.highmind.entity.Employee">
     		<id column="Eid" jdbcType="BIGINT" property="id" />
-	    	<result column="Edoid" jdbcType="BIGINT" property="domainId" />
-	    	<result column="name" jdbcType="VARCHAR" property="name" />
-	    	<result column="email" jdbcType="VARCHAR" property="email" />
-	    	<result column="department_id" jdbcType="BIGINT" property="department_id" />
-	    	<result column="loginId" jdbcType="VARCHAR" property="loginId" />
-	    	<result column="isLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
-	    	<result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
-            <result column="tel" jdbcType="VARCHAR" property="tel"/>
-	    	<result column="qq" jdbcType="VARCHAR" property="qq" />
-	    	<result column="sex" jdbcType="BIGINT" property="sex" />
-            <result column="seller" jdbcType="BIT" property="seller" />
-	    	<result column="photo" jdbcType="VARCHAR" property="photo" />
+	    	<result column="EdomainId" jdbcType="BIGINT" property="domainId" />
+	    	<result column="Ename" jdbcType="VARCHAR" property="name" />
+	    	<result column="Eemail" jdbcType="VARCHAR" property="email" />
+	    	<result column="Edepartment_id" jdbcType="BIGINT" property="department_id" />
+	    	<result column="EloginId" jdbcType="VARCHAR" property="loginId" />
+	    	<result column="EisLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
+	    	<result column="Ebirthday" jdbcType="TIMESTAMP" property="birthday" />
+            <result column="Etel" jdbcType="VARCHAR" property="tel"/>
+	    	<result column="Eqq" jdbcType="VARCHAR" property="qq" />
+	    	<result column="Esex" jdbcType="BIGINT" property="sex" />
+            <result column="Eseller" jdbcType="BIT" property="seller" />
+	    	<result column="Ephoto" jdbcType="VARCHAR" property="photo" />
 	    	<result column="password" jdbcType="VARCHAR" property="password"/>
     	</association>
     </collection>
   </resultMap>
+  <resultMap id="PermissionResultMap" type="com.highmind.entity.Rule" >
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="domainid" jdbcType="BIGINT" property="domainid" />
+    <result column="rulename" jdbcType="NCHAR" property="rulename" />
+    <result column="remark" jdbcType="NCHAR" property="remark" />
+    <collection property="permissions" ofType="com.highmind.entity.Permission">
+    	<id column="Pid" jdbcType="BIGINT" property="id" />
+	    <result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
+	    <result column="Pname" jdbcType="NCHAR" property="name" />
+	    <result column="Ptype" jdbcType="NCHAR" property="type" />
+	    <result column="Pgrouping" jdbcType="NCHAR" property="grouping" />
+	    <result column="Premark" jdbcType="NCHAR" property="remark" />
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List">
-    Sys_Rule.id as 'id', Sys_Rule.domainid, Sys_Rule.rulename, Sys_Rule.remark
+    Sys_Rule.id, Sys_Rule.domainid, Sys_Rule.rulename, Sys_Rule.remark
   </sql>
-  <select id="selectRule" parameterType="Map" resultMap="BaseResultMap">
+  <sql id="RuleEmployee_Base_Column_List">
+    Sys_Rule_Employee.id as REid, Sys_Rule_Employee.domainid as REdomainid,
+    Sys_Rule_Employee.employee_id as REemployee_id, Sys_Rule_Employee.rule_id as RErule_id
+  </sql>
+  <sql id="Employee_Base_Column_List">
+    Sys_Employee.id as Eid, Sys_Employee.domainId as EdomainId, Sys_Employee.name as Ename, 
+    Sys_Employee.email as Eemail, Sys_Employee.department_id as Edepartment_id, 
+    Sys_Employee.loginId as EloginId, Sys_Employee.isLoginEnabled as EisLoginEnabled, 
+    Sys_Employee.birthday as Ebirthday,Sys_Employee.seller as Eseller,Sys_Employee.qq as Eqq ,
+    Sys_Employee.sex as Esex, Sys_Employee.photo as Ephoto, Sys_Employee.password as Epassword,
+    Sys_Employee.tel as Etel
+  </sql>
+ 
+  
+  <sql id="Permission_Base_Column_List">
+    Sys_Permission.id as Pid, Sys_Permission.domainid as Pdomainid, 
+    Sys_Permission.name as Pname , Sys_Permission.type as Ptype, Sys_Permission.grouping as Pgrouping, 
+    Sys_Permission.remark as Premark
+  </sql>
+  <sql id="RulePermission_Base_Column_List">
+    Sys_Rule_Permission.id as RPid, Sys_Rule_Permission.domainid as RPdomainid, 
+    Sys_Rule_Permission.rule_id as RPrule_id, Sys_Rule_Permission.permission_id as RPpermission_id
+  </sql>
+  
+  <select id="selectRuleEmployee" parameterType="Map" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
-    ,Sys_Employee.*,Sys_Rule_Employee.*,Sys_Rule_Employee.id as 'REid',Sys_Employee.id as 'Eid',
-    Sys_Employee.domainid as 'Edoid',Sys_Rule_Employee.domainid as 'REdoid'
+    <include refid="Base_Column_List" />,
+    <include refid="RuleEmployee_Base_Column_List"/>,
+    <include refid="Employee_Base_Column_List"/>
     from Sys_Rule
     Left join Sys_Rule_Employee on Sys_Rule_Employee.rule_id=Sys_Rule.id
     Left join Sys_Employee on Sys_Rule_Employee.employee_id=Sys_Employee.id
@@ -46,6 +84,23 @@
     	</if>
     	<if test="Eid!=null">
     		Sys_Rule.Eid=#{Eid}
+    	</if>
+    	<if test="domainId!=null">
+    		Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
+    	</if>
+    </where>
+  </select>
+  <select id="selectRulePermission" parameterType="Map" resultMap="PermissionResultMap">
+    select 
+    <include refid="Base_Column_List" />,
+    <include refid="Permission_Base_Column_List"/>,
+    <include refid="RulePermission_Base_Column_List"/>
+    from Sys_Rule
+    LEFT JOIN Sys_Rule_Permission ON Sys_Rule.id = Sys_Rule_Permission.rule_id
+	LEFT JOIN Sys_Permission ON Sys_Permission.id=Sys_Rule_Permission.permission_id
+    <where>
+    	<if test="id!=null">
+    		Sys_Rule.id=#{id}
     	</if>
     	<if test="domainId!=null">
     		Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}

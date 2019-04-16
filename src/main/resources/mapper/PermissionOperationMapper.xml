@@ -6,14 +6,47 @@
     <result column="domainid" jdbcType="BIGINT" property="domainid" />
     <result column="permission_id" jdbcType="BIGINT" property="permission_id" />
     <result column="operation_id" jdbcType="BIGINT" property="operation_id" />
+    <association property="permission" javaType="com.highmind.entity.Permission">
+   		<id column="Pid" jdbcType="BIGINT" property="id" />
+    	<result column="Pdomainid" jdbcType="BIGINT" property="domainid" />
+	    <result column="Pname" jdbcType="NCHAR" property="name" />
+	    <result column="Ptype" jdbcType="NCHAR" property="type" />
+	    <result column="Pgrouping" jdbcType="NCHAR" property="grouping" />
+	    <result column="Premark" jdbcType="NCHAR" property="remark" />
+   	</association>
+    <association property="operation" javaType="com.highmind.entity.Operation">
+	    <id column="Oid" jdbcType="BIGINT" property="id" />
+    	<result column="Odomainid" jdbcType="BIGINT" property="domainid" />
+    	<result column="Oname" jdbcType="NCHAR" property="name" />
+    	<result column="Obotton_id" jdbcType="NCHAR" property="botton_id" />
+    	<result column="Oremark" jdbcType="NCHAR" property="remark" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
     Sys_Permission_Operation.id, Sys_Permission_Operation.domainid, Sys_Permission_Operation.permission_id, Sys_Permission_Operation.operation_id
   </sql>
-  <select id=" selectAllPermissionOperation" parameterType="Map" resultMap="BaseResultMap">
+   <sql id="Permission_Base_Column_List">
+    Sys_Permission.id as Pid, Sys_Permission.domainid as Pdomainid, 
+    Sys_Permission.name as Pname , Sys_Permission.type as Ptype, Sys_Permission.grouping as Pgrouping, 
+    Sys_Permission.remark as Premark
+  </sql>
+  <sql id="Operation_Base_Column_List">
+    Sys_Operation.id as Oid, Sys_Operation.domainid as Odomainid, 
+    Sys_Operation.name as Oname, Sys_Operation.botton_id as Obotton_id, Sys_Operation.remark as Oremark
+  </sql>
+  <select id="selectPermissionOperation" parameterType="Map" resultMap="BaseResultMap">
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List" />,
+    <include refid="Permission_Base_Column_List" />,
+    <include refid="Operation_Base_Column_List"/>
     from Sys_Permission_Operation
+    LEFT JOIN Sys_Permission ON Sys_Permission.id = Sys_Permission_Operation.permission_id
+	LEFT JOIN Sys_Operation ON Sys_Operation.id = Sys_Permission_Operation.operation_id
+	<where>
+		<if test="id!=null">
+    		Sys_Permission.id=#{id}
+    	</if>
+	</where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 

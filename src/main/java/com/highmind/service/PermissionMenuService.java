@@ -39,5 +39,5 @@ import com.highmind.entity.PermissionMenu;
  * @version 1.0.0
  */
 public interface PermissionMenuService extends BaseService<PermissionMenu> {
-  
+    
 }

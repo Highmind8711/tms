@@ -52,15 +52,4 @@ public class Operation {
         this.remark = remark == null ? null : remark.trim();
     }
     
-
-    //权限
-    private Permission permission;
-    
-    public Permission getPermission() {
-        return permission;
-    }
-
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
 }
