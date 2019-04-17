@@ -1,32 +1,3 @@
-/******************************************************************
- *
- *    Java Lib For Android, Powered By personal.
- *
- *    Copyright (c) 2001-2014 Digital Telemedia Co.,Ltd
- *    http://www.d-telemedia.com/
- *
- *    Package:     com.highmind.tool
- *
- *    Filename:    MybatisGenerator.java
- *
- *    Description: TODO(用一句话描述该文件做什么)
- *
- *    Copyright:   Copyright (c) 2001-2014
- *
- *    Company:     Digital Telemedia Co.,Ltd
- *
- *    @author:     61430
- *
- *    @version:    1.0.0
- *
- *    Create at:   2019年4月3日 上午10:46:27
- *
- *    Revision:
- *
- *    2019年4月3日 上午10:46:27
- *        - first revision
- *
- *****************************************************************/
 package com.highmind.tool;
 
 import java.io.InputStream;
@@ -50,7 +21,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
  */
 public class MybatisGenerator {
     public static void main(String[] args) throws Exception {
-        String today = "2019-04-15";
+        String today = "2019-04-17";
  
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
         Date now =sdf.parse(today);

@@ -17,10 +17,10 @@
     from Sys_Operation
     <where>
     	<if test="id!=null">
-    		 Sys_Operation.id=#{id}
+    		 and Sys_Operation.id=#{id}
     	</if>
     	<if test="domainId!=null">
-    		 Sys_Operation.domainId=#{domainId,jdbcType=BIGINT}
+    		 and Sys_Operation.domainId=#{domainId,jdbcType=BIGINT}
     	</if>
     </where>
   </select>

@@ -2,15 +2,11 @@ package com.highmind.controller;
 
 import java.util.List;
 
-import com.highmind.entity.CodeMsg;
-import com.highmind.entity.Result;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Department;
 
 /**
@@ -59,9 +55,8 @@ public class DepartmentController extends BaseController<Department>{
      */
     @RequestMapping(value="/departmentnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAllName() {
-        JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.selectDepartmentName();
-        return getString(jsonObject, selectAll, !selectAll.isEmpty());
+        return getString(selectAll, !selectAll.isEmpty());
     }
     /* (非 Javadoc)
      * Description:
@@ -86,36 +81,19 @@ public class DepartmentController extends BaseController<Department>{
     }
     @RequestMapping(value="/departmentrecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findAllRecursion() {
-        JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findAllRecursion();
-        return getString(jsonObject, selectAll, !selectAll.isEmpty());
+        return getString(selectAll, !selectAll.isEmpty());
     }
     @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findRoot() {
-        JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findRoot();
-        return getString(jsonObject, selectAll, !selectAll.isEmpty());
+        return getString(selectAll, !selectAll.isEmpty());
     }
 
     @RequestMapping(value="/findchild/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findchild(@PathVariable("id")Long id) {
-        JSONObject jsonObject=new JSONObject();
         List<Department> selectAll = departmentService.findChild(id);
-        return getString(jsonObject, selectAll, !selectAll.isEmpty());
+        return getString( selectAll, !selectAll.isEmpty());
     }
-
-    /**
-     * 文字处理
-     * @param jsonObject
-     * @param selectAll
-     * @param b
-     * @return
-     */
-    private String getString(JSONObject jsonObject, List<Department> selectAll, boolean b) {
-        if (b) {
-            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
-        } else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
-        }
-    }
+ 
 }

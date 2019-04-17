@@ -1,32 +1,3 @@
-/******************************************************************
- *
- *    Java Lib For Android, Powered By personal.
- *
- *    Copyright (c) 2001-2014 Digital Telemedia Co.,Ltd
- *    http://www.d-telemedia.com/
- *
- *    Package:     com.highmind.service
- *
- *    Filename:    EmployeeService.java
- *
- *    Description: TODO(用一句话描述该文件做什么)
- *
- *    Copyright:   Copyright (c) 2001-2014
- *
- *    Company:     Digital Telemedia Co.,Ltd
- *
- *    @author:     61430
- *
- *    @version:    1.0.0
- *
- *    Create at:   2019年4月3日 上午11:29:34
- *
- *    Revision:
- *
- *    2019年4月3日 上午11:29:34
- *        - first revision
- *
- *****************************************************************/
 package com.highmind.service;
 
 import java.util.Map;
@@ -54,5 +25,5 @@ public interface EmployeeService extends BaseService<Employee>{
     * @param map 传递的参数为loginId
     * @return
     */
-   int checkUser(Map<String,Object> map);
+   Employee checkUser(Map<String,Object> map);
 }

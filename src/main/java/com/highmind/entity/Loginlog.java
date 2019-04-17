@@ -1,0 +1,55 @@
+package com.highmind.entity;
+
+import java.util.Date;
+
+public class Loginlog {
+    private Long id;
+
+    private Integer domainid;
+
+    private Long employee_id;
+
+    private Date enterdate;
+
+    private String ip;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getDomainid() {
+        return domainid;
+    }
+
+    public void setDomainid(Integer domainid) {
+        this.domainid = domainid;
+    }
+
+    public Long getEmployee_id() {
+        return employee_id;
+    }
+
+    public void setEmployee_id(Long employee_id) {
+        this.employee_id = employee_id;
+    }
+
+    public Date getEnterdate() {
+        return enterdate;
+    }
+
+    public void setEnterdate(Date enterdate) {
+        this.enterdate = enterdate;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip == null ? null : ip.trim();
+    }
+}

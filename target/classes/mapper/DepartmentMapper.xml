@@ -43,10 +43,10 @@
     from Sys_Department Left join Sys_Employee on  Sys_Employee.department_id=Sys_Department.id
     <where>
     	<if test="id!=null">
-    		 Sys_Department.id=#{id,jdbcType=BIGINT}
+    		 and Sys_Department.id=#{id,jdbcType=BIGINT}
     	</if>
     	<if test="domainId!=null">
-    		Sys_Department.domainId=#{domainId,jdbcType=BIGINT}
+    		 and Sys_Department.domainId=#{domainId,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -129,14 +129,24 @@
     <include refid="Base_Column_List" />
     from Sys_Department
   </select>
-  <resultMap type="com.highmind.entity.Department" id="recursionMenuMap">
+  
+  
+  	<resultMap type="com.highmind.entity.Department" id="recursionMenuMap">
 		<id column="id" jdbcType="BIGINT" property="id" />
 		<result column="domainId" jdbcType="BIGINT" property="domainId" />
 		<result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
       	<collection property="children" ofType="com.highmind.entity.Department" column="id" select="findChild"/>
-  </resultMap>
+  	</resultMap>
+	<resultMap id="listChildResultMap" type="com.highmind.entity.Department" >
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="domainId" jdbcType="BIGINT" property="domainId" />
+		<result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="remark" jdbcType="VARCHAR" property="remark" />
+      	<collection property="children" ofType="com.highmind.entity.Department" column="id" select="findChild"/>
+	</resultMap>
 	<!-- 递归查询部门 -->
     <select id="findAllRecursion" resultMap="recursionMenuMap">
     	select 
@@ -150,7 +160,7 @@
     	From Sys_Department WHERE ml_parent='' or ml_parent is NULL or ml_parent=0
     </select>
     <!-- 查询父部门下的子部门 -->
-    <select id="findChild" resultType="com.highmind.entity.Department">
+    <select id="findChild" resultMap="listChildResultMap">
     	select 
     	<include refid="Base_Column_List" />
     	From Sys_Department WHERE ml_parent=#{id} 

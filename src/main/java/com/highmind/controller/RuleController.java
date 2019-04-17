@@ -1,32 +1,3 @@
-/******************************************************************
- *
- *    Java Lib For Android, Powered By personal.
- *
- *    Copyright (c) 2001-2014 Digital Telemedia Co.,Ltd
- *    http://www.d-telemedia.com/
- *
- *    Package:     com.highmind.controller
- *
- *    Filename:    RuleController.java
- *
- *    Description: TODO(用一句话描述该文件做什么)
- *
- *    Copyright:   Copyright (c) 2001-2014
- *
- *    Company:     Digital Telemedia Co.,Ltd
- *
- *    @author:     61430
- *
- *    @version:    1.0.0
- *
- *    Create at:   2019年4月3日 下午12:57:03
- *
- *    Revision:
- *
- *    2019年4月3日 下午12:57:03
- *        - first revision
- *
- *****************************************************************/
 package com.highmind.controller;
 
 
@@ -40,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.highmind.entity.CodeMsg;
-import com.highmind.entity.Result;
 import com.highmind.entity.Rule;
+import com.highmind.tool.CodeMsg;
+import com.highmind.tool.Result;
 
 /**
  * @ClassName RuleController

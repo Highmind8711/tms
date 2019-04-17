@@ -1,32 +1,3 @@
-/******************************************************************
- *
- *    Java Lib For Android, Powered By personal.
- *
- *    Copyright (c) 2001-2014 Digital Telemedia Co.,Ltd
- *    http://www.d-telemedia.com/
- *
- *    Package:     com.highmind.controller
- *
- *    Filename:    EmployeeController.java
- *
- *    Description: TODO(用一句话描述该文件做什么)
- *
- *    Copyright:   Copyright (c) 2001-2014
- *
- *    Company:     Digital Telemedia Co.,Ltd
- *
- *    @author:     61430
- *
- *    @version:    1.0.0
- *
- *    Create at:   2019年4月3日 上午11:40:04
- *
- *    Revision:
- *
- *    2019年4月3日 上午11:40:04
- *        - first revision
- *
- *****************************************************************/
 package com.highmind.controller;
 
 import java.io.File;
@@ -38,6 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -45,8 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Employee;
+import com.highmind.tool.CodeMsg;
+import com.highmind.tool.JwtUtil;
 import com.highmind.tool.PropertyHolder;
+import com.highmind.tool.Result;
 
 /**
  * @ClassName EmployeeController
@@ -178,12 +154,36 @@ public class EmployeeController extends BaseController<Employee>{
     @RequestMapping(value="/checkIsExist/{loginId}",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String checkIsExist(@PathVariable("loginId")Long id) {
         // TODO Auto-generated method stub
-        JSONObject jsonObject=new JSONObject();
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("loginId",id);
-        int resultId=employeeService.checkUser(map);
-        jsonObject.put("status", 1);
-        jsonObject.put("data", resultId);
-        return jsonObject.toJSONString();
+        Employee employee=employeeService.checkUser(map);
+        if(employee.getId()>0) {
+            return JSONObject.toJSONString(Result.success(employee.getId()),successFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.USER_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
+    }
+    @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    public String login(String loginid,String password,HttpSession session) {
+        Map<String,Object> mapLogin=new HashMap<String,Object>();
+        mapLogin.put("loginId",loginid);
+        mapLogin.put("password",password);
+        Employee employee=employeeService.checkUser(mapLogin);
+        if(employee!=null) {
+            String token =JwtUtil.sign(employee.getId(),employee.getLoginId(),employee.getPassword());
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("token", token);
+            session.setAttribute("token", token);
+            return JSONObject.toJSONString(Result.success(jsonObject),successFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
+        
+    }
+    @RequestMapping(value="/loginout",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    public void loginOut(HttpSession session) {
+        
+        session.invalidate();
+        
     }
 }

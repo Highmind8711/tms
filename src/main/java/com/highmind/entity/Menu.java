@@ -1,5 +1,6 @@
 package com.highmind.entity;
 
+import java.util.List;
 
 public class Menu {
     private Long id;
@@ -9,7 +10,9 @@ public class Menu {
     private String name;
 
     private String url;
-
+    
+    private Long parent_id;
+    
     public Long getId() {
         return id;
     }
@@ -41,7 +44,24 @@ public class Menu {
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
     }
+
+    public Long getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(Long parent_id) {
+        this.parent_id = parent_id;
+    }
     
+    //子菜单
+    private List<Menu> children;
     
+    public List<Menu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Menu> children) {
+        this.children = children;
+    }
 
 }

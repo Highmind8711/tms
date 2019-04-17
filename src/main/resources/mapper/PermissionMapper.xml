@@ -18,10 +18,10 @@
     from Sys_Permission
     <where>
     	<if test="domainid!=null">
-    	 	Sys_Permission.domainid=#{domainid}
+    	 	and Sys_Permission.domainid=#{domainid}
     	</if>
     	<if test="id!=null">
-    		Sys_Permission.id=#{id}
+    		and Sys_Permission.id=#{id}
     	</if>
     </where>
   </select>

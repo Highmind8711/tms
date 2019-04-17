@@ -44,7 +44,7 @@
 	LEFT JOIN Sys_Operation ON Sys_Operation.id = Sys_Permission_Operation.operation_id
 	<where>
 		<if test="id!=null">
-    		Sys_Permission.id=#{id}
+    		and Sys_Permission.id=#{id}
     	</if>
 	</where>
   </select>

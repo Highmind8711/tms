@@ -19,4 +19,11 @@ public interface MenuMapper {
     int updateByPrimaryKey(Menu record);
     
     List<Menu> selectMenu(Map<String,Object> map);
+    
+    /**
+     *遍历所有的菜单
+     * @Description
+     * @return
+     */
+    List<Menu> findAllRecursion(Map<String,Object> map);
 }

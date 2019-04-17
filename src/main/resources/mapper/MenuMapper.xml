@@ -6,9 +6,10 @@
     <result column="domainid" jdbcType="BIGINT" property="domainid" />
     <result column="name" jdbcType="NCHAR" property="name" />
     <result column="url" jdbcType="NCHAR" property="url" />
+    <result column="parent_id" jdbcType="BIGINT" property="parent_id" />
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Menu.id, Sys_Menu.domainid, Sys_Menu.name, Sys_Menu.url
+    id, domainid, name, url,parent_id
   </sql>
   <select id="selectMenu" parameterType="Map" resultMap="BaseResultMap">
 	select 
@@ -16,10 +17,10 @@
     from Sys_Permission_Menu
     <where>
     	<if test="id!=null">
-    		 Sys_Menu.id=#{id}
+    		and Sys_Menu.id=#{id}
     	</if>
     	<if test="domainId!=null">
-    		Sys_Menu.domainId=#{domainId,jdbcType=BIGINT}
+    		and Sys_Menu.domainId=#{domainId,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -34,9 +35,9 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Menu" useGeneratedKeys="true">
-    insert into Sys_Menu (domainid, name, url
+    insert into Sys_Menu (domainid, name, url,parent_id
       )
-    values (#{domainid,jdbcType=BIGINT}, #{name,jdbcType=NCHAR}, #{url,jdbcType=NCHAR}
+    values (#{domainid,jdbcType=BIGINT}, #{name,jdbcType=NCHAR}, #{url,jdbcType=NCHAR},#{parent_id,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Menu" useGeneratedKeys="true">
@@ -51,6 +52,9 @@
       <if test="url != null">
         url,
       </if>
+      <if test="parent_id != null">
+        parent_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="domainid != null">
@@ -61,6 +65,9 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=NCHAR},
+      </if>
+      <if test="parent_id != null">
+        #{parent_id,jdbcType=BIGINT}
       </if>
     </trim>
   </insert>
@@ -76,6 +83,9 @@
       <if test="url != null">
         url = #{url,jdbcType=NCHAR},
       </if>
+      <if test="parent_id != null">
+        parent_id = #{parent_id,jdbcType=BIGINT}
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -83,7 +93,71 @@
     update Sys_Menu
     set domainid = #{domainid,jdbcType=BIGINT},
       name = #{name,jdbcType=NCHAR},
-      url = #{url,jdbcType=NCHAR}
+      url = #{url,jdbcType=NCHAR},
+      parent_id = #{parent_id,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <resultMap type="com.highmind.entity.Menu" id="recursionMenuMap">
+	  <id column="id" jdbcType="BIGINT" property="id" />
+	  <result column="domainid" jdbcType="BIGINT" property="domainid" />
+	  <result column="name" jdbcType="NCHAR" property="name" />
+	  <result column="url" jdbcType="NCHAR" property="url" />
+	  <result column="parent_id" jdbcType="BIGINT" property="parent_id" />
+	  <collection property="children" ofType="com.highmind.entity.Menu" column="id" select="findChild"/>
+  </resultMap>
+  <resultMap id="listChildResultMap" type="com.highmind.entity.Menu">
+  	  <id column="id" jdbcType="BIGINT" property="id" />
+	  <result column="domainid" jdbcType="BIGINT" property="domainid" />
+	  <result column="name" jdbcType="NCHAR" property="name" />
+	  <result column="url" jdbcType="NCHAR" property="url" />
+	  <result column="parent_id" jdbcType="BIGINT" property="parent_id" />
+	  <collection property="children" ofType="com.highmind.entity.Menu" column="id" select="findChild"/>
+	</resultMap>
+ 	<!-- 递归父菜单 -->
+   <select id="findAllRecursion" resultMap="recursionMenuMap">
+	   	select 
+	   	<include refid="Base_Column_List" />
+	   	From
+	   	(
+		SELECT
+		Sys_Menu.name,
+		Sys_Menu.url,
+		Sys_Menu.parent_id,
+		Sys_Menu.id,
+		Sys_Menu.domainid
+		FROM
+		Sys_Employee
+		LEFT JOIN Sys_Rule_Employee ON Sys_Employee.id = Sys_Rule_Employee.employee_id
+		LEFT JOIN Sys_Rule_Permission ON Sys_Rule_Permission.rule_id =  Sys_Rule_Employee.rule_id
+		LEFT JOIN Sys_Permission_Menu ON Sys_Permission_Menu.permission_id = Sys_Rule_Permission.permission_id
+		LEFT JOIN Sys_Menu ON Sys_Permission_Menu.menu_id = Sys_Menu.id
+		WHERE
+		Sys_Employee.id = #{Eid} 
+	   	) as a
+	   	WHERE a.parent_id='' or a.parent_id is NULL or a.parent_id=0
+   </select>
+   <!-- 查询父菜单下的子菜单 -->
+   <select id="findChild" resultMap="listChildResultMap">
+    	select 
+    	<include refid="Base_Column_List" />
+    	From 
+    	(
+		SELECT
+		Sys_Menu.name,
+		Sys_Menu.url,
+		Sys_Menu.parent_id,
+		Sys_Menu.id,
+		Sys_Menu.domainid
+		FROM
+		Sys_Employee
+		LEFT JOIN Sys_Rule_Employee ON Sys_Employee.id = Sys_Rule_Employee.employee_id
+		LEFT JOIN Sys_Rule_Permission ON Sys_Rule_Permission.rule_id =  Sys_Rule_Employee.rule_id
+		LEFT JOIN Sys_Permission_Menu ON Sys_Permission_Menu.permission_id = Sys_Rule_Permission.permission_id
+		LEFT JOIN Sys_Menu ON Sys_Permission_Menu.menu_id = Sys_Menu.id
+		WHERE
+		Sys_Employee.id = 1
+	   	) as a 
+		WHERE a.parent_id=#{id} 
+   </select>
 </mapper>

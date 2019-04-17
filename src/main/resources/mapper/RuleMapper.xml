@@ -80,13 +80,13 @@
     Left join Sys_Employee on Sys_Rule_Employee.employee_id=Sys_Employee.id
     <where>
     	<if test="id!=null">
-    		Sys_Rule.id=#{id}
+    		and Sys_Rule.id=#{id}
     	</if>
     	<if test="Eid!=null">
-    		Sys_Rule.Eid=#{Eid}
+    		and Sys_Employee.id=#{Eid}
     	</if>
     	<if test="domainId!=null">
-    		Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
+    		and Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -100,10 +100,10 @@
 	LEFT JOIN Sys_Permission ON Sys_Permission.id=Sys_Rule_Permission.permission_id
     <where>
     	<if test="id!=null">
-    		Sys_Rule.id=#{id}
+    		and Sys_Rule.id=#{id}
     	</if>
     	<if test="domainId!=null">
-    		Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
+    		and Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
     	</if>
     </where>
   </select>

@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.highmind.entity.CodeMsg;
-import com.highmind.entity.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.service.*;
+import com.highmind.tool.CodeMsg;
+import com.highmind.tool.Result;
 
 /**
  * @ClassName BaseController
@@ -46,11 +46,6 @@ public abstract class BaseController<T> {
     @Autowired
     RulePermissionService rulePermissionService;
     
-    /**
-     * 票务系统基础注入
-     */
-    @Autowired
-    TicketService ticketService;
     public String add(T t) {
         return null;
     }   
@@ -117,5 +112,19 @@ public abstract class BaseController<T> {
             return JSONObject.toJSONString(Result.error(CodeMsg.DELETE_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
         }
         
+    }
+    /**
+     * 查询的列表进行处理并返回字符串
+     * @Description
+     * @param selectAll
+     * @param b 传是 
+     * @return
+     */
+    public String getString(List<T> selectAll, boolean b) {
+        if (b) {
+            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
+        } else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
     }
 }

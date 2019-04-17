@@ -1,32 +1,3 @@
-/******************************************************************
- *
- *    Java Lib For Android, Powered By personal.
- *
- *    Copyright (c) 2001-2014 Digital Telemedia Co.,Ltd
- *    http://www.d-telemedia.com/
- *
- *    Package:     com.highmind.service.impl
- *
- *    Filename:    MenuServiceImpl.java
- *
- *    Description: TODO(用一句话描述该文件做什么)
- *
- *    Copyright:   Copyright (c) 2001-2014
- *
- *    Company:     Digital Telemedia Co.,Ltd
- *
- *    @author:     61430
- *
- *    @version:    1.0.0
- *
- *    Create at:   2019年4月3日 下午1:03:15
- *
- *    Revision:
- *
- *    2019年4月3日 下午1:03:15
- *        - first revision
- *
- *****************************************************************/
 package com.highmind.service.impl;
 
 import java.util.HashMap;
@@ -100,6 +71,16 @@ public class MenuServiceImpl implements MenuService{
     public int del(Long id) {
         // TODO Auto-generated method stub
         return menuMapper.deleteByPrimaryKey(id);
+    }
+
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.MenuService#findAllRecursion()
+     */
+    @Override
+    public List<Menu> findAllRecursion(Map<String, Object> map) {
+        // TODO Auto-generated method stub
+        return menuMapper.findAllRecursion(map);
     }
 
 }

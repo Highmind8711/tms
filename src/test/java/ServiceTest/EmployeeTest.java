@@ -39,9 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.highmind.entity.Department;
 import com.highmind.entity.Employee;
-import com.highmind.service.DepartmentService;
 import com.highmind.service.EmployeeService;
 
 /**

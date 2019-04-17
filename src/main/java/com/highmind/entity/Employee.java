@@ -1,6 +1,6 @@
 package com.highmind.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -22,7 +22,7 @@ public class Employee {
     private Byte isLoginEnabled;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JSONField (format="yyyy-MM-dd HH:mm:ss")  
     private Date birthday;
 
     private String qq;
