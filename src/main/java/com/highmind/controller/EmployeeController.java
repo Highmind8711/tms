@@ -181,6 +181,7 @@ public class EmployeeController extends BaseController<Employee>{
             jsonObject.put("token", token);
             session.setAttribute("token", token);
             Loginlog loginlog=new Loginlog();
+            System.out.println(token);
             loginlog.setDomainid(Long.parseLong(domainid));
             loginlog.setEmployee_id(employee.getId());
             loginlog.setEnterdate(new Date());

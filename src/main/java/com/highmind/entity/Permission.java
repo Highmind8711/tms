@@ -63,7 +63,6 @@ public class Permission {
     }
     
     
-    private Operation operation;
     private Menu menu;
     
 
@@ -75,12 +74,6 @@ public class Permission {
         this.menu = menu;
     }
 
-    public Operation getOperation() {
-        return operation;
-    }
-
-    public void setOperation(Operation operation) {
-        this.operation = operation;
-    }
+    
     
 }

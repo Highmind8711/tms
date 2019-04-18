@@ -14,7 +14,7 @@
   <select id="selectMenu" parameterType="Map" resultMap="BaseResultMap">
 	select 
     <include refid="Base_Column_List" />
-    from Sys_Permission_Menu
+    from Sys_Menu
     <where>
     	<if test="id!=null">
     		and Sys_Menu.id=#{id}

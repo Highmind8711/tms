@@ -106,13 +106,13 @@ public  class RuleServiceImpl implements RuleService{
             List<Permission> permissions = rule.getPermissions();
             if(!permissions.isEmpty()) {
                 for(Permission permission:permissions) {
-                    if(permission.getType().equals("1")) {
-                        Map<String,Object> tempMap=new HashMap<String,Object>();
-                        tempMap.put("id", permission.getId());
-                        List<PermissionOperation> permissionOperations = permissionOperationMapper.selectPermissionOperation(tempMap);
-                        PermissionOperation permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
-                        permission.setOperation(permissionOperation.getOperation());
-                    }else if(permission.getType().equals("2")) {
+                    /*
+                     * if(permission.getType().equals("1")) { Map<String,Object> tempMap=new HashMap<String,Object>();
+                     * tempMap.put("id", permission.getId()); List<PermissionOperation> permissionOperations =
+                     * permissionOperationMapper.selectPermissionOperation(tempMap); PermissionOperation
+                     * permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
+                     * permission.setOperation(permissionOperation.getOperation()); }else
+                     */if(permission.getType().equals("2")) {
                         Map<String,Object> tempMap=new HashMap<String,Object>();
                         tempMap.put("id", permission.getId());
                         List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);

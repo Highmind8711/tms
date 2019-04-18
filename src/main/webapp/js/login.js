@@ -15,6 +15,7 @@ function signin(){
         	if(data.status == 1){ 	
         		sessionStorage.setItem("token",data.token);		
         		window.location.href = "sys_employee.html";	
+        		console.log(data.data.token)
     		}else{
     			alert("用户名或密码错误！");
     		}

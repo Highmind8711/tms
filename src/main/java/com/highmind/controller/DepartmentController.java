@@ -52,6 +52,7 @@ public class DepartmentController extends BaseController<Department>{
     public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
+        System.out.println(domainid);
         return super.getAllResult(departmentService,domainid);
     }
     /**

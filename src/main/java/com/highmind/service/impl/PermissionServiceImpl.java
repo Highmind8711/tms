@@ -47,18 +47,18 @@ public class PermissionServiceImpl implements PermissionService {
         List<Permission> permissions=permissionMapper.selectPermission(map);
         for (int i = 0; i < permissions.size(); i++) {
             Permission permission = permissions.get(i);
-            if(permission.getType().equals("1")) {
-                Map<String,Object> tempMap=new HashMap<String,Object>();
-                tempMap.put("id", permission.getId());
-                List<PermissionOperation> permissionOperations = permissionOperationMapper.selectPermissionOperation(tempMap);
-                PermissionOperation permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
-                permission.setOperation(permissionOperation.getOperation());
-            }else if(permission.getType().equals("2")) {
+            /*
+             * if(permission.getType().equals("1")) { Map<String,Object> tempMap=new HashMap<String,Object>();
+             * tempMap.put("id", permission.getId()); List<PermissionOperation> permissionOperations =
+             * permissionOperationMapper.selectPermissionOperation(tempMap); PermissionOperation
+             * permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
+             * permission.setOperation(permissionOperation.getOperation()); }else
+             */if(permission.getType().equals("2")) {
                 Map<String,Object> tempMap=new HashMap<String,Object>();
                 tempMap.put("id", permission.getId());
                 List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);
                 PermissionMenu permissionMenu=selectPermissionMenu.size()!=0?selectPermissionMenu.get(0):null;
-                permission.setMenu(permissionMenu.getMenu());
+                permission.setMenu(permissionMenu!=null?permissionMenu.getMenu():null);
             }
         }
         return !permissions.isEmpty()?permissions.get(0):null;
@@ -74,18 +74,19 @@ public class PermissionServiceImpl implements PermissionService {
         List<Permission> permissions=permissionMapper.selectPermission(null);
         for (int i = 0; i < permissions.size(); i++) {
             Permission permission = permissions.get(i);
-            if(permission.getType().equals("1")) {
-                Map<String,Object> tempMap=new HashMap<String,Object>();
-                tempMap.put("id", permission.getId());
-                List<PermissionOperation> permissionOperations = permissionOperationMapper.selectPermissionOperation(tempMap);
-                PermissionOperation permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
-                permission.setOperation(permissionOperation.getOperation());
-            }else if(permission.getType().equals("2")) {
+            /*
+             * if(permission.getType().equals("1")) { Map<String,Object> tempMap=new HashMap<String,Object>();
+             * tempMap.put("id", permission.getId()); List<PermissionOperation> permissionOperations =
+             * permissionOperationMapper.selectPermissionOperation(tempMap); PermissionOperation
+             * permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
+             * permission.setOperation(permissionOperation.getOperation()); }else*/
+            if(permission.getType().equals("2")) {
+             
                 Map<String,Object> tempMap=new HashMap<String,Object>();
                 tempMap.put("id", permission.getId());
                 List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);
-                PermissionMenu permissionMenu=selectPermissionMenu.size()!=0?selectPermissionMenu.get(0):null;
-                permission.setMenu(permissionMenu.getMenu());
+                PermissionMenu permissionMenu=!selectPermissionMenu.isEmpty()?selectPermissionMenu.get(0):null;
+                permission.setMenu(permissionMenu!=null?permissionMenu.getMenu():null);
             }
         }
         return permissions;
@@ -101,15 +102,12 @@ public class PermissionServiceImpl implements PermissionService {
         permissionMapper.insertSelective(record);
         Long pid=record.getId();
         int result = 0;
-        if(record.getType().equals("1")) {
-          //标志这个是表单权限 
-            Long oid=record.getOperation().getId();
-            PermissionOperation permissionOperation=new PermissionOperation();
-            permissionOperation.setDomainid(record.getDomainid());
-            permissionOperation.setOperation_id(oid);
-            permissionOperation.setPermission_id(pid);
-            result=permissionOperationMapper.insertSelective(permissionOperation);
-        }else if(record.getType().equals("2")){
+        /*
+         * if(record.getType().equals("1")) { //标志这个是表单权限 Long oid=record.getOperation().getId(); PermissionOperation
+         * permissionOperation=new PermissionOperation(); permissionOperation.setDomainid(record.getDomainid());
+         * permissionOperation.setOperation_id(oid); permissionOperation.setPermission_id(pid);
+         * result=permissionOperationMapper.insertSelective(permissionOperation); }else
+         */if(record.getType().equals("2")){
           //标志这个是菜单权限  
             Long mid=record.getMenu().getId();
             PermissionMenu permissionMenu=new PermissionMenu();
