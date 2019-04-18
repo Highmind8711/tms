@@ -181,5 +181,5 @@ $(document).ready(function() {
 });
 
 function navbar(){
-	 $(".navHeader").load("../resource/page/navbar.html");
+	 $(".navHeader").load("../sys/navbar.html");
 }
