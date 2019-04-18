@@ -33,7 +33,7 @@
     Sys_Employee.loginId as EloginId, Sys_Employee.isLoginEnabled as EisLoginEnabled, 
     Sys_Employee.birthday as Ebirthday,Sys_Employee.seller as Eseller,Sys_Employee.qq as Eqq ,
     Sys_Employee.sex as Esex, Sys_Employee.photo as Ephoto, Sys_Employee.password as Epassword,
-    Sys_Employee.Sys_Employee.tel as Etel
+    Sys_Employee.tel as Etel
   </sql>
   <select id="selectDepartment" parameterType="Map" resultMap="BaseResultMap">
 	select 

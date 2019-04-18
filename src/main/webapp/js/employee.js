@@ -24,7 +24,7 @@ function setEmployeeTable(){
             	data: "name" ,
             	title: "员工姓名"
             },{ 
-            	data: "domainId" ,
+            	data: "domain.domain_name" ,
             	title: "所属区域"
             },{
             	// 缺省值

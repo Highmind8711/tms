@@ -32,8 +32,10 @@ public class Employee {
     private String photo;
     
     private String password;
+    
     private String tel;
-
+    
+    private Domain domain;
 
     private boolean seller;
     public Long getId() {
@@ -164,6 +166,13 @@ public class Employee {
         this.rules = rules;
     }
 
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
     private List<Rule> rules;
     
    

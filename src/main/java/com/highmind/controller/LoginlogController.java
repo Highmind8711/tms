@@ -41,13 +41,11 @@ import com.highmind.entity.Loginlog;
  */
 public class LoginlogController extends BaseController<Loginlog>{
 
-    @Override
-    @RequestMapping(value="/loginlog",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String add(Loginlog t) {
-        // TODO Auto-generated method stub
-        return super.addResult(loginlogService, t);
-    }
-
+    /*
+     * @Override
+     * @RequestMapping(value="/loginlog",method=RequestMethod.POST,produces = "text/json;charset=UTF-8") public String
+     * add(Loginlog t) { // TODO Auto-generated method stub return super.addResult(loginlogService, t); }
+     */
     @Override
     @RequestMapping(value="/loginlog",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAll(HttpServletRequest request) {
@@ -64,18 +62,16 @@ public class LoginlogController extends BaseController<Loginlog>{
         return super.getOneResult(loginlogService, id,domainid);
     }
 
-    @Override
-    @RequestMapping(value="/loginlog",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
-    public String update(Loginlog t) {
-        // TODO Auto-generated method stub
-        return super.updateResult(loginlogService, t);
-    }
+    /*
+     * @Override
+     * @RequestMapping(value="/loginlog",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") public String
+     * update(Loginlog t) { // TODO Auto-generated method stub return super.updateResult(loginlogService, t); }
+     */
 
-    @Override
-    @RequestMapping(value="/loginlog/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
-    public String delete(Long id) {
-        // TODO Auto-generated method stub
-        return super.deleteResult(loginlogService, id);
-    }
+    /*
+     * @Override
+     * @RequestMapping(value="/loginlog/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") public
+     * String delete(Long id) { // TODO Auto-generated method stub return super.deleteResult(loginlogService, id); }
+     */
     
 }

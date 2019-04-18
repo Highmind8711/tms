@@ -11,7 +11,7 @@
   <sql id="Base_Column_List">
     id, domainid, employee_id, enterdate, ip
   </sql>
-  <select id="selectByExample" parameterType="Map" resultMap="BaseResultMap">
+  <select id="selectLoginlog" parameterType="Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from Sys_Loginlog

@@ -169,9 +169,8 @@ public class EmployeeController extends BaseController<Employee>{
         }
     }
     @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String login(String loginid,String password,HttpSession session,HttpServletRequest request) {
+    public String login(String loginid,String password,String domainid,HttpSession session,HttpServletRequest request) {
         Map<String,Object> mapLogin=new HashMap<String,Object>();
-        String domainid=request.getHeader("domainid");
         mapLogin.put("loginId",loginid);
         mapLogin.put("password",password);
         mapLogin.put("domainid", domainid);

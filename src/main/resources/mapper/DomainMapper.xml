@@ -9,7 +9,7 @@
   <sql id="Base_Column_List">
     id, domain_name, remark
   </sql>
-  <select id="selectByExample" parameterType="Map" resultMap="BaseResultMap">
+  <select id="selectDomain" parameterType="Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from Sys_Domain

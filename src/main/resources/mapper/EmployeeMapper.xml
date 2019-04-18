@@ -3,7 +3,6 @@
 <mapper namespace="com.highmind.dao.EmployeeMapper">
   <resultMap id="BaseResultMap" type="com.highmind.entity.Employee">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="domainid" jdbcType="BIGINT" property="domainid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="department_id" jdbcType="BIGINT" property="department_id" />
@@ -23,12 +22,13 @@
     	<result column="Dname" jdbcType="VARCHAR" property="name" />
     	<result column="Dremark" jdbcType="VARCHAR" property="remark" />
     </association>
+    <association property="domain" column="domainid" select="com.highmind.dao.DomainMapper.selectByPrimaryKey" javaType="com.highmind.entity.Domain"/>
     <collection property="rules" ofType="com.highmind.entity.Rule">
     	<id column="Rid" jdbcType="BIGINT" property="id" />
     	<result column="Rdomainid" jdbcType="BIGINT" property="domainid" />
     	<result column="Rrulename" jdbcType="NCHAR" property="rulename" />
     	<result column="Rremark" jdbcType="NCHAR" property="remark" />
-    	</collection>
+    </collection>   
   </resultMap>
   <sql id="Base_Column_List">
     Sys_Employee.id , Sys_Employee.domainid, Sys_Employee.name, email, department_id, loginId, isLoginEnabled, birthday, seller, 
