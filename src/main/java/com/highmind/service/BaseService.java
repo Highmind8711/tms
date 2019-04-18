@@ -14,7 +14,7 @@ public interface BaseService<T>  {
     /**
     *
     * @Description 根据id查询
-    * @param map 传递的参数为id
+    * @param map 传递的参数为id ,domainid
     * @returnT
     */
    T selectById(Map<String,Object> map);

@@ -1,5 +1,7 @@
 package com.highmind.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,17 +34,19 @@ public class PermissionOperationController  extends BaseController<PermissionOpe
     }
     @Override
     @RequestMapping(value="/permissionoperations",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getAllResult(permissionOperationService);
+        String domainid=request.getHeader("domainid");
+        return super.getAllResult(permissionOperationService,domainid);
     }
 
 
     @Override
     @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getOneResult(permissionOperationService, id);
+        String domainid=request.getHeader("domainid");
+        return super.getOneResult(permissionOperationService, id,domainid);
     }
     @Override
     @RequestMapping(value="/permissionoperations/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")

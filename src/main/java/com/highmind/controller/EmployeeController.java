@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Employee;
+import com.highmind.entity.Loginlog;
 import com.highmind.tool.CodeMsg;
 import com.highmind.tool.JwtUtil;
 import com.highmind.tool.PropertyHolder;
@@ -58,9 +59,10 @@ public class EmployeeController extends BaseController<Employee>{
      */
     @Override
     @RequestMapping(value="/employees/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getOneResult(employeeService,id);
+        String domainid=request.getHeader("domainid");
+        return super.getOneResult(employeeService,id,domainid);
     }
     /* (非 Javadoc)
      * Description:
@@ -68,9 +70,10 @@ public class EmployeeController extends BaseController<Employee>{
      */
     @Override
     @RequestMapping(value="/employees",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getAllResult(employeeService);
+        String domainid=request.getHeader("domainid");
+        return super.getAllResult(employeeService,domainid);
     }
     /* (非 Javadoc)
      * Description:
@@ -152,10 +155,12 @@ public class EmployeeController extends BaseController<Employee>{
         }
     }
     @RequestMapping(value="/checkIsExist/{loginId}",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String checkIsExist(@PathVariable("loginId")Long id) {
+    public String checkIsExist(@PathVariable("loginId")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
+        String domainid=request.getHeader("domainid");
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("loginId",id);
+        map.put("domainid", domainid);
         Employee employee=employeeService.checkUser(map);
         if(employee.getId()>0) {
             return JSONObject.toJSONString(Result.success(employee.getId()),successFilter,SerializerFeature.WriteMapNullValue);
@@ -164,21 +169,54 @@ public class EmployeeController extends BaseController<Employee>{
         }
     }
     @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String login(String loginid,String password,HttpSession session) {
+    public String login(String loginid,String password,HttpSession session,HttpServletRequest request) {
         Map<String,Object> mapLogin=new HashMap<String,Object>();
+        String domainid=request.getHeader("domainid");
         mapLogin.put("loginId",loginid);
         mapLogin.put("password",password);
+        mapLogin.put("domainid", domainid);
         Employee employee=employeeService.checkUser(mapLogin);
         if(employee!=null) {
             String token =JwtUtil.sign(employee.getId(),employee.getLoginId(),employee.getPassword());
             JSONObject jsonObject=new JSONObject();
             jsonObject.put("token", token);
             session.setAttribute("token", token);
+            Loginlog loginlog=new Loginlog();
+            loginlog.setDomainid(Long.parseLong(domainid));
+            loginlog.setEmployee_id(employee.getId());
+            loginlog.setEnterdate(new Date());
+            loginlog.setIp(getIpAddress(request));
+            loginlogService.add(loginlog);
             return JSONObject.toJSONString(Result.success(jsonObject),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
             return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
         }
         
+    }
+    /**
+     * 获取请求ip
+     * @Description
+     * @param request
+     * @return
+     */
+    public static String getIpAddress(HttpServletRequest request) {  
+        String ip = request.getHeader("x-forwarded-for");  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("Proxy-Client-IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("WL-Proxy-Client-IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_CLIENT_IP");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+        }  
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+            ip = request.getRemoteAddr();  
+        }  
+        return ip;  
     }
     @RequestMapping(value="/loginout",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public void loginOut(HttpSession session) {

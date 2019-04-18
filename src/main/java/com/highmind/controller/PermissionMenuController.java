@@ -1,5 +1,7 @@
 package com.highmind.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,17 +29,19 @@ public class PermissionMenuController extends BaseController<PermissionMenu>{
 
     @Override
     @RequestMapping(value="/permissionmenus",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getAllResult(permissionMenuService);
+        String domainid=request.getHeader("domainid");
+        return super.getAllResult(permissionMenuService,domainid);
     }
 
 
     @Override
     @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getOneResult(permissionMenuService, id);
+        String domainid=request.getHeader("domainid");
+        return super.getOneResult(permissionMenuService, id,domainid);
     }
 
 

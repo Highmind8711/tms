@@ -31,19 +31,19 @@ public interface DepartmentMapper {
      * @Description
      * @return
      */
-    List<Department> selectDepartmentName();
+    List<Department> selectDepartmentName(Map<String, Object> hashMap);
     /**
      *遍历所有的部门
      * @Description
      * @return
      */
-    List<Department> findAllRecursion();
+    List<Department> findAllRecursion(Map<String, Object> hashMap);
     /**
      * 查询根节点
      * @Description
      * @return
      */
-    List<Department> findRoot();
+    List<Department> findRoot(Map<String, Object> hashMap);
     /**
      * 查询根节点下的子节点
      * @Description

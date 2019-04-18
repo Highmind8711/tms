@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface DomainMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(Domain record);
 
     int insertSelective(Domain record);
 
-    List<Domain> selectByExample(Map<String,Object> map);
+    List<Domain> selectDomain(Map<String,Object> map);
 
-    Domain selectByPrimaryKey(Integer id);
+    Domain selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(Domain record);
 

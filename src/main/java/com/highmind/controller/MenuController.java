@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,9 +45,10 @@ public class MenuController extends BaseController<Menu>{
      */
     @Override
     @RequestMapping(value="/menus/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getOneResult(menuService,id);
+        String domainid=request.getHeader("domainid");
+        return super.getOneResult(menuService,id,domainid);
     }
     /* (非 Javadoc)
      * Description:
@@ -54,9 +56,10 @@ public class MenuController extends BaseController<Menu>{
      */
     @Override
     @RequestMapping(value="/menus",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getAllResult(menuService);
+        String domainid=request.getHeader("domainid");
+        return super.getAllResult(menuService,domainid);
     }
     /* (非 Javadoc)
      * Description:

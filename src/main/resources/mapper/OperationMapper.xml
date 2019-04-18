@@ -19,8 +19,8 @@
     	<if test="id!=null">
     		 and Sys_Operation.id=#{id}
     	</if>
-    	<if test="domainId!=null">
-    		 and Sys_Operation.domainId=#{domainId,jdbcType=BIGINT}
+    	<if test="domainid!=null">
+    		 and Sys_Operation.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
     </where>
   </select>

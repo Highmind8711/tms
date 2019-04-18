@@ -1,6 +1,10 @@
 package com.highmind.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +38,10 @@ public class DepartmentController extends BaseController<Department>{
      */
     @Override
     @RequestMapping(value="/departments/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getOneResult(departmentService,id);
+        String domainid=request.getHeader("domainid");
+        return super.getOneResult(departmentService,id,domainid);
     }
     /* (非 Javadoc)
      * Description:查询部门下的所有的员工
@@ -44,9 +49,10 @@ public class DepartmentController extends BaseController<Department>{
      */
     @Override
     @RequestMapping(value="/departments",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getAllResult(departmentService);
+        String domainid=request.getHeader("domainid");
+        return super.getAllResult(departmentService,domainid);
     }
     /**
      * 查询全部部门名字
@@ -54,8 +60,11 @@ public class DepartmentController extends BaseController<Department>{
      * @return
      */
     @RequestMapping(value="/departmentnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAllName() {
-        List<Department> selectAll = departmentService.selectDepartmentName();
+    public String getAllName(HttpServletRequest request) {
+        String domainid=request.getHeader("domainid");
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("domainid", domainid);
+        List<Department> selectAll = departmentService.selectDepartmentName(map);
         return getString(selectAll, !selectAll.isEmpty());
     }
     /* (非 Javadoc)
@@ -80,13 +89,19 @@ public class DepartmentController extends BaseController<Department>{
         return super.deleteResult(departmentService,id);
     }
     @RequestMapping(value="/departmentrecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String findAllRecursion() {
-        List<Department> selectAll = departmentService.findAllRecursion();
+    public String findAllRecursion(HttpServletRequest request) {
+        String domainid=request.getHeader("domainid");
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("domainid", domainid);
+        List<Department> selectAll = departmentService.findAllRecursion(map);
         return getString(selectAll, !selectAll.isEmpty());
     }
     @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String findRoot() {
-        List<Department> selectAll = departmentService.findRoot();
+    public String findRoot(HttpServletRequest request) {
+        String domainid=request.getHeader("domainid");
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put("domainid", domainid);
+        List<Department> selectAll = departmentService.findRoot(map);
         return getString(selectAll, !selectAll.isEmpty());
     }
 

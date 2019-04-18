@@ -15,12 +15,23 @@
     select
     <include refid="Base_Column_List" />
     from Sys_Loginlog
+    <where>
+    	<if test="id!=null">
+    		 and Sys_Loginlog.id=#{id,jdbcType=BIGINT}
+    	</if>
+    	<if test="domainid!=null">
+    		 and Sys_Loginlog.domainid=#{domainid,jdbcType=BIGINT}
+    	</if>
+    </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from Sys_Loginlog
     where id = #{id,jdbcType=BIGINT}
+    <if test="domainid!=null">
+		and Sys_Loginlog.domainid=#{domainid,jdbcType=BIGINT}
+   	</if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Loginlog

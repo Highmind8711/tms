@@ -11,7 +11,7 @@ public interface LoginlogMapper {
 
     int insertSelective(Loginlog record);
 
-    List<Loginlog> selectByExample(Map<String,Object> map);
+    List<Loginlog> selectLoginlog(Map<String,Object> map);
 
     Loginlog selectByPrimaryKey(Long id);
 

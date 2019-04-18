@@ -61,36 +61,42 @@ public class DepartmentServiceImpl implements DepartmentService{
         return departmentMapper.updateByPrimaryKeySelective(record);
     }
     /* (非 Javadoc)
-     * Description:
+     * Description:删除部门下如果有子部门不允许删除
      * @see com.highmind.service.baseService#del(java.lang.Long)
      */
     @Override
     public int del(Long id) {
         // TODO Auto-generated method stub
-        return departmentMapper.deleteByPrimaryKey(id);
+        if(findChild(id).isEmpty()) {
+            return departmentMapper.deleteByPrimaryKey(id);
+        }else {
+            return 0;
+        }
+        
+        
     }
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.service.DepartmentService#selectDepartmentName()
      */
     @Override
-    public List<Department> selectDepartmentName() {
+    public List<Department> selectDepartmentName(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return departmentMapper.selectDepartmentName();
+        return departmentMapper.selectDepartmentName(map);
     }
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.service.DepartmentService#findAllRecursion()
      */
     @Override
-    public List<Department> findAllRecursion() {
+    public List<Department> findAllRecursion(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        return departmentMapper.findAllRecursion();
+        return departmentMapper.findAllRecursion(map);
     }
 
     @Override
-    public List<Department> findRoot(){
-        return departmentMapper.findRoot();
+    public List<Department> findRoot(Map<String, Object> map){
+        return departmentMapper.findRoot(map);
     }
 
     @Override

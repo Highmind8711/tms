@@ -2,6 +2,7 @@ package com.highmind.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.highmind.entity.Department;
 
@@ -15,23 +16,23 @@ import com.highmind.entity.Department;
 public interface DepartmentService extends BaseService<Department>{
     /**
      * 查询所有部门的名字
-     * @Description
+     * @Description 传递的参数为domianid
      * @return
      */
-    List<Department> selectDepartmentName();
+    List<Department> selectDepartmentName(Map<String, Object> map);
     /**
      * 递归查询全部部门
-     * @Description
+     * @Description 传递的参数为domianid
      * @return
      */
-   List<Department> findAllRecursion();
+   List<Department> findAllRecursion(Map<String, Object> map);
     
     /**
          * 查询根节点
-     * @Description
+     * @Description 传递的参数为domianid
      * @return
      */
-    List<Department> findRoot();
+    List<Department> findRoot(Map<String, Object> map);
     /**
          * 查询根节点下的子节点
      * @Description

@@ -9,7 +9,7 @@ import java.util.List;
 public class Employee {
     private Long id;
 
-    private Long domainId;
+    private Long domainid;
 
     private String name;
 
@@ -44,12 +44,12 @@ public class Employee {
         this.id = id;
     }
 
-    public Long getDomainId() {
-        return domainId;
+    public Long getDomainid() {
+        return domainid;
     }
 
-    public void setDomainId(Long domainId) {
-        this.domainId = domainId;
+    public void setDomainid(Long domainid) {
+        this.domainid = domainid;
     }
 
     public String getName() {

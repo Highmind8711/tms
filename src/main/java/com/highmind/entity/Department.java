@@ -5,7 +5,7 @@ import java.util.List;
 public class Department {
     private Long id;
 
-    private Long domainId;
+    private Long domainid;
 
     private Long ml_parent;
 
@@ -21,12 +21,12 @@ public class Department {
         this.id = id;
     }
 
-    public Long getDomainId() {
-        return domainId;
+    public Long getDomainid() {
+        return domainid;
     }
 
-    public void setDomainId(Long domainId) {
-        this.domainId = domainId;
+    public void setDomainid(Long domainid) {
+        this.domainid = domainid;
     }
 
     public Long getMl_parent() {

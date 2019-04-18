@@ -19,8 +19,8 @@
     	<if test="id!=null">
     		and Sys_Menu.id=#{id}
     	</if>
-    	<if test="domainId!=null">
-    		and Sys_Menu.domainId=#{domainId,jdbcType=BIGINT}
+    	<if test="domainid!=null">
+    		and Sys_Menu.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -29,6 +29,9 @@
     <include refid="Base_Column_List" />
     from Sys_Menu
     where id = #{id,jdbcType=BIGINT}
+    <if test="domainid!=null">
+    	and Sys_Menu.domainid=#{domainid,jdbcType=BIGINT}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Menu
@@ -134,8 +137,12 @@
 		LEFT JOIN Sys_Menu ON Sys_Permission_Menu.menu_id = Sys_Menu.id
 		WHERE
 		Sys_Employee.id = #{Eid} 
+		and Sys_Employee.domainid=#{domainid,jdbcType=BIGINT}
 	   	) as a
-	   	WHERE a.parent_id='' or a.parent_id is NULL or a.parent_id=0
+	   	WHERE (a.parent_id='' or a.parent_id is NULL or a.parent_id=0)
+	   	<if test="domainid!=null">
+    		and a.domainid=#{domainid,jdbcType=BIGINT}
+    	</if>
    </select>
    <!-- 查询父菜单下的子菜单 -->
    <select id="findChild" resultMap="listChildResultMap">

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Loginlog {
     private Long id;
 
-    private Integer domainid;
+    private Long domainid;
 
     private Long employee_id;
 
@@ -21,11 +21,11 @@ public class Loginlog {
         this.id = id;
     }
 
-    public Integer getDomainid() {
+    public Long getDomainid() {
         return domainid;
     }
 
-    public void setDomainid(Integer domainid) {
+    public void setDomainid(Long domainid) {
         this.domainid = domainid;
     }
 

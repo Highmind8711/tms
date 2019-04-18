@@ -3,13 +3,13 @@
 <mapper namespace="com.highmind.dao.DepartmentMapper">
   <resultMap id="BaseResultMap" type="com.highmind.entity.Department">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="domainId" jdbcType="BIGINT" property="domainId" />
+    <result column="domainid" jdbcType="BIGINT" property="domainid" />
     <result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <collection property="employees"  ofType="com.highmind.entity.Employee">
         <id column="Eid" jdbcType="BIGINT" property="id" />
-	    <result column="EdomainId" jdbcType="BIGINT" property="domainId" />
+	    <result column="Edomainid" jdbcType="BIGINT" property="domainid" />
 	    <result column="Ename" jdbcType="VARCHAR" property="name" />
 	    <result column="Eemail" jdbcType="VARCHAR" property="email" />
 	    <result column="Edepartment_id" jdbcType="BIGINT" property="department_id" />
@@ -25,10 +25,10 @@
     </collection>
   </resultMap>
   <sql id="Base_Column_List">
-    Sys_Department.id, Sys_Department.domainId  , Sys_Department.ml_parent, Sys_Department.name, Sys_Department.remark
+    Sys_Department.id, Sys_Department.domainid  , Sys_Department.ml_parent, Sys_Department.name, Sys_Department.remark
   </sql>
   <sql id="Employee_Base_Column_List">
-    Sys_Employee.id as Eid, Sys_Employee.domainId as EdomainId, Sys_Employee.name as Ename, 
+    Sys_Employee.id as Eid, Sys_Employee.domainid as Edomainid, Sys_Employee.name as Ename, 
     Sys_Employee.email as Eemail, Sys_Employee.department_id as Edepartment_id, 
     Sys_Employee.loginId as EloginId, Sys_Employee.isLoginEnabled as EisLoginEnabled, 
     Sys_Employee.birthday as Ebirthday,Sys_Employee.seller as Eseller,Sys_Employee.qq as Eqq ,
@@ -45,8 +45,8 @@
     	<if test="id!=null">
     		 and Sys_Department.id=#{id,jdbcType=BIGINT}
     	</if>
-    	<if test="domainId!=null">
-    		 and Sys_Department.domainId=#{domainId,jdbcType=BIGINT}
+    	<if test="domainid!=null">
+    		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -61,16 +61,16 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Department" useGeneratedKeys="true">
-    insert into Sys_Department (domainId, ml_parent, name, 
+    insert into Sys_Department (domainid, ml_parent, name, 
       remark)
-    values (#{domainId,jdbcType=BIGINT}, #{ml_parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+    values (#{domainid,jdbcType=BIGINT}, #{ml_parent,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
   <insert  id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Department" useGeneratedKeys="true">
     insert into Sys_Department
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="domainId != null">
-        domainId,
+      <if test="domainid != null">
+        domainid,
       </if>
       <if test="ml_parent != null">
         ml_parent,
@@ -83,8 +83,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="domainId != null">
-        #{domainId,jdbcType=BIGINT},
+      <if test="domainid != null">
+        #{domainid,jdbcType=BIGINT},
       </if>
       <if test="ml_parent != null">
         #{ml_parent,jdbcType=BIGINT},
@@ -100,8 +100,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.highmind.entity.Department">
     update Sys_Department
     <set>
-      <if test="domainId != null">
-        domainId = #{domainId,jdbcType=BIGINT},
+      <if test="domainid != null">
+        domainid = #{domainid,jdbcType=BIGINT},
       </if>
       <if test="ml_parent != null">
         ml_parent = #{ml_parent,jdbcType=BIGINT},
@@ -117,23 +117,28 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.highmind.entity.Department">
     update Sys_Department
-    set domainId = #{domainId,jdbcType=BIGINT},
+    set domainid = #{domainid,jdbcType=BIGINT},
       ml_parent = #{ml_parent,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
  	<!--  查询部门名字 -->
-  <select id="selectDepartmentName" resultType="com.highmind.entity.Department">
+  <select id="selectDepartmentName" parameterType="Map" resultType="com.highmind.entity.Department">
   	select 
     <include refid="Base_Column_List" />
     from Sys_Department
+    <where>
+    	<if test="domainid!=null">
+    		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
+    	</if>
+    </where>
   </select>
   
   
   	<resultMap type="com.highmind.entity.Department" id="recursionMenuMap">
 		<id column="id" jdbcType="BIGINT" property="id" />
-		<result column="domainId" jdbcType="BIGINT" property="domainId" />
+		<result column="domainid" jdbcType="BIGINT" property="domainid" />
 		<result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -141,28 +146,38 @@
   	</resultMap>
 	<resultMap id="listChildResultMap" type="com.highmind.entity.Department" >
 		<id column="id" jdbcType="BIGINT" property="id" />
-		<result column="domainId" jdbcType="BIGINT" property="domainId" />
+		<result column="domainid" jdbcType="BIGINT" property="domainid" />
 		<result column="ml_parent" jdbcType="BIGINT" property="ml_parent" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="remark" jdbcType="VARCHAR" property="remark" />
       	<collection property="children" ofType="com.highmind.entity.Department" column="id" select="findChild"/>
 	</resultMap>
 	<!-- 递归查询部门 -->
-    <select id="findAllRecursion" resultMap="recursionMenuMap">
+    <select id="findAllRecursion" parameterType="Map"  resultMap="recursionMenuMap">
     	select 
     	<include refid="Base_Column_List" />
-    	From Sys_Department WHERE ml_parent='' or ml_parent is NULL or ml_parent=0
+    	From Sys_Department WHERE (ml_parent='' or ml_parent is NULL or ml_parent=0)
+    	<if test="domainid!=null">
+    		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
+    	</if>
     </select>
     <!-- 查询父部门 -->
-    <select id="findRoot" resultType="com.highmind.entity.Department">
+    <select id="findRoot" parameterType="Map" resultType="com.highmind.entity.Department">
     	select 
     	<include refid="Base_Column_List" />
-    	From Sys_Department WHERE ml_parent='' or ml_parent is NULL or ml_parent=0
+    	From Sys_Department WHERE (ml_parent='' or ml_parent is NULL or ml_parent=0)
+    	<if test="domainid!=null">
+    		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
+    	</if>
+
     </select>
     <!-- 查询父部门下的子部门 -->
     <select id="findChild" resultMap="listChildResultMap">
     	select 
     	<include refid="Base_Column_List" />
-    	From Sys_Department WHERE ml_parent=#{id} 
+    	From Sys_Department WHERE ml_parent=#{id}
+    	<if test="domainid!=null">
+    		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
+    	</if>
     </select>
 </mapper>

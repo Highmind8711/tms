@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,14 +47,17 @@ public abstract class BaseController<T> {
     RuleEmployeeService ruleEmployeeService;
     @Autowired
     RulePermissionService rulePermissionService;
-    
+    @Autowired
+    DomainService domainService;
+    @Autowired
+    LoginlogService loginlogService;
     public String add(T t) {
         return null;
     }   
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         return null;
     }    
-    public String getOne(@PathVariable("id") Long id) {
+    public String getOne(@PathVariable("id") Long id,HttpServletRequest request) {
         return null;
     }    
     public String update(T t) {
@@ -76,9 +81,10 @@ public abstract class BaseController<T> {
         }
         
     }
-    public String getOneResult(BaseService<T> baseService,Long id) {
+    public String getOneResult(BaseService<T> baseService,Long id,String domainid) {
         Map<String,Object> hashMap=new HashMap<String,Object>();
         hashMap.put("id",id);
+        hashMap.put("domainid", domainid);
         T selectById = baseService.selectById(hashMap);
         if(selectById!=null) {
             return JSONObject.toJSONString(Result.success(selectById),successFilter,SerializerFeature.WriteMapNullValue);
@@ -87,7 +93,7 @@ public abstract class BaseController<T> {
         }
 
     }
-    public String getAllResult(BaseService<T> baseService) {
+    public String getAllResult(BaseService<T> baseService,String domainid) {
         List<T> selectAll = baseService.selectAll();
         if(!selectAll.isEmpty()) {
             return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);

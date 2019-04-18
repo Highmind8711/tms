@@ -30,6 +30,9 @@
     <include refid="Base_Column_List" />
     from Sys_Permission
     where id = #{id,jdbcType=BIGINT}
+    <if test="domainid!=null">
+		and Sys_Permission.domainid=#{domainid}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Permission

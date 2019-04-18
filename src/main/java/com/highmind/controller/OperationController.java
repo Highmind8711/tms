@@ -1,6 +1,8 @@
 package com.highmind.controller;
 
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,9 +35,10 @@ public class OperationController extends BaseController<Operation>{
      */
     @Override
     @RequestMapping(value="/operations/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id) {
+    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getOneResult(operationService,id);
+        String domainid=request.getHeader("domainid");
+        return super.getOneResult(operationService,id,domainid);
     }
     /* (非 Javadoc)
      * Description:
@@ -43,9 +46,10 @@ public class OperationController extends BaseController<Operation>{
      */
     @Override
     @RequestMapping(value="/operations",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll() {
+    public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
-        return super.getAllResult(operationService);
+        String domainid=request.getHeader("domainid");
+        return super.getAllResult(operationService,domainid);
     }
     /* (非 Javadoc)
      * Description:

@@ -74,7 +74,7 @@ public class DepartmentTest {
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Department de=departmentService.selectById(map);
-        de.setDomainId((long) 5);
+        de.setDomainid((long) 5);
         departmentService.update(de);
     }
 

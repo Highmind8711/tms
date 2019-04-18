@@ -13,7 +13,7 @@
     	<result column="RErule_id" jdbcType="BIGINT" property="rule_id" />
     	<association property="employee" javaType="com.highmind.entity.Employee">
     		<id column="Eid" jdbcType="BIGINT" property="id" />
-	    	<result column="EdomainId" jdbcType="BIGINT" property="domainId" />
+	    	<result column="Edomainid" jdbcType="BIGINT" property="domainid" />
 	    	<result column="Ename" jdbcType="VARCHAR" property="name" />
 	    	<result column="Eemail" jdbcType="VARCHAR" property="email" />
 	    	<result column="Edepartment_id" jdbcType="BIGINT" property="department_id" />
@@ -51,7 +51,7 @@
     Sys_Rule_Employee.employee_id as REemployee_id, Sys_Rule_Employee.rule_id as RErule_id
   </sql>
   <sql id="Employee_Base_Column_List">
-    Sys_Employee.id as Eid, Sys_Employee.domainId as EdomainId, Sys_Employee.name as Ename, 
+    Sys_Employee.id as Eid, Sys_Employee.domainid as Edomainid, Sys_Employee.name as Ename, 
     Sys_Employee.email as Eemail, Sys_Employee.department_id as Edepartment_id, 
     Sys_Employee.loginId as EloginId, Sys_Employee.isLoginEnabled as EisLoginEnabled, 
     Sys_Employee.birthday as Ebirthday,Sys_Employee.seller as Eseller,Sys_Employee.qq as Eqq ,
@@ -85,8 +85,8 @@
     	<if test="Eid!=null">
     		and Sys_Employee.id=#{Eid}
     	</if>
-    	<if test="domainId!=null">
-    		and Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
+    	<if test="domainid!=null">
+    		and Sys_Rule.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -102,8 +102,8 @@
     	<if test="id!=null">
     		and Sys_Rule.id=#{id}
     	</if>
-    	<if test="domainId!=null">
-    		and Sys_Rule.domainId=#{domainId,jdbcType=BIGINT}
+    	<if test="domainid!=null">
+    		and Sys_Rule.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
     </where>
   </select>
@@ -112,6 +112,9 @@
     <include refid="Base_Column_List" />
     from Sys_Rule
     where id = #{id,jdbcType=BIGINT}
+    <if test="domainid!=null">
+    	and Sys_Rule.domainid=#{domainid,jdbcType=BIGINT}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Rule
@@ -174,5 +177,8 @@
   	select 
     <include refid="Base_Column_List" />
     from Sys_Rule
+    <if test="domainid!=null">
+    	and Sys_Rule.domainid=#{domainid,jdbcType=BIGINT}
+    </if>
   </select>
 </mapper>

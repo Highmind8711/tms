@@ -57,7 +57,7 @@ public class EmployeeTest {
     @Test
     public void insert() {
         Employee mock = new Employee();
-        mock.setDomainId((long) 1);
+        mock.setDomainid((long) 1);
         mock.setIsLoginEnabled((byte) 0);
         mock.setSex((long) 0);
         mock.setDepartment_id((long) 3);
@@ -78,7 +78,7 @@ public class EmployeeTest {
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("id", 1);
         Employee de=employeeService.selectById(map);
-        de.setDomainId((long) 5);
+        de.setDomainid((long) 5);
         employeeService.update(de);
     }
 }
