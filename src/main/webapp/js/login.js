@@ -25,7 +25,7 @@ function signin(){
     });*/
 	
 	sessionStorage.setItem("token","token11111111");
-	window.location.href = "tms_employee.html";	
+	window.location.href = "sys_employee.html";	
 }
 
 
