@@ -41,11 +41,11 @@ function setPermissionTable(){
         	"targets" : 6,
         	"data" : null,
         	"render" : function(data, type, row) {
-        		var id = '"' + row.id + '"';
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#permissionInfo' onclick='getPermission("+ id + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#permissionEdit' onclick='editPermission("+ id + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='' ><i class='lnr lnr-bookmark'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delPermission("+ id + ")'><i class='lnr lnr-trash'></i></button>"
+        		var id_ = '"' + row.id + '"';
+        		var row_ = JSON.stringify(row);
+	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#permissionInfo' onclick='getPermission("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#permissionEdit' onclick='editPermission("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delPermission("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
 	        			 
 	        	return html;
         	}
@@ -112,7 +112,7 @@ function delPermission(PermissionID){
 	        url: "../permissions/"+PermissionID,	        
 			contentType:'json',			
 	        success: function (data) {
-	        	console.log(data.status);
+	        	console.log(data);
 	        	if(data.status == 1){
 	    			alert("删除成功！");
 	    			table.ajax.reload();
@@ -127,8 +127,35 @@ function delPermission(PermissionID){
 	}
 }
 
-function getPermission(PermissionID){
+function getPermission(_permission){
+	var str="";
+	console.log(_permission);
+	str = "<div class='profile-info'><h4 class='heading'>权限信息</h4><ul class='list-unstyled list-justify'><li>权限名称 <span>"
+		+ _permission.name 
+		+ "</span></li><li>所属区域 <span>" 
+		+ _permission.domainid
+		+ "</span></li><li>权限分组<span>" 
+		+ _permission.grouping
+		+ "</span></li><li>权限类型<span>" 
+		+ _permission.type
+		+ "</span></li><li>备注 <span>" 
+		+ _permission.remark
+				
+	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>权限类型</h4>" 
+			
+	/*if(_employee.rules.length != 0){
+		$.each(_employee.rules,function(i,v){
+			str += "<p>" 
+				+ v.rulename
+				+ "</p>";   						   			
+		});            	
+	}else{
+		str += "<p>暂无</p>";
+	}*/
 	
+	str	+= "</div>" ;
+				
+	$("#permissionInfo_detail").html(str);	
 }
 
 function editPermission(PermissionID){
@@ -136,14 +163,20 @@ function editPermission(PermissionID){
 }
 
 $(document).ready(function() {
-
+	/*页面初始化*/
+	navbar();
+	
+	/*数据初始化*/
 	setPermissionTable();
 	
-
+	/*操作*/
 	$("#createPermissionBtn").click(function(){
 		createPermission();
 	})
 
 });
 
+function navbar(){
+	 $(".navHeader").load("../resource/page/navbar.html");
+}
 

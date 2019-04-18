@@ -4,7 +4,7 @@ var table;
 function setRuleTable(){
 	table = $('#ruleTable').DataTable( {
 		ajax: {
-			url:'../rulesnames',
+			url:'../rules',
 			dataSrc: 'data',	
 		},
 		columns: [
@@ -35,11 +35,12 @@ function setRuleTable(){
         	"targets" : 4,
         	"data" : null,
         	"render" : function(data, type, row) {
-        		var id = '"' + row.id + '"';
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#ruleInfo' onclick='getRule("+ id + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#ruleEdit' onclick='editRule("+ id + ")'><i class='lnr lnr-pencil'></i></button>"
+        		var id_ = '"' + row.id + '"';
+        		var row_ = JSON.stringify(row);
+	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#ruleInfo' onclick='getRule("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#ruleEdit' onclick='editRule("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
 	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#rulePermissions' onclick='permissionsInit()'><i class='lnr lnr-bookmark'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delRule("+ id + ")'><i class='lnr lnr-trash'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delRule("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
 	        			 
 	        	return html;
         	}
@@ -83,7 +84,6 @@ function permissionsInit(){
 	});
 }
 
-
 function createRule(){
 	var rule = new FormData();
 	rule.append("rulename",$("input[name='rulenameArea']").val());	
@@ -119,6 +119,7 @@ function delRule(ruleID){
 	        url: "../rules/"+ruleID,	        
 			contentType:'json',			
 	        success: function (data) {
+	        	console.log(data);
 	        	if(data.status == 1){
 	    			alert("删除成功！");
 	    			table.ajax.reload();
@@ -133,23 +134,52 @@ function delRule(ruleID){
 	}
 }
 
-function getRule(ruleID){
+function getRule(_rule){
+	var str="";
+	console.log(_rule);
+	str = "<div class='profile-info'><h4 class='heading'>角色信息</h4><ul class='list-unstyled list-justify'><li>角色名称 <span>"
+		+ _rule.rulename 
+		+ "</span></li><li>所属区域 <span>" 
+		+ _rule.domainid
+		+ "</span></li><li>备注 <span>" 
+		+ _rule.remark
+				
+	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>权限分配</h4>" 
+		
+	/*if(_employee.rules.length != 0){
+		$.each(_employee.rules,function(i,v){
+			str += "<p>" 
+				+ v.rulename
+				+ "</p>";   						   			
+		});            	
+	}else{
+		str += "<p>暂无</p>";
+	}
 	
+	str	+= "</div>" ;*/
+			
+	$("#ruleInfo_detail").html(str);	
 }
 
-function editRule(ruleID){
+function editRule(_rule){
 	
 }
 
 $(document).ready(function() {
-
-	setRuleTable();
 	
+	/*页面初始化*/
+	navbar();
+	
+	/*数据初始化*/
+	setRuleTable();
 
+	/*操作*/
 	$("#createRuleBtn").click(function(){
 		createRule();
 	})
 
 });
 
-
+function navbar(){
+	 $(".navHeader").load("../resource/page/navbar.html");
+}

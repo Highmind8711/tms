@@ -46,11 +46,13 @@ function setEmployeeTable(){
         	"targets" : 6,
         	"data" : null,
         	"render" : function(data, type, row) {
-        		var id = '"' + row.id + '"';
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo' onclick='getEmployee("+ id + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployee("+ id + ")'><i class='lnr lnr-pencil'></i></button>"
+        		var id_ = '"' + row.id + '"';
+        		var row_ = JSON.stringify(row);
+	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo' onclick='getEmployee("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployee("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
 	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRules' onclick='rulesInit()'><i class='lnr lnr-bookmark'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id + ")'><i class='lnr lnr-trash'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
+	        		 
 	        			 
 	        	return html;
         	}
@@ -96,7 +98,6 @@ function departmentNamesInit(){
 			str += "<option value='"+v.id+"'>" 
 				+ v.name
 				+ "</option>";			
-			console.log(v.name);
 		});
 		$("#departmentArea_children").html(str);
 	});
@@ -106,7 +107,6 @@ function rulesInit(){
 	var str="";
 	$.get("../rulesnames", function(data) {
 		var _rules = data.data;
-		console.log(_rules);
 		$.each(_rules,function(i,v){
 			str += "<label class='fancy-checkbox'><input type='checkbox' id="+ v.id +"><span>"
 				+ v.rulename
@@ -125,8 +125,7 @@ function createEmployee(){
 	employee.append("qq",$("input[name='qqArea']").val());
 	employee.append("tel",$("input[name='telArea']").val());
 	employee.append("sex",$('input:radio[name="sex"]:checked').val());
-	//做个判断吧，没有就不要发数据过来，有的再加参数
-
+	//做个判断，没有就不要发数据过来，有的再加参数
 	/*employee.append("birthday",null);*/
 	employee.append("photo",null);
 
@@ -139,6 +138,7 @@ function createEmployee(){
 	}else{
 		employee.append("isLoginEnabled ", "0");
 	}
+	
 
 	$.ajax({
         type: "POST",
@@ -163,7 +163,6 @@ function createEmployee(){
 }
 
 function delEmployee(employeeID){
-	console.log(employeeID);
 	if(confirm("确认删除？") == true){
 		$.ajax({
 	        type: "delete",
@@ -184,79 +183,81 @@ function delEmployee(employeeID){
 	}
 }
 
-function getEmployee(employeeID){
-	console.log(employeeID);
+function getEmployee(_employee){
 	var str="";
-	$.ajax({
-		type: "get",
-        url: "../employees/"+employeeID,
-        dataSrc: 'data',	
-		contentType:'json',
-        success: function (data) {
-        	var _employee = data.data;
-        	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li>姓名 <span>"
-    			+ _employee.name 
-    			+ "</span></li><li>所属区域 <span>" 
-    			+ _employee.domainId
-    			+ "</span></li><li>所属部门 <span>" 
-    			+ _employee.department.name
-    			+ "</span></li><li>性别 <span>" 
-    			
-    		if( _employee.sex == 1){
-    			str += "男";
-    		}else{
-    			str += "女";
-    		}
-        	     
-        	str += "</span></li><li>出生年月 <span>" 
-    			+ _employee.birthday
-    			+ "</span></li><li>联系方式 <span>" 
-    			+ _employee.tel
-    			+ "</span></li><li>QQ <span>" 
-    			+ _employee.qq
-    			+ "</span></li><li>邮箱 <span>" 
-    			+ _employee.email 
-    			+ "</span></li></ul></div>" 
-    			+ "<div class='profile-info'><h4 class='heading'>账号信息</h4><ul class='list-unstyled list-justify'><li>登录账号 <span>" 
-    			+ _employee.loginId
-    			+ "</span></li><li>是否允许登录 <span>" 
-    			
-			if( _employee.isLoginEnabled == 1){
-    			str += "是";
-    		}else{
-    			str += "否";
-    		}	
-        	
-        	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>角色分配</h4>" 
-    		
-        	if(_employee.rules.length != 0){
-        		$.each(_employee.rules,function(i,v){
-        			str += "<p>" 
-        				+ v.rulename
-        				+ "</p>";   						   			
-        		});            	
-        	}else{
-        		str += "<p>暂无</p>";
-        	}
-    		
-    		$("#employeeInfo_detail").html(str);
-    		console.log(data);
-        },
-        error: function (message) {
-            console.log(message);
-        }
-	})	
+	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li>姓名 <span>"
+		+ _employee.name 
+		+ "</span></li><li>所属区域 <span>" 
+		+ _employee.domainId
+		+ "</span></li><li>所属部门 <span>" 
+		+ _employee.department.name
+		+ "</span></li><li>性别 <span>" 
+		
+	if( _employee.sex == 1){
+		str += "男";
+	}else{
+		str += "女";
+	}
+	     
+	str += "</span></li><li>出生年月 <span>" 
+		+ _employee.birthday
+		+ "</span></li><li>联系方式 <span>" 
+		+ _employee.tel
+		+ "</span></li><li>QQ <span>" 
+		+ _employee.qq
+		+ "</span></li><li>邮箱 <span>" 
+		+ _employee.email 
+		+ "</span></li></ul></div>" 
+		+ "<div class='profile-info'><h4 class='heading'>账号信息</h4><ul class='list-unstyled list-justify'><li>登录账号 <span>" 
+		+ _employee.loginId
+		+ "</span></li><li>是否允许登录 <span>" 
+		
+	if( _employee.isLoginEnabled == 1){
+		str += "是";
+	}else{
+		str += "否";
+	}	
+	
+	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>角色分配</h4>" 
+	
+	if(_employee.rules.length != 0){
+		$.each(_employee.rules,function(i,v){
+			str += "<p>" 
+				+ v.rulename
+				+ "</p>";   						   			
+		});            	
+	}else{
+		str += "<p>暂无</p>";
+	}
+	
+	str	+= "</div>" ;
+	
+	$("#employeeInfo_detail").html(str);	
 }
 
-function editEmployee(employeeID){
+function editEmployee(_employee){
 	
+	console.log(_employee);
 	
-	console.log(employeeID);
+	$("input[name='nameEdit']").val(_employee.name);	
+	$("input[name='sexEdit'][value='"+ _employee.sex +"']").attr("checked",true); 
+	$("input[name='telEdit']").val(_employee.tel);	
+	$("input[name='qqEdit']").val(_employee.qq);	
+	$("input[name='emailEdit']").val(_employee.email);		
+	$("input[name='loginIdEdit']").val(_employee.loginId);	
+	if(_employee.isLoginEnabled == 1){
+		$("input:checkbox[anme='isLoginEnabledEdit']").attr('checked','true');
+	}else{
+		$("input:checkbox[anme='isLoginEnabledEdit']").attr('checked','false');
+	}
 	
 }
-
 
 $(document).ready(function() {
+	/*页面初始化*/
+	navbar();
+	
+	/*数据初始花*/
 	domainInit();
 	departmentNamesInit();
 	setEmployeeTable();
@@ -267,9 +268,9 @@ $(document).ready(function() {
 	
 });
 
-
-
-
+function navbar(){
+	 $(".navHeader").load("../resource/page/navbar.html");
+}
 
 
 
