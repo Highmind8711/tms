@@ -1,14 +1,16 @@
-/**
- * 
- */
+
 
 var table;
+var domainid = 1;
 
 function setEmployeeTable(){
 	table = $('#employeeTable').DataTable( {
 		ajax: {
 			url:'../employees',
 			dataSrc: 'data',	
+			header: {
+				"domainid":domainid
+			}
 		},
 		columns: [
             /*{
@@ -23,12 +25,7 @@ function setEmployeeTable(){
             },{ 
             	data: "name" ,
             	title: "员工姓名"
-            },{ 
-            	data: "domain.domain_name" ,
-            	title: "所属区域"
             },{
-            	// 缺省值
-				defaultContent:"",
             	data: "department.name" ,
             	title: "所属部门"
             },{
@@ -43,7 +40,7 @@ function setEmployeeTable(){
             }
         ], 
         "columnDefs" : [{
-        	"targets" : 6,
+        	"targets" : 5,
         	"data" : null,
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
@@ -83,14 +80,6 @@ function setEmployeeTable(){
     });	
 }
 
-function domainInit(){
-	 var str;
-	 str += "<option value='"+10+"'>" 
-		+ "区域一"
-		+ "</option>";	
-	 $("#domainArea").html(str);
-}
-
 function departmentNamesInit(){
 	var str="";
 	$.get("../departmentnames", function(data) {
@@ -119,14 +108,16 @@ function rulesInit(){
 function createEmployee(){
 	var employee = new FormData();
 	employee.append("name",$("input[name='nameArea']").val());
-	employee.append("department_id",$("#departmentArea_children option:selected").val());
-	employee.append("domainId",$("#domainArea option:selected").val());
+	employee.append("department_id",$("input[name='departmentIdArea']").val());
+	employee.append("domainid",domainid);
 	employee.append("email",$("input[name='emailArea']").val());
 	employee.append("qq",$("input[name='qqArea']").val());
 	employee.append("tel",$("input[name='telArea']").val());
 	employee.append("sex",$('input:radio[name="sex"]:checked').val());
-	//做个判断，没有就不要发数据过来，有的再加参数
-	/*employee.append("birthday",null);*/
+	if($("input[name='birthdayArea']").val() != null){
+		employee.append("birthday",$("input[name='birthdayArea']").val());
+	}
+	
 	employee.append("photo",null);
 
 	employee.append("loginId ",$("input[name='loginIdArea']").val());
@@ -139,7 +130,6 @@ function createEmployee(){
 		employee.append("isLoginEnabled ", "0");
 	}
 	
-
 	$.ajax({
         type: "POST",
         url: "../employees",
@@ -188,7 +178,7 @@ function getEmployee(_employee){
 	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li>姓名 <span>"
 		+ _employee.name 
 		+ "</span></li><li>所属区域 <span>" 
-		+ _employee.domainId
+		+ domainid
 		+ "</span></li><li>所属部门 <span>" 
 		+ _employee.department.name
 		+ "</span></li><li>性别 <span>" 
@@ -257,11 +247,11 @@ $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
 	
-	/*数据初始花*/
-	domainInit();
+	/*数据初始化*/
 	departmentNamesInit();
 	setEmployeeTable();
 
+	/*操作*/
 	$("#createEmployeeBtn").click(function(){
 		createEmployee();
 	})
@@ -271,6 +261,69 @@ $(document).ready(function() {
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
 }
+
+var employeeVm = new Vue({
+	el:"#employeeVm",
+	data() {
+		return {
+			departmentList: [],
+			defaultProps: {
+				children: 'departments',
+				label: 'name',
+				value: 'id'
+			},
+			birthdayDate:''
+		};
+    },
+    created:function (){
+    	var _data = this;
+    	
+    	$.ajax({
+	        type: "get",
+	        url: "../departments",
+	        headers: {'domainid': domainid},
+	        success: function (data) {
+	        	if(data.status == 1){		        		
+	        		$.each(data.data,function(i,v){	  			
+	        			if(v.ml_parent == 0){
+		        			_data.departmentList.push( {"id":v.id,"name":v.name,"departments":[]});
+	        			}
+	        		})
+	        		$.each(data.data,function(i,v){	 
+	        			$.each(_data.departmentList,function(j,n){	
+	        				if(v.ml_parent == n.id){
+	        					n.departments.push({"id":v.id,"name":v.name});	        					
+	        				}	        				
+		        		})
+	        		})
+	        	}
+	        	else{
+	        		console.log(data.data);
+	        	}	        	
+	        },
+	        error: function (message) {
+	            console.log(message);
+	        }
+	    });
+    },
+    methods: {
+        departmentChange(deVal) {
+          console.log(deVal[1]);
+          $("input[name='departmentIdArea']").val(deVal[1])
+        },
+        birthdayChange(dateVal) {
+        	this.birthdayDate = dateVal;
+        	console.log(dateVal);
+            $("input[name='birthdayArea']").val(dateVal);
+          }
+      }
+
+})
+
+
+
+
+
 
 
 

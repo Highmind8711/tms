@@ -6,10 +6,10 @@
 
 <!-- CSS -->
 <link rel="stylesheet" href="../resource/css/bootstrap.min.css">
-<link rel="stylesheet" href="../resource/table/css/demo_table.css">
+<link rel="stylesheet" href="https://unpkg.com/element-ui@2.7.2/lib/theme-chalk/index.css">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-<!-- <link rel="stylesheet" href="../resource/css/font-awesome.min.css"> -->
+<link rel="stylesheet" href="../resource/table/css/demo_table.css">
 <link rel="stylesheet" href="../resource/css/main.css">
 <link rel="stylesheet" href="../resource/css/public.css">
 
@@ -27,7 +27,7 @@
 
 </head> 
 <body class="">
-	
+	<div id="employeeVm">
 	<div id="wrapper">
 	
 		<!-- NAVBAR -->
@@ -116,37 +116,22 @@
 								</label>
                             </div>
                         </div>
+                        
                         <div class="form-group">
-                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>所属区域</label>
-                            <div class="col-sm-9" >
-                                <select class="form-control" id="domainArea">
-									<option value="cheese">1</option>
-									<option value="tomatoes">2</option>
-									<option value="mozarella">3</option>
-								</select>
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        	
                             <label class="col-sm-3 control-label"><span style="color:red;">*</span>所属部门</label>
-                            <div class="col-sm-4" >
-                                <select class="form-control" id="departmentArea_fa">
-									<option value="cheese">1</option>
-									<option value="tomatoes">2</option>
-									<option value="mozarella">3</option>
-								</select>
-                            </div>
-                            <div class="col-sm-5" >
-                                <select class="form-control" id="departmentArea_children">
-									<option value="cheese">1</option>
-									<option value="tomatoes">2</option>
-									<option value="mozarella">3</option>
-								</select>
-                            </div>
+                            <div class="col-sm-9" >
+                                <el-cascader expand-trigger="hover" :options="departmentList" :props="defaultProps" 
+                                	@change="departmentChange" style="width:100%"></el-cascader>
+                                <input type="text" class="form-control" name="departmentIdArea" style="display:none">
+                            </div>                           
                         </div>   
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">出生年月</label>
+                            <label class="col-sm-3 control-label">出生日期</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="">
+                            	<el-date-picker v-model="birthdayDate" type="date" placeholder="请选择出生日期"  value-format="yyyy-MM-dd"
+                            		@change="birthdayChange" style="width:100%" ></el-date-picker>                            	
+                                <input type="text" class="form-control" name="birthdayArea" style="display:none">
                             </div>
                         </div>             
                         <div class="form-group">
@@ -403,9 +388,13 @@
         </div>
     </div>
 	<!-- End Modal -->
-
+	</div>
+	
 	<!-- Javascript -->
 	<script src="../resource/js/jquery-3.2.1.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><!-- 开发环境版本  -->	
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> --><!-- 生产环境版本 -->
+	<script src="https://unpkg.com/element-ui@2.7.2/lib/index.js"></script>
 	<script src="../resource/js/bootstrap.min.js"></script>
 	<script src="../resource/js/jquery.dataTables.min.js"></script>
 	<script src="../resource/js/public.js"></script>
