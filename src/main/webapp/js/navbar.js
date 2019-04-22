@@ -38,15 +38,10 @@ function getMenuList(){
 function getMenuActive(){
 	
 	
-	
-	
-	
-	
-	
 }
 
 function getToken(){
 	
 	var str = sessionStorage.token;
-	console.log(str)
+	/*console.log(str);*/
 }
