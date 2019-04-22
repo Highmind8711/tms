@@ -27,7 +27,7 @@ public interface RuleMapper {
     /**
      * 查询角色下的权限
      * @Description
-     * @param map
+     * @param map 传递的参数为角色id id
      * @return
      */
     List<Rule> selectRulePermission(Map<String,Object> map);
@@ -37,4 +37,11 @@ public interface RuleMapper {
      * @return
      */
     List<Rule> selectRuleName();
+    /**
+     * 根据雇员id查询角色
+     * @Description
+     * @param map
+     * @return
+     */
+    List<Rule> selectRuleByEid(Map<String, Object> map);
 }

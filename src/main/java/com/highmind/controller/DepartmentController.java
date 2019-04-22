@@ -91,10 +91,14 @@ public class DepartmentController extends BaseController<Department>{
     }
     @RequestMapping(value="/departmentrecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findAllRecursion(HttpServletRequest request) {
-        String domainid=request.getHeader("domainid");
+        Long domainid=null ;
+        if(request.getHeader("domainid")!=null) {
+            domainid=Long.valueOf(request.getHeader("domainid"));
+        }
+       
         Map<String, Object> map=new HashMap<String, Object>();
         map.put("domainid", domainid);
-        List<Department> selectAll = departmentService.findAllRecursion(map);
+        List<Department> selectAll = departmentService.findAllRecursion(null);
         return getString(selectAll, !selectAll.isEmpty());
     }
     @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")

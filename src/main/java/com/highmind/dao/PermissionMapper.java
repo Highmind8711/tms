@@ -19,4 +19,10 @@ public interface PermissionMapper {
     int updateByPrimaryKey(Permission record);
     
     List<Permission> selectPermission(Map<String,Object> map);
+    /**
+     * 查询权限根据用户id
+     * @Description
+     * @return
+     */
+    List<Permission> selectPermissionByEid(Map<String,Object> map);
 }

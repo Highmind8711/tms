@@ -2,6 +2,7 @@ package com.highmind.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.highmind.entity.Rule;
 
@@ -20,9 +21,16 @@ public interface RuleService extends BaseService<Rule>{
     */
     List<Rule> selectRuleName();
     /**
-     * 查询角色下的权限
+     * 查询角色下的权限 map 传递的值为id
      * @Description
      * @return
      */
     List<Rule> selectRulePermission(Map<String,Object> map);
+    /**
+     * 查询角色根据用户id
+     * @Description
+     * @param map
+     * @return
+     */
+    Set<String> selectRuleByEid(Map<String, Object> map);
 }

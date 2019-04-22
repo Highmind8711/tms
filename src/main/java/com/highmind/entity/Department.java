@@ -72,5 +72,7 @@ public class Department {
     public void setChildren(List<Department> children) {
         this.children = children;
     }
+
+    
     
 }

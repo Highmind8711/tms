@@ -112,9 +112,6 @@
     <include refid="Base_Column_List" />
     from Sys_Rule
     where id = #{id,jdbcType=BIGINT}
-    <if test="domainid!=null">
-    	and Sys_Rule.domainid=#{domainid,jdbcType=BIGINT}
-    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Rule
@@ -179,6 +176,20 @@
     from Sys_Rule
     <if test="domainid!=null">
     	and Sys_Rule.domainid=#{domainid,jdbcType=BIGINT}
+    </if>
+  </select>
+  <select id="selectRuleByEid" parameterType="Map" resultType="com.highmind.entity.Rule">
+  	select 
+    <include refid="Base_Column_List" />
+    from Sys_Employee
+	Left join Sys_Rule_Employee
+	on Sys_Employee.id=Sys_Rule_Employee.employee_id
+	Left join Sys_Rule on Sys_Rule.id=Sys_Rule_Employee.rule_id
+    <if test="domainid!=null">
+    	and Sys_Employee.domainid=#{domainid,jdbcType=BIGINT}
+    </if>
+    <if test="Eid!=null">
+    	and Sys_Employee.id=#{Eid,jdbcType=BIGINT}
     </if>
   </select>
 </mapper>

@@ -28,6 +28,7 @@
     <mybatis-generator.version>1.3.5</mybatis-generator.version>
     <fastjson.version>1.2.47</fastjson.version>
     <mockito-core.version>2.25.1</mockito-core.version>
+    <shiro.version>1.4.0</shiro.version>
     <jackson-annotations.version>2.2.3</jackson-annotations.version>
   </properties>
  
@@ -178,6 +179,26 @@
   		<groupId>com.auth0</groupId>
   		<artifactId>java-jwt</artifactId>
   		<version>3.8.0</version>
+	</dependency>
+	<dependency>
+  		<groupId>org.apache.shiro</groupId>
+  		<artifactId>shiro-all</artifactId>
+  		<version>${shiro.version}</version>
+	</dependency>
+	<dependency>
+    	<groupId>org.apache.shiro</groupId>
+    	<artifactId>shiro-cas</artifactId>
+    	<version>${shiro.version}</version>
+	</dependency>
+	<dependency>
+  		<groupId>org.pac4j</groupId>
+  		<artifactId>pac4j-cas</artifactId>
+  		<version>3.6.1</version>
+	</dependency>
+	<dependency>
+  		<groupId>io.buji</groupId>
+  		<artifactId>buji-pac4j</artifactId>
+  		<version>4.1.0</version>
 	</dependency>
   </dependencies>
   <build>

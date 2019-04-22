@@ -2,8 +2,10 @@ package com.highmind.service.impl;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,6 @@ import com.highmind.dao.PermissionOperationMapper;
 import com.highmind.dao.RuleMapper;
 import com.highmind.entity.Permission;
 import com.highmind.entity.PermissionMenu;
-import com.highmind.entity.PermissionOperation;
 import com.highmind.entity.Rule;
 import com.highmind.service.RuleService;
 
@@ -124,6 +125,21 @@ public  class RuleServiceImpl implements RuleService{
             
         }
         return rules;
+    }
+
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.RuleService#selectRuleByEid(java.util.Map)
+     */
+    @Override
+    public Set<String> selectRuleByEid(Map<String, Object> map) {
+        // TODO Auto-generated method stub
+        Set<String> ruleseSet= new HashSet<String>();
+        List<Rule> rules=ruleMapper.selectRuleByEid(map);
+        for(Rule rule:rules) {
+            ruleseSet.add(rule.getRulename());
+        }
+        return ruleseSet;
     }
 
     

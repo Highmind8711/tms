@@ -27,6 +27,7 @@ package com.highmind.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,11 +44,12 @@ import com.highmind.entity.Domain;
 @RestController
 public class DomainController extends BaseController<Domain>{
 
-    /*
-     * @Override
-     * @RequestMapping(value="/domain",method=RequestMethod.POST,produces = "text/json;charset=UTF-8") public String
-     * add(Domain t) { // TODO Auto-generated method stub return super.addResult(domainService, t); }
-     */
+    @Override
+    @RequestMapping(value="/domain",method=RequestMethod.POST,produces = "text/json;charset=UTF-8") 
+    public String add(Domain t) { // TODO Auto-generated method stub 
+        return super.addResult(domainService, t); 
+    }
+     
 
     @Override
     @RequestMapping(value="/domain",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
@@ -57,17 +59,28 @@ public class DomainController extends BaseController<Domain>{
         return super.getAllResult(domainService,domainid);
     }
 
-    /*
-     * @Override
-     * @RequestMapping(value="/domain/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8") public String
-     * getOne(@PathVariable("id")Long id,HttpServletRequest request) { // TODO Auto-generated method stub String
-     * domainid=request.getHeader("domainid"); return super.getOneResult(domainService, id,domainid); }
-     * @Override
-     * @RequestMapping(value="/domain",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") public String
-     * update(Domain t) { // TODO Auto-generated method stub return super.updateResult(domainService, t); }
-     * @Override
-     * @RequestMapping(value="/domain/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") public
-     * String delete(Long id) { // TODO Auto-generated method stub return super.deleteResult(domainService, id); }
-     */
+
+     @Override
+     @RequestMapping(value="/domain/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8") 
+     public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
+         // TODO Auto-generated method stub 
+         String domainid=request.getHeader("domainid"); 
+         return super.getOneResult(domainService, id,domainid); 
+    }
+    @Override
+    @RequestMapping(value="/domain",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") 
+    public String update(Domain t) { 
+        // TODO Auto-generated method stub 
+        return super.updateResult(domainService, t); 
+        
+    }
+    @Override
+    @RequestMapping(value="/domain/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") 
+    public String delete(Long id) { 
+        // TODO Auto-generated method stub 
+        return super.deleteResult(domainService, id); 
+        
+    }
+     
     
 }

@@ -2,8 +2,10 @@ package com.highmind.service.impl;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,6 @@ import com.highmind.dao.PermissionMenuMapper;
 import com.highmind.dao.PermissionOperationMapper;
 import com.highmind.entity.Permission;
 import com.highmind.entity.PermissionMenu;
-import com.highmind.entity.PermissionOperation;
 import com.highmind.service.PermissionService;
 
 /**
@@ -80,14 +81,14 @@ public class PermissionServiceImpl implements PermissionService {
              * permissionOperationMapper.selectPermissionOperation(tempMap); PermissionOperation
              * permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
              * permission.setOperation(permissionOperation.getOperation()); }else*/
-            if(permission.getType().equals("2")) {
+            //if(permission.getType().equals("2")) {
              
                 Map<String,Object> tempMap=new HashMap<String,Object>();
                 tempMap.put("id", permission.getId());
                 List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);
                 PermissionMenu permissionMenu=!selectPermissionMenu.isEmpty()?selectPermissionMenu.get(0):null;
                 permission.setMenu(permissionMenu!=null?permissionMenu.getMenu():null);
-            }
+            //}
         }
         return permissions;
     }
@@ -107,7 +108,7 @@ public class PermissionServiceImpl implements PermissionService {
          * permissionOperation=new PermissionOperation(); permissionOperation.setDomainid(record.getDomainid());
          * permissionOperation.setOperation_id(oid); permissionOperation.setPermission_id(pid);
          * result=permissionOperationMapper.insertSelective(permissionOperation); }else
-         */if(record.getType().equals("2")){
+         *///if(record.getType().equals("2")){
           //标志这个是菜单权限  
             Long mid=record.getMenu().getId();
             PermissionMenu permissionMenu=new PermissionMenu();
@@ -116,7 +117,7 @@ public class PermissionServiceImpl implements PermissionService {
             permissionMenu.setPermission_id(pid);
             result=permissionMenuMapper.insertSelective(permissionMenu);
             
-        }
+//        }
         return result;
     }
 
@@ -138,6 +139,21 @@ public class PermissionServiceImpl implements PermissionService {
     public int del(Long id) {
         // TODO Auto-generated method stub
         return permissionMapper.deleteByPrimaryKey(id);
+    }
+
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.PermissionService#selectPermissionByEid(java.util.Map)
+     */
+    @Override
+    public Set<String> selectPermissionByEid(Map<String, Object> map) {
+        // TODO Auto-generated method stub
+        Set<String> strings=new HashSet<String>();
+        List<Permission> permissions=permissionMapper.selectPermissionByEid(map);
+        for(Permission permission:permissions) {
+            strings.add(permission.getName());
+        }
+        return strings;
     }
     
 

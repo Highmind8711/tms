@@ -30,7 +30,7 @@ public class Employee {
     private Long sex;
 
     private String photo;
-    
+    @JSONField(serialize=false)
     private String password;
     
     private String tel;

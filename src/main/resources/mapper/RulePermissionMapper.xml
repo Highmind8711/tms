@@ -28,9 +28,6 @@
     <include refid="Base_Column_List" />
     from Sys_Rule_Permission
     where id = #{id,jdbcType=BIGINT}
-    <if test="domainid!=null">
-    	and Sys_Rule_Permission.domainid=#{domainid,jdbcType=BIGINT}
-    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Rule_Permission

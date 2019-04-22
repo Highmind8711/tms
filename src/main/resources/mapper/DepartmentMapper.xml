@@ -156,10 +156,13 @@
     <select id="findAllRecursion" parameterType="Map"  resultMap="recursionMenuMap">
     	select 
     	<include refid="Base_Column_List" />
-    	From Sys_Department WHERE (ml_parent='' or ml_parent is NULL or ml_parent=0)
+    	From Sys_Department 
+    	<where>
+    		(ml_parent='' or ml_parent is NULL or ml_parent=0)
     	<if test="domainid!=null">
     		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
+    	</where>
     </select>
     <!-- 查询父部门 -->
     <select id="findRoot" parameterType="Map" resultType="com.highmind.entity.Department">
@@ -176,8 +179,6 @@
     	select 
     	<include refid="Base_Column_List" />
     	From Sys_Department WHERE ml_parent=#{id}
-    	<if test="domainid!=null">
-    		 and Sys_Department.domainid=#{domainid,jdbcType=BIGINT}
-    	</if>
+
     </select>
 </mapper>

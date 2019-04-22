@@ -91,6 +91,7 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Override
     public List<Department> findAllRecursion(Map<String, Object> map) {
         // TODO Auto-generated method stub
+        //System.out.println(map.get("domainid")+"测试");
         return departmentMapper.findAllRecursion(map);
     }
 

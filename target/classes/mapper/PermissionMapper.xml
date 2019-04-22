@@ -30,9 +30,6 @@
     <include refid="Base_Column_List" />
     from Sys_Permission
     where id = #{id,jdbcType=BIGINT}
-    <if test="domainid!=null">
-		and Sys_Permission.domainid=#{domainid}
-    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Permission
@@ -111,4 +108,22 @@
       remark = #{remark,jdbcType=NCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectPermissionByEid" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Sys_Employee
+    Left join Sys_Rule_Employee
+	on Sys_Employee.id=Sys_Rule_Employee.employee_id
+	Left join Sys_Rule on Sys_Rule.id=Sys_Rule_Employee.rule_id
+	Left join Sys_Rule_Permission on Sys_Rule_Permission.rule_id=Sys_Rule.id
+	Left join Sys_Permission on Sys_Rule_Permission.permission_id=Sys_Permission.id
+    <where>
+    	<if test="domainid!=null">
+    	 	and Sys_Employee.domainid=#{domainid}
+    	</if>
+    	<if test="Eid!=null">
+    		and Sys_Employee.id=#{Eid}
+    	</if>
+    </where>
+  </select>
 </mapper>

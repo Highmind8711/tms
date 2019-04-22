@@ -2,6 +2,9 @@ package com.highmind.service;
 
 
 
+import java.util.Map;
+import java.util.Set;
+
 import com.highmind.entity.Permission;
 
 /**
@@ -12,5 +15,11 @@ import com.highmind.entity.Permission;
  * @version 1.0.0
  */
 public interface PermissionService extends BaseService<Permission>{
-    
+    /**
+     * 查询权限根据用户id
+     * @Description
+     * @param map 传入的参数Eid
+     * @return
+     */
+    Set<String> selectPermissionByEid(Map<String, Object> map);
 }
