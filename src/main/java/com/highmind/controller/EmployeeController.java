@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -24,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Employee;
 import com.highmind.entity.Loginlog;
+import com.highmind.entity.Menu;
 import com.highmind.tool.CodeMsg;
 import com.highmind.tool.JwtUtil;
 import com.highmind.tool.PropertyHolder;
@@ -173,7 +175,7 @@ public class EmployeeController extends BaseController<Employee>{
         }
     }
     @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String login(String loginid,String password,String domainid,HttpSession session,HttpServletRequest request) {
+    public String login(String loginid,String password,String domainid,HttpSession session,HttpServletRequest request) throws Exception {
 //        Subject currentUser = SecurityUtils.getSubject();
 //        UsernamePasswordToken token = new UsernamePasswordToken(loginid, password,domainid);
 //        try {
@@ -189,7 +191,10 @@ public class EmployeeController extends BaseController<Employee>{
         mapLogin.put("loginId",loginid);
         mapLogin.put("password",password);
         mapLogin.put("domainid", domainid);
-        
+        System.out.println(domainid);
+        if(domainid==null) {
+            throw new Exception();
+        }
         Employee employee=employeeService.checkUser(mapLogin);
         if(employee!=null) {
             String token =JwtUtil.sign(employee.getId(),employee.getLoginId(),employee.getPassword());
@@ -239,5 +244,14 @@ public class EmployeeController extends BaseController<Employee>{
         
         session.invalidate();
         
+    }
+    @RequestMapping(value="/getInfo",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    public void getinfo(String token) {
+        System.out.println(token);
+        if(JwtUtil.verify(token)) {
+            
+        }else {
+           
+        }
     }
 }

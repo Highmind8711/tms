@@ -73,4 +73,20 @@ public class RulePermissionServiceImpl implements RulePermissionService{
         return rulePermissionMapper.deleteByPrimaryKey(id);
     }
 
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.RulePermissionService#addRulePermissions(java.util.List)
+     */
+    @Override
+    public int addRulePermissions(List<RulePermission> rulePermissions) {
+        // TODO Auto-generated method stub
+        for(RulePermission rulePermission:rulePermissions) {
+            int result=rulePermissionMapper.insertSelective(rulePermission);
+            if(result==0) {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
 }

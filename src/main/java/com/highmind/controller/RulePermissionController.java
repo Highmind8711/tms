@@ -1,11 +1,17 @@
 package com.highmind.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.RulePermission;
+import com.highmind.tool.CodeMsg;
+import com.highmind.tool.Result;
 
 /**
  * @ClassName RulePermissionController
@@ -17,11 +23,16 @@ import com.highmind.entity.RulePermission;
 @RestController
 public class RulePermissionController extends BaseController<RulePermission>{
 
-    @Override
+   
     @RequestMapping(value="/rulepermissions",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String add(RulePermission t) {
+    public String add(List<RulePermission> t) {
         // TODO Auto-generated method stub
-        return super.addResult(rulePermissionService, t);
+        int id=rulePermissionService.addRulePermissions(t);
+        if(id>0) {
+            return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.INSERT_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
     }
 
 

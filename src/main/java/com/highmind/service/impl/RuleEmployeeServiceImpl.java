@@ -73,4 +73,22 @@ public class RuleEmployeeServiceImpl implements RuleEmployeeService{
         return ruleEmployeeMapper.deleteByPrimaryKey(id);
     }
 
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.RuleEmployeeService#addRuleEmployees(java.util.List)
+     */
+    @Override
+    public int addRuleEmployees(List<RuleEmployee> ruleEmployees) {
+        // TODO Auto-generated method stub
+       for(RuleEmployee ruleEmployee:ruleEmployees) {
+           int result=ruleEmployeeMapper.insertSelective(ruleEmployee);
+           if(result==0) {
+               return 0;
+           }
+       }
+        return 1;
+    }
+
+
+
 }

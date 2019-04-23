@@ -1,5 +1,7 @@
 package com.highmind.service;
 
+import java.util.List;
+
 import com.highmind.entity.RulePermission;
 
 /**
@@ -10,5 +12,11 @@ import com.highmind.entity.RulePermission;
  * @version 1.0.0
  */
 public interface RulePermissionService extends BaseService<RulePermission>{
-    
+    /**
+     * 批量添加角色权限
+     * @Description
+     * @param rulePermissions
+     * @return
+     */
+    int addRulePermissions(List<RulePermission> rulePermissions);
 }

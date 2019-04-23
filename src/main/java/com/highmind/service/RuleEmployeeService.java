@@ -1,6 +1,9 @@
 package com.highmind.service;
 
+import java.util.List;
+
 import com.highmind.entity.RuleEmployee;
+
 
 /**
  * @ClassName RuleEmployeeService
@@ -10,5 +13,11 @@ import com.highmind.entity.RuleEmployee;
  * @version 1.0.0
  */
 public interface RuleEmployeeService extends BaseService<RuleEmployee>{
- 
+    /**
+     * 批量添加角色雇员
+     * @Description
+     * @param rulePermissions
+     * @return
+     */
+    int addRuleEmployees(List<RuleEmployee> ruleEmployees);
 }
