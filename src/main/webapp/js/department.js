@@ -1,7 +1,5 @@
 
-var table;
 var domainid = 1;
-
 
 var deprtmentVm = new Vue({
 	el:"#departmentVm",
@@ -12,7 +10,8 @@ var deprtmentVm = new Vue({
 				children: 'departments',
 				label: 'name'
 			},
-			deEmployeeList:[]
+			deEmployeeList:[],
+			_department:{}
 		};
     },
     created:function(){
@@ -27,13 +26,13 @@ var deprtmentVm = new Vue({
 	        		/*console.log(data.data)*/
 	        		$.each(data.data,function(i,v){	  			
 	        			if(v.ml_parent == 0){
-		        			_data.departmentList.push( {"id":v.id,"name":v.name,"departments":[]});
+		        			_data.departmentList.push( {"id":v.id,"name":v.name,"remark":v.remark,"departments":[]});
 	        			}
 	        		})
 	        		$.each(data.data,function(i,v){	 
 	        			$.each(_data.departmentList,function(j,n){	
 	        				if(v.ml_parent == n.id){
-	        					n.departments.push({"id":v.id,"name":v.name});	        					
+	        					n.departments.push({"id":v.id,"name":v.name,"remark":v.remark});	        					
 	        				}	        				
 		        		})
 	        		})
@@ -53,39 +52,69 @@ var deprtmentVm = new Vue({
     	departmentNodeClick(data) {
     		
     		var _data = this;
-    		var departmentId = "";
     		
-    		departmentId = data.id;
+    		_data._department = data;
     		_data.deEmployeeList = [];
     		
         	$.ajax({
     			type: "get",
-    	        url: "../departments/" + departmentId,
+    	        url: "../departments/" + _data._department.id,
     	        headers: {'domainid': domainid},
     	        success:function(data){
-    	        	console.log(data.data);
-    	        	if(data.data.employees.length > 0){
-    	        		$.each(data.data.employees,function(i,v){
-    	        			_data.deEmployeeList.push({
-    	        				"id":v.id,
-    	        				"name":v.name,
-    	        				"loginId":v.loginId,
-    	        				"seller":v.seller,
-    	        				"isLoginEnabled":v.isLoginEnabled,
-    	        				"sex":v.sex,
-    	        			});
-        	        	})
-    	        	}	
-    	        	console.log(_data.deEmployeeList);
+    	        	if(data.status == 1){
+    	        		if(data.data.employees.length > 0){
+        	        		$.each(data.data.employees,function(i,v){
+        	        			_data.deEmployeeList.push({
+        	        				"id":v.id,
+        	        				"name":v.name,
+        	        				"loginId":v.loginId,
+        	        				"seller":v.seller,
+        	        				"isLoginEnabled":v.isLoginEnabled,
+        	        				"sex":v.sex,
+        	        			});
+            	        	})
+        	        	}	
+    	        	}else{
+    	        		console.log(data.error);
+    	        	}
+    	        	
     	        },
     	        error: function (message) {
     	            console.log(message);
     	        }  
     		})
     	},
-    	deleteRow(index, rows) {
-            rows.splice(index, 1);
-        },
+    	departmentEdit:function(){    		
+ 
+    		$("input[name='idEdit']").val(this._department.id);	
+    		$("input[name='nameEdit']").val(this._department.name);	
+    		$("textarea[name='remarkEdit']").val(this._department.remark);	   			
+    	},
+    	departmentDelete:function(){    	
+    		
+    		if(confirm("确认删除该部门？") == true){
+    			$.ajax({
+        			type: "delete",
+        	        url: "../departments/"+this._department.id,
+        	        headers: {'domainid': domainid},
+        	        success:function(data){
+        	        	if(data.status == 1){
+        	        		alert("删除成功！");
+        	        		window.location.reload();
+        	        		
+        	        	}else{
+        	        		alert("删除失败！");
+        	        	} 	
+        	        },
+        	        error: function (message) {
+        	            console.log(message);
+        	        }  
+        		})  
+    		}	   			
+    	},
+    	departmentRefresh:function(){
+    		window.location.reload();
+    	}
     }   
 })
 
@@ -114,8 +143,6 @@ function createDepartment(){
         	if(data.status == 1){
     			alert("添加成功！");   	
     			$('#departmentCreate').modal('hide');
-    			deprtmentVm.created();
-    			
     			
     		}else{
     			alert("添加失败！");
@@ -127,9 +154,35 @@ function createDepartment(){
     });	
 }
 
-function delDepartment(){
+function editDepartment(){
 	
+	var _department = {};
+	
+	_department["id"]=$("input[name='idEdit']").val();
+	_department["name"]=$("input[name='nameEdit']").val();
+	_department["remark"]=$("textarea[name='remarkEdit']").val();
+	
+	console.log(_department);
+	
+	$.ajax({
+		type: "put",
+        url: "../departments",
+        data: _department,
+        headers: {'domainid': domainid},
+        success:function(data){
+        	if(data.status == 1){
+        		alert("修改成功！");
+        		$('#departmentEdit').modal('hide');
+        	}else{
+        		alert("修改失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
 }
+
 
 $(document).ready(function() {
 	/*页面初始化*/
@@ -139,6 +192,9 @@ $(document).ready(function() {
 	/*操作*/
 	$("#createDepartmentBtn").click(function(){
 		createDepartment();
+	})
+	$("#editDepartmentBtn").click(function(){
+		editDepartment();
 	})
 	
 	
