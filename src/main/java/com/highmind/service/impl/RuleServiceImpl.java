@@ -123,7 +123,7 @@ public  class RuleServiceImpl implements RuleService{
                         }
                         
 
-                        permission.setMenu(permissionMenu.getMenu());
+                       
 
                     }
                 }
