@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../resource/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/element-ui@2.7.2/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+<link rel="stylesheet" href="../resource/table/css/demo_table.css">
+<link rel="stylesheet" href="../resource/css/main.css">
+<link rel="stylesheet" href="../resource/css/public.css">
+
+
+<title>票务平台用户管理</title>
+
+<style type="text/css">
+
+</style>
+
+</head> 
+<body >
+	<div id="menuVm">
+	<div id="wrapper">
+	
+		<!-- NAVBAR -->
+		<div class="navHeader"></div>
+		<!-- END NAVBAR -->
+		
+		<!-- MAIN -->
+		<div class="main">
+			<div class="main-content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<!-- TABLE STRIPED -->
+							<div class="panel" style="height:800px">
+								<div class="panel-heading">
+									<h3 class="panel-title">菜单信息管理</h3>
+								</div>
+								<div class="panel-body" >									
+									<p> 
+										<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#menuCreate"><i class="fa fa-plus"></i></button>		
+										<button type="button" class="btn btn-danger btn-xs" v-on:click="menuDelete"><i class="fa fa-minus" ></i></button>									
+										<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#menuEdit" v-on:click="menuEdit"><i class="fa fa-pencil-square-o"></i></button>
+										<button type="button" class="btn btn-info btn-xs" v-on:click="menuRefresh"><i class="fa fa-refresh"></i></button>									
+									</p>
+								
+									<div class="row">
+										<div class="col-md-3">
+											<el-tree :data="menuList" :props="defaultProps"
+												 @node-click="menuNodeClick"
+												 show-checkbox 
+												 style="background:#EBEEF5;padding:10px;">
+											</el-tree>
+										</div>
+										<div class="col-md-9">
+											<!-- <div class="table-content">
+												<table class="table table-bordered table-hover" id="menuEmployeeTable"></table>
+											</div> -->
+											<el-table :data="menuItemList" border style="width: 100%;" height="650">
+											    <el-table-column fixed sortable prop="id" label="id" width="70"></el-table-column>
+											    <el-table-column fixed sortable prop="name" label="菜单名称" width="200"></el-table-column>
+											    <el-table-column sortable prop="url" label="链接地址" width=""></el-table-column>
+											    
+											</el-table>
+										</div>
+									</div>		
+								</div>
+							</div>
+							<!-- END TABLE STRIPED -->
+						</div>
+					</div>
+				</div>			
+			</div>		
+		</div>
+		<!-- END MAIN -->
+	</div>
+	
+	<!-- Modal -->
+	<div class="modal fade " id="menuCreate" tabindex="-1" role="dialog" aria-labelledby="menuCreateLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">添加菜单</h3>
+					<div class="right">
+						<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<ul class="list-unstyled activity-timeline">
+						<li>
+							<i class="fa fa-comment activity-icon"></i>
+							<p>菜单信息<span class="timestamp">Menu Information</span></p>
+						</li>
+					</ul>
+					
+					<div class="form-horizontal tasi-form" >
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">菜单类型</label>
+                            <div class="col-sm-5">
+                                <select class="form-control" id="menuSelect" >
+                                	<option disabled selected value="0">请选择</option>
+									<option value="1">一级菜单</option>
+									<option value="2">二级菜单</option>
+								</select>
+                            </div>                           
+                        </div>
+                        <div id="root-menuArea" style="display:none;">
+                        	<div class="form-group">
+	                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>一级菜单名称</label>
+	                            <div class="col-sm-9">
+	                                <input type="text" class="form-control" placeholder="请输入一级菜单名称" name="rootNameArea">
+	                            </div>
+	                        </div>                     
+                        </div>
+                        
+                        <div id="sub-menuArea" style="display:none;">
+	                        <div class="form-group">
+	                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>一级菜单</label>
+	                            <div class="col-sm-5">
+	                                <select class="form-control" placeholder="请选择" id="parent_idArea">	                                	
+										<option :value="menu.id" v-for="menu in menuList" >{{menu.name}}</option>    
+									</select>
+	                            </div> 
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>二级菜单名称</label>
+	                            <div class="col-sm-9">
+	                                <input type="text" class="form-control" placeholder="请输入二级菜单名称" name="subNameArea">
+	                            </div>
+	                        </div>
+                       	</div>
+                       	<div class="form-group" >
+                            <label class="col-sm-3 control-label">链接地址</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入链接地址" rows="4" name="urlArea"></input>
+                            </div>
+                        </div>                      
+                    </div>                  			
+				</div>
+				<div class="panel-footer" style="text-align:right;">
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                   	<button class="btn btn-success" type="button" id="createMenuBtn">确认添加</button>
+				</div>
+			</div>
+        </div>
+    </div>
+    
+    
+     <!-- 菜单信息编辑 -->
+    <div class="modal fade " id="menuEdit" tabindex="-1" role="dialog" aria-labelledby="menuEditLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">菜单信息编辑</h3>
+					<div class="right">
+						<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal tasi-form">
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>菜单名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入菜单名称" name="nameEdit">
+                                <input type="text" class="form-control" name="idEdit" style="display:none">
+                            </div>
+                        </div>
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label">备注</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入链接地址" rows="4" name="urlEdit"></input>
+                            </div>
+                        </div>
+                    </div>					
+				</div>
+				<div class="panel-footer" style="text-align:right;">
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                   	<button class="btn btn-success" type="button" id="editMenuBtn">保存修改</button>
+				</div>
+			</div>
+        </div>
+    </div>
+    
+	<!-- End Modal -->
+	</div>
+	
+	<!-- Javascript -->
+	<script src="../resource/js/jquery-3.2.1.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><!-- 开发环境版本  -->	
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> --><!-- 生产环境版本 -->
+	<script src="https://unpkg.com/element-ui@2.7.2/lib/index.js"></script>
+	<script src="../resource/js/jquery.dataTables.min.js"></script>
+	<script src="../resource/js/public.js"></script>
+	<script src="../js/menu.js"></script>
+	<!-- END Javascript -->
+	
+</body>
+</html>

@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+.modal-backdrop.fade{
+	opacity:0.5;
+}
+
+ul.activity-timeline > li{
+	margin-top:25px!important;
+	margin-bottom:15px!important;
+}
+
+.modal .panel-heading{
+	border-bottom:1px solid #ddd!important;
+}
+
+/* table样式修改  */
+.table-content a{
+	padding:10px!important;
+}
+
+.table-content tr.odd td.sorting_1{
+	background-color:#f9f9f9!important;
+}
+
+.table-content tr.even td.sorting_1{
+	background-color:#fff!important;
+}
+
+.table-content input[type=search]{
+	margin-bottom:3px;
+	height:34px;
+	padding: 6px 12px;
+    border: 1px solid #eaeaea;
+	border-radius:2px;
+    outline: none;
+}
+
+.table-content select{
+	margin-bottom:3px;
+	height:34px;
+	padding: 6px;
+    border: 1px solid #eaeaea;
+	border-radius:2px;
+    outline: none;
+}
+
+/* button样式修改 */
+.btn-xs{
+	padding:2px 12px!important;
+}
+
+
+.fancy-checkbox{
+	margin-bottom:10px!important;
+}
