@@ -27,33 +27,28 @@ public class PermissionMenuController extends BaseController<PermissionMenu>{
      */
     
 
-    @Override
-    @RequestMapping(value="/permissionmenus",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAll(HttpServletRequest request) {
-        // TODO Auto-generated method stub
-        String domainid=request.getHeader("domainid");
-        return super.getAllResult(permissionMenuService,domainid);
-    }
+//    @Override
+//    @RequestMapping(value="/permissionmenus",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+//    public String getAll(HttpServletRequest request) {
+//        // TODO Auto-generated method stub
+//        String domainid=request.getHeader("domainid");
+//        return super.getAllResult(permissionMenuService,domainid);
+//    }
+//
+//
+//    @Override
+//    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+//    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
+//        // TODO Auto-generated method stub
+//        String domainid=request.getHeader("domainid");
+//        return super.getOneResult(permissionMenuService, id,domainid);
+//    }
+
+
 
 
     @Override
-    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
-        // TODO Auto-generated method stub
-        String domainid=request.getHeader("domainid");
-        return super.getOneResult(permissionMenuService, id,domainid);
-    }
-
-
-    @Override
-    @RequestMapping(value="/permissionmenus",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
-    public String update(PermissionMenu t) {
-        // TODO Auto-generated method stub
-        return super.updateResult(permissionMenuService, t);
-    }
-
-    @Override
-    @RequestMapping(value="/permissionmenus/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
     public String delete(@PathVariable("id")Long id) {
         // TODO Auto-generated method stub
         return super.deleteResult(permissionMenuService, id);

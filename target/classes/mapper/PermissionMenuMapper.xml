@@ -44,17 +44,21 @@
 		<if test="id!=null">
     		and Sys_Permission.id=#{id}
     	</if>
+    	<if test="Mid!=null">
+    		and Sys_Permission_Menu.menu_id
+    		=#{Mid}
+    	</if>
     	<if test="domainid!=null">
     	 	and Sys_Permission.domainid=#{domainid}
     	</if>
 	</where>
 	
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPid" parameterType="java.lang.Long" resultType="com.highmind.entity.PermissionMenu">
     select 
     <include refid="Base_Column_List" />
     from Sys_Permission_Menu
-    where id = #{id,jdbcType=BIGINT}
+    where permission_id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from Sys_Permission_Menu

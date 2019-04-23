@@ -64,7 +64,7 @@ public class PermissionMenuServiceImpl implements PermissionMenuService{
     @Override
     public int update(PermissionMenu record) {
         // TODO Auto-generated method stub
-        permissionMapper.updateByPrimaryKey(record.getPermission());
+        
         return permissionMenuMapper.updateByPrimaryKeySelective(record);
     }
 
@@ -75,9 +75,13 @@ public class PermissionMenuServiceImpl implements PermissionMenuService{
     @Override
     public int del(Long id) {
         // TODO Auto-generated method stub
-        PermissionMenu permissionMenu=permissionMenuMapper.selectByPrimaryKey(id);
-        permissionMapper.deleteByPrimaryKey(permissionMenu.getPermission_id());
-        return permissionMenuMapper.deleteByPrimaryKey(id);
+        PermissionMenu permissionMenu=permissionMenuMapper.selectByPid(id);
+        int result=permissionMenuMapper.deleteByPrimaryKey(permissionMenu.getId());
+        if(result==0) {
+            return 0;
+        }
+        
+        return permissionMapper.deleteByPrimaryKey(permissionMenu.getPermission_id());
     }
 
 }

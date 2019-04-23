@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.Permission;
+import com.highmind.entity.PermissionMenu;
 
 /**
  * @ClassName PermissionController
@@ -53,19 +54,11 @@ public class PermissionController extends BaseController<Permission> {
         return super.getAllResult(permissionService,domainid);
        
     }
-    /*
-     * (非 Javadoc) Description:
-     * @see com.highmind.controller.BaseController#update()
-     */
-    /*
-     * @Override
-     * @RequestMapping(value="/permissions",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") public String
-     * update(Permission t) { // TODO Auto-generated method stub return super.updateResult(permissionService,t); } (非
-     * Javadoc) Description:
-     * @see com.highmind.controller.BaseController#delete()
-     * @Override
-     * @RequestMapping(value="/permissions/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8")
-     * public String delete(@PathVariable("id")Long id) { // TODO Auto-generated method stub return
-     * super.deleteResult(permissionService,id); }
-     */
+ 
+    @Override
+    @RequestMapping(value="/permissions",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8")
+    public String update(Permission t) {
+        // TODO Auto-generated method stub
+        return super.updateResult(permissionService, t);
+    }
 }

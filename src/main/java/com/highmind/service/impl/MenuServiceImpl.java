@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.highmind.dao.MenuMapper;
+import com.highmind.dao.PermissionMenuMapper;
 import com.highmind.entity.Menu;
+import com.highmind.entity.PermissionMenu;
 import com.highmind.service.MenuService;
 
 /**
@@ -22,6 +24,8 @@ import com.highmind.service.MenuService;
 public class MenuServiceImpl implements MenuService{
     @Autowired
     MenuMapper menuMapper;
+    @Autowired
+    PermissionMenuMapper permissionMenuMapper;
     /* (非 Javadoc)
      * Description:
      * @see com.highmind.service.baseService#selectById(java.util.Map)
@@ -70,6 +74,12 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public int del(Long id) {
         // TODO Auto-generated method stub
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("Mid",id);
+        List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(map);
+        if(!selectPermissionMenu.isEmpty()) {
+           return 0; 
+        }
         return menuMapper.deleteByPrimaryKey(id);
     }
 

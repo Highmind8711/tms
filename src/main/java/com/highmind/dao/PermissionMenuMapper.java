@@ -12,7 +12,7 @@ public interface PermissionMenuMapper {
 
     int insertSelective(PermissionMenu record);
 
-    PermissionMenu selectByPrimaryKey(Long id);
+    PermissionMenu selectByPid(Long id);
 
     int updateByPrimaryKeySelective(PermissionMenu record);
 

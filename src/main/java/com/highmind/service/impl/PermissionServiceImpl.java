@@ -128,6 +128,12 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public int update(Permission record) {
         // TODO Auto-generated method stub
+        PermissionMenu permissionMenu=permissionMenuMapper.selectByPid(record.getId());
+        permissionMenu.setMenu_id(record.getMenu().getId());
+        int result=permissionMenuMapper.updateByPrimaryKeySelective(permissionMenu);
+        if(result==0) {
+            return 0;
+        }
         return permissionMapper.updateByPrimaryKeySelective(record);
     }
 
