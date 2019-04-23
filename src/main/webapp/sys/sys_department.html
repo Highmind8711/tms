@@ -42,16 +42,17 @@
 								</div>
 								<div class="panel-body" >									
 									<p> 
-										<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#departmentCreate"><i class="fa fa-plus"></i></button>
-										<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#department"><i class="fa fa-pencil-square-o"></i></button>
-										<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#department"><i class="fa fa-minus"></i></button>
+										<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#departmentCreate"><i class="fa fa-plus"></i></button>		
+										<button type="button" class="btn btn-danger btn-xs" v-on:click="departmentDelete"><i class="fa fa-minus" ></i></button>									
+										<button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#departmentEdit" v-on:click="departmentEdit"><i class="fa fa-pencil-square-o"></i></button>
+										<button type="button" class="btn btn-info btn-xs" v-on:click="departmentRefresh"><i class="fa fa-refresh"></i></button>									
 									</p>
 								
 									<div class="row">
 										<div class="col-md-3">
 											<el-tree :data="departmentList" :props="defaultProps"
 												 @node-click="departmentNodeClick"
-												 show-checkbox check-strictly
+												 show-checkbox 
 												 style="background:#EBEEF5;padding:10px;">
 											</el-tree>
 										</div>
@@ -91,7 +92,7 @@
 	</div>
 	
 	<!-- Modal -->
-	<div class="modal fade in" id="departmentCreate" tabindex="-1" role="dialog" aria-labelledby="departmentCreateLabel" aria-hidden="true" style="display: none;">
+	<div class="modal fade " id="departmentCreate" tabindex="-1" role="dialog" aria-labelledby="departmentCreateLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="panel">
 				<div class="panel-heading">
@@ -159,6 +160,43 @@
 			</div>
         </div>
     </div>
+    
+    
+     <!-- 部门信息编辑 -->
+    <div class="modal fade " id="departmentEdit" tabindex="-1" role="dialog" aria-labelledby="departmentEditLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">部门信息编辑</h3>
+					<div class="right">
+						<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal tasi-form">
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>部门名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入部门名称" name="nameEdit">
+                                <input type="text" class="form-control" name="idEdit" style="display:none">
+                            </div>
+                        </div>
+                    	<div class="form-group">
+                            <label class="col-sm-3 control-label">备注</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" placeholder="请输入备注信息" rows="4" name="remarkEdit"></textarea>
+                            </div>
+                        </div>
+                    </div>					
+				</div>
+				<div class="panel-footer" style="text-align:right;">
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                   	<button class="btn btn-success" type="button" id="editDepartmentBtn">保存修改</button>
+				</div>
+			</div>
+        </div>
+    </div>
+    
 	<!-- End Modal -->
 	</div>
 	
@@ -167,7 +205,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script><!-- 开发环境版本  -->	
 	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> --><!-- 生产环境版本 -->
 	<script src="https://unpkg.com/element-ui@2.7.2/lib/index.js"></script>
-	<script src="../resource/js/bootstrap.min.js"></script>	
 	<script src="../resource/js/jquery.dataTables.min.js"></script>
 	<script src="../resource/js/public.js"></script>
 	<script src="../js/department.js"></script>

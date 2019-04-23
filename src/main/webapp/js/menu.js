@@ -1,79 +1,120 @@
 
-var table;
+var domainid = 1;
 
-function setMenuTable(){
-	table = $('#menuTable').DataTable( {
-		ajax: {
-			url:'../menus',
-			dataSrc: 'data',	
-		},
-		columns: [
-            /*{
-	            "class":'details-control',
-	            orderable:false,
-	            data:null,
-	            defaultContent: ''
-	        },*/
-			{ 
-            	data: "id" ,
-            	title: "id"
-            },{ 
-            	data: "name" ,
-            	title: "权限名称"
-            },{ 
-            	data: "domainid" ,
-            	title: "所属区域"
-            },{ 
-            	data: "url" ,
-            	title: "链接地址"
-            },{
-            	title:"操作",
-            	orderable:false,
-            }
-        ], 
-        "columnDefs" : [{
-        	"targets" : 4,
-        	"data" : null,
-        	"render" : function(data, type, row) {
-        		var id_ = '"' + row.id + '"';
-        		var row_ = JSON.stringify(row);
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#menuInfo' onclick='getMenu("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#menuEdit' onclick='editPermission("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delMenu("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
-	        			 
-	        	return html;
-        	}
-        }],
-        "order": [[0, 'asc']],
-		"iDisplayLength":10,
-        "bAutoWidth" : true,
-        "oLanguage": {         
-        	"sProcessing" : "正在查询中，请稍后...",               
-        	"sLengthMenu" : "显示 _MENU_ 条",               
-        	"sZeroRecords" : "没有您要搜索的内容",               
-        	"sInfo" : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",               
-        	"sInfoEmpty" : "记录数为0",               
-        	"sInfoFiltered" : "(全部记录数 _MAX_ 条)",               
-        	"sInfoPostFix" : "",               
-        	"sSearch" : "检索内容：",               
-        	"sUrl" : "",               
-        	"oPaginate": {                   
-        		"sFirst" : "第一页",                   
-        		"sPrevious" : "上一页",                   
-        		"sNext" : "下一页",                    
-        		"sLast" : "最后一页"               
-        	}
-        },
-        "searching": true,
-        "lengthChange": true,      
-    });	
-}
+var menuVm = new Vue({
+	el:"#menuVm",
+	data() {
+		return {
+			menuList: [],
+			defaultProps: {
+				children: 'menus',
+				label: 'name'
+			},			
+			_menu:{},
+			menuItemList:[],
+		};
+    },
+    created:function(){
+    	var _data = this;
+    	
+    	$.ajax({
+	        type: "get",
+	        url: "../menus",
+	        headers: {'domainid': domainid},
+	        success: function (data) {
+	        	if(data.status == 1){		        		
+	        		console.log(data.data)
+	        		$.each(data.data,function(i,v){	  			
+	        			if(v.parent_id == 0){
+		        			_data.menuList.push( {"id":v.id,"name":v.name,"url":v.url,"menus":[]});
+	        			}
+	        		})
+	        		$.each(data.data,function(i,v){	 
+	        			$.each(_data.menuList,function(j,n){	
+	        				if(v.parent_id == n.id){
+	        					n.menus.push({"id":v.id,"name":v.name,"url":v.url});	        					
+	        				}	        				
+		        		})
+	        		})
+	        		
+	        	}
+	        	else{
+	        		console.log(data.data);
+	        	}
+	        	
+	        },
+	        error: function (message) {
+	            console.log(message);
+	        }
+	    });
+    },   
+    methods: {
+    	menuNodeClick(data) {
+    		
+    		var _data = this;
+    		
+    		_data._menu = data;
+    		_data.menuItemList = [];
+    		
+    		_data.menuItemList.push({
+				"id":data.id,
+				"name":data.name,
+				"url":data.url,        	        				
+			});  		
+    		
+    	},
+    	menuEdit:function(){    		
+ 
+    		if(this._menu.id == undefined){
+    			alert("请先在菜单数列中选择菜单项！")		
+    		}else{
+    			$("input[name='idEdit']").val(this._menu.id);	
+        		$("input[name='nameEdit']").val(this._menu.name);	
+        		$("input[name='urlEdit']").val(this._menu.url);	   
+    		}	
+    	},
+    	menuDelete:function(){    	
+    		
+    		if(confirm("确认删除该菜单？") == true){
+    			$.ajax({
+        			type: "delete",
+        	        url: "../menus/"+this._menu.id,
+        	        headers: {'domainid': domainid},
+        	        success:function(data){
+        	        	if(data.status == 1){
+        	        		alert("删除成功！");
+        	        		window.location.reload();
+        	        	}else{
+        	        		alert("删除失败！");
+        	        	} 	
+        	        },
+        	        error: function (message) {
+        	            console.log(message);
+        	        }  
+        		})  
+    		}	   			
+    	},
+    	menuRefresh:function(){
+    		window.location.reload();
+    	}
+    }   
+})
 
 function createMenu(){
 	var menu = new FormData();
-	menu.append("name",$("input[name='nameArea']").val());	
-	menu.append("domainid",$("#domainArea option:selected").val());
+		
+	if($("#menuSelect option:selected").val() == 1){
+		menu.append("name",$("input[name='rootNameArea']").val());		
+		menu.append("parent_id","0");	
+		
+	}else if($("#menuSelect option:selected").val() == 2){
+		menu.append("name",$("input[name='subNameArea']").val());	
+		menu.append("parent_id",$("#parent_idArea option:selected").val());		
+	}
 	
+	menu.append("domainid",domainid);
+	menu.append("url",$("input[name='urlArea']").val());
+
 	$.ajax({
         type: "POST",
         url: "../menus",
@@ -82,8 +123,7 @@ function createMenu(){
 		processData:false,
         success: function (data) {
         	if(data.status == 1){
-    			alert("添加成功！");   			
-    			table.ajax.reload();
+    			alert("添加成功！");   	
     			$('#menuCreate').modal('hide');
     			
     		}else{
@@ -96,63 +136,70 @@ function createMenu(){
     });	
 }
 
-function delMenu(menuID){
-	if(confirm("确认删除该菜单？") == true){
-		$.ajax({
-	        type: "delete",
-	        url: "../menus/"+menuID,	        
-			contentType:'json',			
-	        success: function (data) {
-	        	console.log(data);
-	        	if(data.status == 1){
-	    			alert("删除成功！");
-	    			table.ajax.reload();
-	    		}else{
-	    			alert("删除失败！");
-	    		}
-	        },
-	        error: function (message) {
-	            console.log(message);
-	        }
-	    });
-	}
+function editMenu(){
+	
+	var _menu = {};
+	
+	_menu["id"]=$("input[name='idEdit']").val();
+	_menu["name"]=$("input[name='nameEdit']").val();
+	_menu["url"]=$("input[name='urlEdit']").val();
+	
+	$.ajax({
+		type: "put",
+        url: "../menus",
+        data: _menu,
+        headers: {'domainid': domainid},
+        success:function(data){
+        	if(data.status == 1){
+        		alert("修改成功！");
+        		$('#menuEdit').modal('hide');
+        	}else{
+        		alert("修改失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
 }
 
-function getMenu(_menu){
-	var str="";
-	console.log(_menu);
-	str = "<div class='profile-info'><h4 class='heading'>菜单信息</h4><ul class='list-unstyled list-justify'><li>菜单名称 <span>"
-		+ _menu.name 
-		+ "</span></li><li>所属区域 <span>" 
-		+ _menu.domainid
-		+ "</span></li><li>菜单链接地址 <span>" 
-		+ _menu.url	
-	
-	str	+= "</span></li></ul></div>" 
-		
-	$("#menuInfo_detail").html(str);	
-}
-
-function editMenu(_menu){
-	
-}
 
 $(document).ready(function() {
-
 	/*页面初始化*/
 	navbar();
+	deSelectInit();
 	
-	/*数据初始化*/
-	setMenuTable();
-	
+	/*操作*/
 	$("#createMenuBtn").click(function(){
 		createMenu();
 	})
-
+	$("#editMenuBtn").click(function(){
+		editMenu();
+	})
+	
+	
 });
 
 function navbar(){
-	 $(".navHeader").load("../sys/navbar.html");
+	$(".navHeader").load("../sys/navbar.html");
 }
+
+function deSelectInit(){
+	$('#menuSelect').change(function(){ 
+		var deSelect = $(this).children('option:selected').val();		
+		if(deSelect == 1){	
+			$("#root-menuArea").css("display","block");
+			$("#sub-menuArea").css("display","none");			
+		}else if(deSelect == 2){
+			$("#sub-menuArea").css("display","block");
+			$("#root-menuArea").css("display","none");
+		}		
+	});
+}
+
+
+
+
+
 
 

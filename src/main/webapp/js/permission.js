@@ -1,11 +1,15 @@
 
 var table;
+var domainid = 1;
 
 function setPermissionTable(){
 	table = $('#permissionTable').DataTable( {
 		ajax: {
 			url:'../permissions',
 			dataSrc: 'data',	
+			header: {
+				"domainid":domainid
+			}
 		},
 		columns: [
             /*{
@@ -21,14 +25,14 @@ function setPermissionTable(){
             	data: "name" ,
             	title: "权限名称"
             },{ 
-            	data: "domainid" ,
-            	title: "所属区域"
-            },{ 
-            	data: "grouping" ,
-            	title: "权限分组"
+            	data: "menu.name" ,
+            	title: "菜单权限"
             },{ 
             	data: "type" ,
             	title: "权限类型"
+            },{ 
+            	data: "grouping" ,
+            	title: "权限分组"
             },{ 
             	data: "remark" ,
             	title: "标记"
@@ -78,9 +82,10 @@ function setPermissionTable(){
 function createPermission(){
 	var permission = new FormData();
 	permission.append("name",$("input[name='nameArea']").val());	
-	permission.append("domainid",$("#domainArea option:selected").val());
+	permission.append("domainid",domainid);
 	permission.append("grouping",$("#groupingArea option:selected").val());
 	permission.append("type",$("#typeArea option:selected").val());
+	permission.append("menu.id",$("input[name='menuiIdArea']").val());
 	permission.append("remark",$("textarea[name='remarkArea']").val());
 
 	$.ajax({
@@ -179,4 +184,56 @@ $(document).ready(function() {
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
 }
+
+var permissionVm = new Vue({
+	el:"#permissionVm",
+	data() {
+		return {
+			menuList: [],
+			defaultProps: {
+				children: 'menus',
+				label: 'name',
+				value: 'id'
+			},
+		};
+    },
+    created:function (){
+    	var _data = this;
+    	
+    	$.ajax({
+	        type: "get",
+	        url: "../menus",
+	        headers: {'domainid': domainid},
+	        success: function (data) {
+	        	if(data.status == 1){		        		
+	        		$.each(data.data,function(i,v){	  			
+	        			if(v.parent_id == 0){
+		        			_data.menuList.push( {"id":v.id,"name":v.name,"url":v.url,"menus":[]});
+	        			}
+	        		})
+	        		$.each(data.data,function(i,v){	 
+	        			$.each(_data.menuList,function(j,n){	
+	        				if(v.parent_id == n.id){
+	        					n.menus.push({"id":v.id,"name":v.name,"url":v.url});	        					
+	        				}	        				
+		        		})
+	        		})
+	        	}
+	        	else{
+	        		console.log(data.data);
+	        	}	        	
+	        },
+	        error: function (message) {
+	            console.log(message);
+	        }
+	    });
+    },
+    methods: {
+        menuChange(menuVal) {
+          console.log(menuVal[0]);
+          $("input[name='menuIdArea']").val(menuVal[0])
+        },
+        
+    }
+})
 

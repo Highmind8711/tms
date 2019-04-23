@@ -80,18 +80,6 @@ function setEmployeeTable(){
     });	
 }
 
-function departmentNamesInit(){
-	var str="";
-	$.get("../departmentnames", function(data) {
-		$.each(data.data,function(i,v){
-			str += "<option value='"+v.id+"'>" 
-				+ v.name
-				+ "</option>";			
-		});
-		$("#departmentArea_children").html(str);
-	});
-}
-
 function rulesInit(){
 	var str="";
 	$.get("../rulesnames", function(data) {
@@ -241,6 +229,7 @@ function editEmployee(_employee){
 		$("input:checkbox[anme='isLoginEnabledEdit']").attr('checked','false');
 	}
 	
+
 }
 
 $(document).ready(function() {
@@ -248,7 +237,6 @@ $(document).ready(function() {
 	navbar();
 	
 	/*数据初始化*/
-	departmentNamesInit();
 	setEmployeeTable();
 
 	/*操作*/
@@ -317,7 +305,6 @@ var employeeVm = new Vue({
             $("input[name='birthdayArea']").val(dateVal);
           }
       }
-
 })
 
 
