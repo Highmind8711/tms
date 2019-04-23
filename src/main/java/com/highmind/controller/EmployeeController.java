@@ -23,7 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Employee;
+import com.highmind.entity.Loginlog;
 import com.highmind.tool.CodeMsg;
+import com.highmind.tool.JwtUtil;
 import com.highmind.tool.PropertyHolder;
 import com.highmind.tool.Result;
 
@@ -172,39 +174,39 @@ public class EmployeeController extends BaseController<Employee>{
     }
     @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String login(String loginid,String password,String domainid,HttpSession session,HttpServletRequest request) {
-        Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(loginid, password,domainid);
-        try {
-            currentUser.login(token);
-            return JSONObject.toJSONString(Result.success(),successFilter,SerializerFeature.WriteMapNullValue);
-        } catch (AuthenticationException e) {
-            return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
-        }
-        
-        
-//        Map<String,Object> mapLogin=new HashMap<String,Object>();
-//        
-//        mapLogin.put("loginId",loginid);
-//        mapLogin.put("password",password);
-//        mapLogin.put("domainid", domainid);
-//        
-//        Employee employee=employeeService.checkUser(mapLogin);
-//        if(employee!=null) {
-//            String token =JwtUtil.sign(employee.getId(),employee.getLoginId(),employee.getPassword());
-//            JSONObject jsonObject=new JSONObject();
-//            jsonObject.put("token", token);
-//            session.setAttribute("token", token);
-//            Loginlog loginlog=new Loginlog();
-//            System.out.println(token);
-//            loginlog.setDomainid(Long.parseLong(domainid));
-//            loginlog.setEmployee_id(employee.getId());
-//            loginlog.setEnterdate(new Date());
-//            loginlog.setIp(getIpAddress(request));
-//            loginlogService.add(loginlog);
-//            return JSONObject.toJSONString(Result.success(jsonObject),successFilter,SerializerFeature.WriteMapNullValue);
-//        }else {
+//        Subject currentUser = SecurityUtils.getSubject();
+//        UsernamePasswordToken token = new UsernamePasswordToken(loginid, password,domainid);
+//        try {
+//            currentUser.login(token);
+//            return JSONObject.toJSONString(Result.success(),successFilter,SerializerFeature.WriteMapNullValue);
+//        } catch (AuthenticationException e) {
 //            return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
 //        }
+//        
+        
+        Map<String,Object> mapLogin=new HashMap<String,Object>();
+        
+        mapLogin.put("loginId",loginid);
+        mapLogin.put("password",password);
+        mapLogin.put("domainid", domainid);
+        
+        Employee employee=employeeService.checkUser(mapLogin);
+        if(employee!=null) {
+            String token =JwtUtil.sign(employee.getId(),employee.getLoginId(),employee.getPassword());
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("token", token);
+            session.setAttribute("token", token);
+            Loginlog loginlog=new Loginlog();
+            System.out.println(token);
+            loginlog.setDomainid(Long.parseLong(domainid));
+            loginlog.setEmployee_id(employee.getId());
+            loginlog.setEnterdate(new Date());
+            loginlog.setIp(getIpAddress(request));
+            loginlogService.add(loginlog);
+            return JSONObject.toJSONString(Result.success(jsonObject),successFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
         
     }
     /**
