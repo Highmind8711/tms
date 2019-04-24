@@ -22,7 +22,7 @@ public class Employee {
     private Byte isLoginEnabled;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JSONField (format="yyyy-MM-dd HH:mm:ss")  
+    @JSONField (format="yyyy-MM-dd")  
     private Date birthday;
 
     private String qq;
