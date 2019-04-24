@@ -109,7 +109,7 @@
                         <div class="form-group">                      	
                             <label class="col-sm-3 control-label">菜单分配</label>
                             <div class="col-sm-9" >
-                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select              
+                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select           
                                 	@change="menuChange" style="width:100%"></el-cascader>
                                 <input type="text" class="form-control" name="menuIdArea" style="">
                             </div>                           
@@ -169,22 +169,23 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限名称</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="请输入权限名称" name="nameArea"> 
+                                <input type="text" class="form-control" placeholder="请输入权限名称" name="nameEdit"> 
+                                <input type="text" class="form-control" name="permissionIdEdit" >
                             </div>
                         </div>                                            
                         <div class="form-group">
-                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限分组</label>
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限模块</label>
                             <div class="col-sm-9" >
-                                <select class="form-control" id="groupingArea">
-									<option value="用户信息管理">用户信息管理</option>
-									<option value="基本票务信息配置">基本票务信息配置</option>
+                                <select class="form-control" id="groupingEdit">
+									<option name="groupingItemEdit" value="用户信息管理">用户信息管理</option>
+									<option name="groupingItemEdit" value="基本票务信息配置">基本票务信息配置</option>
 								</select>
                             </div>
                         </div>     
                         <div class="form-group">
                             <label class="col-sm-3 control-label">权限类型</label>
                             <div class="col-sm-9" >
-                                <select class="form-control" id="typeArea">
+                                <select class="form-control" id="typeEdit">
 									<option value="1">菜单权限</option>
 									<!-- <option value="2">表单权限</option> -->									
 								</select>
@@ -193,22 +194,22 @@
                         <div class="form-group">                      	
                             <label class="col-sm-3 control-label">菜单分配</label>
                             <div class="col-sm-9" >
-                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select              
-                                	@change="menuChange" style="width:100%"></el-cascader>
-                                <input type="text" class="form-control" name="menuIdArea" style="">
+                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select v-model="menuIdEdit_"          
+                                	@change="menuEditChange" style="width:100%"></el-cascader>
+                                <input type="text" class="form-control" name="menuIdEdit" style="">
                             </div>                           
                         </div>                           
                         <div class="form-group">
                             <label class="col-sm-3 control-label">备注</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" placeholder="请输入备注信息" rows="4" name="remarkArea"></textarea>
+                                <textarea class="form-control" placeholder="请输入备注信息" rows="4" name="remarkEdit"></textarea>
                             </div>
                         </div>                       
                     </div>                          					
 				</div>
 				<div class="panel-footer" style="text-align:right;">
 					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
-                   	<button class="btn btn-success" type="button" id="createPermissionBtn">确认添加</button>
+                   	<button class="btn btn-success" type="button" id="editPermissionBtn">保存修改</button>
 				</div>
 			</div>
         </div>

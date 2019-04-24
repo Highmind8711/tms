@@ -418,26 +418,29 @@ var employeeVm = new Vue({
 	            console.log(message);
 	        }
 	    });
-    	
     },
     methods: {
         departmentChange(deVal) {
-          console.log(deVal[1]);
-          $("input[name='departmentIdArea']").val(deVal[1])
+        	if(deVal.length > 1){
+        		$("input[name='departmentIdArea']").val(deVal[1])
+            }else{
+            	$("input[name='departmentIdArea']").val(deVal[0])
+            }          
         },
-        departmentEditChange(deVal) {
-            console.log(deVal[1]);
-            $("input[name='departmentIdEdit']").val(deVal[1])
-          },
+        departmentEditChange(deEditVal) {   
+        	if(deEditVal.length > 1){
+        		$("input[name='departmentIdEdit']").val(deEditVal[1])
+            }else{
+            	$("input[name='departmentIdEdit']").val(deEditVal[0])
+            }
+        },
         birthdayChange(dateVal) {
         	this.birthdayDate = dateVal;
-        	console.log(dateVal);
             $("input[name='birthdayArea']").val(dateVal);
         },  
-        birthdayEditChange(dateVal) {
-        	this.birthdayDate = dateVal;
-        	console.log(dateVal);
-            $("input[name='birthdayEdit']").val(dateVal);
+        birthdayEditChange(dateEditVal) {
+        	this.birthdayDate = dateEditVal;
+            $("input[name='birthdayEdit']").val(dateEditVal);
         },  
         geteEditEmployeeInit:function(deId,birDate){
         	
@@ -456,7 +459,6 @@ var employeeVm = new Vue({
         			console.log(data.error);
         		}
         	});
-
         	this.birthdayEdit_ = birDate;
         }
         

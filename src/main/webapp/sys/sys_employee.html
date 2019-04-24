@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label"><span style="color:red;">*</span>所属部门</label>
                             <div class="col-sm-9" >
-                                <el-cascader expand-trigger="hover" :options="departmentList" :props="defaultProps" 
+                                <el-cascader expand-trigger="hover" :options="departmentList" :props="defaultProps" change-on-select
                                 	@change="departmentChange" style="width:100%"></el-cascader>
                                 <input type="text" class="form-control" name="departmentIdArea" style="display:none">
                             </div>                           
@@ -246,7 +246,7 @@
 		                        <div class="form-group">
 		                            <label class="col-sm-3 control-label">所属部门</label>
 		                            <div class="col-sm-9" >
-		                                <el-cascader expand-trigger="hover" :options="departmentList" :props="defaultProps" v-model="departmentIdEdit_"
+		                                <el-cascader expand-trigger="hover" :options="departmentList" :props="defaultProps" change-on-select v-model="departmentIdEdit_"
 		                                	@change="departmentEditChange" style="width:100%"></el-cascader>
 		                                <input type="text" class="form-control" name="departmentIdEdit" style="display:none">
 		                            </div>                           

@@ -25,11 +25,11 @@ function setPermissionTable(){
             	data: "name" ,
             	title: "权限名称"
             },{ 
+            	data: "grouping" ,
+            	title: "权限模块"
+            },{ 
             	data: "type" ,
             	title: "权限类型"
-            },{ 
-            	data: "grouping" ,
-            	title: "权限分组"
             },{ 
             	data: "remark" ,
             	title: "备注"
@@ -45,7 +45,7 @@ function setPermissionTable(){
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
 	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#permissionInfo' onclick='getPermission("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#permissionEdit' onclick='editPermission("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#permissionEdit' onclick='editPermissionInit("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
 	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delPermission("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
 	        			 
 	        	return html;
@@ -158,9 +158,61 @@ function getPermission(_permission){
 	$("#permissionInfo_detail").html(str);	
 }
 
-function editPermission(PermissionID){
+function editPermissionInit(_permission){
+	
+	console.log(_permission);
+	
+	var menuIdEdit_ = ""
+	if(_permission.menu != null){
+		menuIdEdit_ = _permission.menu.id;	
+	}
+		
+	permissionVm.getEditPermissionInit(menuIdEdit_);
+		
+	$("input[name='permissionIdEdit']").val(_permission.id);
+	$("input[name='nameEdit']").val(_permission.name);	
+	$("#groupingEdit").val(_permission.grouping);	
+	$("#typeEdit option:selected").val(_permission.type);
+	$("input[name='menuIdEdit']").val(menuIdEdit_);	
+	$("textarea[name='remarkEdit']").val(_permission.remark);	
 	
 }
+
+function editPermission(){
+	
+	var _permission = {};
+
+	_permission["domainid"] = domainid;
+	_permission["id"] = $("input[name='permissionIdEdit']").val();	
+	_permission["name"] = $("input[name='nameEdit']").val();
+	_permission["menu_id"] = $("input[name='menuIdEdit']").val();	
+	_permission["type"] =  $("#typeEdit option:selected").val();
+	_permission["grouping"] = $("#groupingEdit option:selected").val();
+	
+	console.log(_permission);
+	
+	$.ajax({
+		type: "put",
+        url: "../permission",
+        data: _permission,
+        success:function(data){
+        	if(data.status == 1){
+        		alert("修改成功！");
+        		table.ajax.reload();
+        		$('#permissionEdit').modal('hide');
+        	}else{
+        		/*console.log(data.error);*/
+        		alert("修改失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
+	
+}
+
+
 
 $(document).ready(function() {
 	/*页面初始化*/
@@ -172,6 +224,9 @@ $(document).ready(function() {
 	/*操作*/
 	$("#createPermissionBtn").click(function(){
 		createPermission();
+	})
+	$("#editPermissionBtn").click(function(){
+		editPermission();
 	})
 
 });
@@ -190,6 +245,7 @@ var permissionVm = new Vue({
 				label: 'name',
 				value: 'id'
 			},
+			menuIdEdit_:[]
 		};
     },
     created:function (){
@@ -225,9 +281,37 @@ var permissionVm = new Vue({
     },
     methods: {
         menuChange(menuVal) {
-          console.log(menuVal[0]);
-          $("input[name='menuIdArea']").val(menuVal[0])
+           if(menuVal.length > 1){
+        	  $("input[name='menuIdArea']").val(menuVal[1])
+           }else{
+        	  $("input[name='menuIdArea']").val(menuVal[0])
+           }          
         },
+        menuEditChange(menuEditVal) {
+	       if(menuEditVal.length > 1){
+	      	  $("input[name='menuIdEdit']").val(menuEditVal[1])
+	       }else{
+	      	  $("input[name='menuIdEdit']").val(menuEditVal[0])
+	       }
+        },
+        getEditPermissionInit:function(menuId){
+        	console.log(menuId)
+        	var _data = this;
+        	_data.menuIdEdit_ = [];
+        	
+        	$.get("../menus/" + menuId, function(data) {
+        		if(data.status == 1){
+        			if(data.data.parent_id != 0){
+        				_data.menuIdEdit_.push(data.data.parent_id);
+        				_data.menuIdEdit_.push(menuId);
+        			}else{
+        				_data.menuIdEdit_.push(menuId);
+        			}	
+        		}else{
+        			console.log(data.error);
+        		}
+        	});
+        }
         
     }
 })
