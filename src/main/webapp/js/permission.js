@@ -25,9 +25,6 @@ function setPermissionTable(){
             	data: "name" ,
             	title: "权限名称"
             },{ 
-            	data: "menu.name" ,
-            	title: "菜单权限"
-            },{ 
             	data: "type" ,
             	title: "权限类型"
             },{ 
@@ -35,14 +32,14 @@ function setPermissionTable(){
             	title: "权限分组"
             },{ 
             	data: "remark" ,
-            	title: "标记"
+            	title: "备注"
             },{
             	title:"操作",
             	orderable:false,
             }
         ], 
         "columnDefs" : [{
-        	"targets" : 6,
+        	"targets" : 5,
         	"data" : null,
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
@@ -55,7 +52,7 @@ function setPermissionTable(){
         	}
         }],
         "order": [[0, 'asc']],
-		"iDisplayLength":10,
+		"iDisplayLength":100,
         "bAutoWidth" : true,
         "oLanguage": {         
         	"sProcessing" : "正在查询中，请稍后...",               
@@ -85,7 +82,7 @@ function createPermission(){
 	permission.append("domainid",domainid);
 	permission.append("grouping",$("#groupingArea option:selected").val());
 	permission.append("type",$("#typeArea option:selected").val());
-	permission.append("menu.id",$("input[name='menuiIdArea']").val());
+	permission.append("menu.id",$("input[name='menuIdArea']").val());
 	permission.append("remark",$("textarea[name='remarkArea']").val());
 
 	$.ajax({
@@ -146,17 +143,15 @@ function getPermission(_permission){
 		+ "</span></li><li>备注 <span>" 
 		+ _permission.remark
 				
-	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>权限类型</h4>" 
+	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>菜单权限</h4>" 
 			
-	/*if(_employee.rules.length != 0){
-		$.each(_employee.rules,function(i,v){
-			str += "<p>" 
-				+ v.rulename
-				+ "</p>";   						   			
-		});            	
+	if(_permission.menu != null){
+		str += "<p>" 
+			+ _permission.menu.name
+			+ "</p>"	          	
 	}else{
 		str += "<p>暂无</p>";
-	}*/
+	}
 	
 	str	+= "</div>" ;
 				

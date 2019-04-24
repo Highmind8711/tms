@@ -2,6 +2,7 @@
 
 var table;
 var domainid = 1;
+var rulesList = {};
 
 function setEmployeeTable(){
 	table = $('#employeeTable').DataTable( {
@@ -46,11 +47,10 @@ function setEmployeeTable(){
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
 	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo' onclick='getEmployee("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployee("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRules' onclick='rulesInit()'><i class='lnr lnr-bookmark'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployeeInit("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRulesEdit' onclick='getEmployeeRules("+ row_ + ")'><i class='lnr lnr-bookmark'></i></button>"
 	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
-	        		 
-	        			 
+        			 
 	        	return html;
         	}
         }],
@@ -75,22 +75,8 @@ function setEmployeeTable(){
         	}
         },
         "searching": true,
-        "lengthChange": true,
-       
+        "lengthChange": true,     
     });	
-}
-
-function rulesInit(){
-	var str="";
-	$.get("../rulesnames", function(data) {
-		var _rules = data.data;
-		$.each(_rules,function(i,v){
-			str += "<label class='fancy-checkbox'><input type='checkbox' id="+ v.id +"><span>"
-				+ v.rulename
-				+ "</span></label>"
-		});
-		$("#employeeRules_Init").html(str);
-	});
 }
 
 function createEmployee(){
@@ -107,7 +93,6 @@ function createEmployee(){
 	}
 	
 	employee.append("photo",null);
-
 	employee.append("loginId ",$("input[name='loginIdArea']").val());
 	employee.append("password", $("input[name='passwordArea']").val());
 	employee.append("seller ", $("input[name='isSeller']").prop('checked'));
@@ -196,6 +181,14 @@ function getEmployee(_employee){
 		str += "否";
 	}	
 	
+	str += "</span></li><li>是否售票员 <span>" 
+	
+	if( _employee.seller == true){
+		str += "是";
+	}else{
+		str += "否";
+	}
+	
 	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>角色分配</h4>" 
 	
 	if(_employee.rules.length != 0){
@@ -213,24 +206,147 @@ function getEmployee(_employee){
 	$("#employeeInfo_detail").html(str);	
 }
 
-function editEmployee(_employee){
+function editEmployeeInit(_employee){
 	
-	console.log(_employee);
-	
+	var departmentIdEdit_ = _employee.department.id;
+	var birthdayEdit_ = _employee.birthday;	
+	employeeVm.geteEditEmployeeInit(departmentIdEdit_,birthdayEdit_);
+		
+	$("input[name='employeeIdEdit']").val(_employee.id);
 	$("input[name='nameEdit']").val(_employee.name);	
 	$("input[name='sexEdit'][value='"+ _employee.sex +"']").attr("checked",true); 
+	$("input[name='departmentIdEdit']").val(_employee.department.id);	
+	$("input[name='birthdayEdit']").val(_employee.birthday);			
 	$("input[name='telEdit']").val(_employee.tel);	
 	$("input[name='qqEdit']").val(_employee.qq);	
 	$("input[name='emailEdit']").val(_employee.email);		
 	$("input[name='loginIdEdit']").val(_employee.loginId);	
-	if(_employee.isLoginEnabled == 1){
-		$("input:checkbox[anme='isLoginEnabledEdit']").attr('checked','true');
+	if(_employee.isLoginEnabled == "1"){
+		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked','true');
 	}else{
-		$("input:checkbox[anme='isLoginEnabledEdit']").attr('checked','false');
+		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked','false');
+	}	
+	$("input:checkbox[name='isSellerEdit']").prop('checked',_employee.seller);
+	
+}
+
+function editEmployee(){
+	
+	var _employee = {};
+
+	_employee["domainid"] = domainid;
+	_employee["id"] = $("input[name='employeeIdEdit']").val();	
+	_employee["name"] = $("input[name='nameEdit']").val();
+	_employee["sex"] =$("input[name='sexEdit']:checked").val(); 
+	_employee["department_id"] =$("input[name='departmentIdEdit']").val();	
+	_employee["birthday"] =$("input[name='birthdayEdit']").val();
+	_employee["tel"] =$("input[name='telEdit']").val();
+	_employee["qq"] =$("input[name='qqEdit']").val();	
+	_employee["email"] =$("input[name='emailEdit']").val();		
+	_employee["loginId"] =$("input[name='loginIdEdit']").val();
+	_employee["seller"] =  $("input[name='isSellerEdit']").prop('checked');
+	_employee["photo"] = null;
+	
+	if($("input[name='isLoginEnabled']").prop('checked')) {
+		_employee["isLoginEnabled"] = 1;
+	}else{
+		_employee["isLoginEnabled"] = 0;
+	}
+
+	console.log(_employee);
+	
+	$.ajax({
+		type: "put",
+        url: "../employees",
+        data: _employee,
+        success:function(data){
+        	if(data.status == 1){
+        		alert("修改成功！");
+        		table.ajax.reload();
+        		$('#employeeEdit').modal('hide');
+        	}else{
+        		/*console.log(data.error);*/
+        		alert("修改失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
+}
+
+function employeeRulesInit(){
+	$.get("../rulesnames", function(data) {
+		if(data.status == 1){
+			rulesList = data.data;
+		}else{
+			console.log(data.error);
+		}
+	});
+}
+
+function getEmployeeRules(_employee){
+	
+	var str="";
+	var emRulesList=[];	
+	$("#employeeRules_Init").html("");
+	$("input[name='employeeRulesId']").val(_employee.id);
+	
+	if(_employee.rules.length != 0){
+		$.each(_employee.rules,function(i,v){
+			emRulesList.push({"id":v.id,"name":v.rulename});
+		});		
 	}
 	
-
+	$.each(rulesList,function(i,v){	
+		str += "<label class='fancy-checkbox' ><input type='checkbox' name='emRlues' value="+ v.id +"><span>"
+		+ v.rulename
+		+ "</span></label>"			
+	});		
+	$("#employeeRules_Init").html(str);
+	
+	$.each(rulesList,function(i,v){	
+		$.each(emRulesList,function(j,w){
+			if(w.id == v.id){
+				$("input[type=checkbox][name='emRlues'][value='"+w.id+"']").prop('checked', true);
+			}
+		})			
+	});		
 }
+
+function editEmployeeRules(){
+	
+	var emRules = [];
+	var emRulesChecked = $("input[name='emRlues']:checked");
+		
+	$.each(emRulesChecked,function(i,v){	
+		emRules.push({
+			"domainid":domainid,
+			"employee_id":$("input[name='employeeRulesId']").val(),
+			"rule_id":this.value
+		})			
+	});
+
+	
+	$.ajax({
+		type: "put",
+        url: "../ruleemployees",
+        data: JSON.stringify(emRules),
+        success:function(data){
+        	if(data.status == 1){
+        		alert("员工角色分配成功！");
+        		table.ajax.reload();
+        		$('#employeeRulesEdit').modal('hide');
+        	}else{
+        		alert("员工角色分配失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
+}
+
 
 $(document).ready(function() {
 	/*页面初始化*/
@@ -238,10 +354,17 @@ $(document).ready(function() {
 	
 	/*数据初始化*/
 	setEmployeeTable();
+	employeeRulesInit();	
 
 	/*操作*/
 	$("#createEmployeeBtn").click(function(){
 		createEmployee();
+	})
+	$("#editEmployeeBtn").click(function(){
+		editEmployee();
+	})
+	$("#editEmployeeRulesBtn").click(function(){
+		editEmployeeRules();
 	})
 	
 });
@@ -260,7 +383,9 @@ var employeeVm = new Vue({
 				label: 'name',
 				value: 'id'
 			},
-			birthdayDate:''
+			birthdayDate:'',
+			departmentIdEdit_:[],
+			birthdayEdit_:''
 		};
     },
     created:function (){
@@ -293,18 +418,49 @@ var employeeVm = new Vue({
 	            console.log(message);
 	        }
 	    });
+    	
     },
     methods: {
         departmentChange(deVal) {
           console.log(deVal[1]);
           $("input[name='departmentIdArea']").val(deVal[1])
         },
+        departmentEditChange(deVal) {
+            console.log(deVal[1]);
+            $("input[name='departmentIdEdit']").val(deVal[1])
+          },
         birthdayChange(dateVal) {
         	this.birthdayDate = dateVal;
         	console.log(dateVal);
             $("input[name='birthdayArea']").val(dateVal);
-          }
-      }
+        },  
+        birthdayEditChange(dateVal) {
+        	this.birthdayDate = dateVal;
+        	console.log(dateVal);
+            $("input[name='birthdayEdit']").val(dateVal);
+        },  
+        geteEditEmployeeInit:function(deId,birDate){
+        	
+        	var _data = this;
+        	_data.departmentIdEdit_ = [];
+        	
+        	$.get("../departments/" + deId, function(data) {
+        		if(data.status == 1){
+        			if(data.data.ml_parent != 0){
+        				_data.departmentIdEdit_.push(data.data.ml_parent);
+        				_data.departmentIdEdit_.push(deId);
+        			}else{
+        				_data.departmentIdEdit_.push(deId);
+        			}	
+        		}else{
+        			console.log(data.error);
+        		}
+        	});
+
+        	this.birthdayEdit_ = birDate;
+        }
+        
+    }
 })
 
 

@@ -98,7 +98,7 @@
                             </div>
                         </div>     
                         <div class="form-group">
-                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限类型</label>
+                            <label class="col-sm-3 control-label">权限类型</label>
                             <div class="col-sm-9" >
                                 <select class="form-control" id="typeArea">
 									<option value="1">菜单权限</option>
@@ -107,9 +107,9 @@
                             </div>
                         </div> 
                         <div class="form-group">                      	
-                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>菜单分配</label>
+                            <label class="col-sm-3 control-label">菜单分配</label>
                             <div class="col-sm-9" >
-                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select
+                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select              
                                 	@change="menuChange" style="width:100%"></el-cascader>
                                 <input type="text" class="form-control" name="menuIdArea" style="">
                             </div>                           
@@ -154,6 +154,69 @@
         </div>
     </div>
 
+	<!-- 权限编辑 -->
+	<div class="modal fade in" id="permissionEdit" tabindex="-1" role="dialog" aria-labelledby="permissionEditLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">权限信息编辑</h3>
+					<div class="right">
+						<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+					</div>
+				</div>
+				<div class="panel-body">									
+					<div class="form-horizontal tasi-form" >
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入权限名称" name="nameArea"> 
+                            </div>
+                        </div>                                            
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限分组</label>
+                            <div class="col-sm-9" >
+                                <select class="form-control" id="groupingArea">
+									<option value="用户信息管理">用户信息管理</option>
+									<option value="基本票务信息配置">基本票务信息配置</option>
+								</select>
+                            </div>
+                        </div>     
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">权限类型</label>
+                            <div class="col-sm-9" >
+                                <select class="form-control" id="typeArea">
+									<option value="1">菜单权限</option>
+									<!-- <option value="2">表单权限</option> -->									
+								</select>
+                            </div>
+                        </div> 
+                        <div class="form-group">                      	
+                            <label class="col-sm-3 control-label">菜单分配</label>
+                            <div class="col-sm-9" >
+                                <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select              
+                                	@change="menuChange" style="width:100%"></el-cascader>
+                                <input type="text" class="form-control" name="menuIdArea" style="">
+                            </div>                           
+                        </div>                           
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" placeholder="请输入备注信息" rows="4" name="remarkArea"></textarea>
+                            </div>
+                        </div>                       
+                    </div>                          					
+				</div>
+				<div class="panel-footer" style="text-align:right;">
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                   	<button class="btn btn-success" type="button" id="createPermissionBtn">确认添加</button>
+				</div>
+			</div>
+        </div>
+    </div>
+	
+	
+	
+	
 	<!-- End Modal -->
 	</div>
 	<!-- Javascript -->

@@ -87,17 +87,7 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" placeholder="请输入角色名称" name="rulenameArea"> 
                             </div>
-                        </div>                     
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>所属区域</label>
-                            <div class="col-sm-9" >
-                                <select class="form-control" id="domainArea">
-									<option value="11">11</option>
-									<option value="12">12</option>
-									<option value="13">13</option>
-								</select>
-                            </div>
-                        </div>       
+                        </div>                                              
                         <div class="form-group">
                             <label class="col-sm-3 control-label">备注</label>
                             <div class="col-sm-9">
@@ -138,8 +128,44 @@
         </div>
     </div>
     
+    <!-- 角色信息编辑 -->
+	<div class="modal fade in" id="ruleEdit" tabindex="-1" role="dialog" aria-labelledby="ruleEditLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="panel">
+				<div class="panel-heading">
+					<h3 class="panel-title">角色信息编辑</h3>
+					<div class="right">
+						<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+					</div>
+				</div>
+				<div class="panel-body">
+							
+					<div class="form-horizontal tasi-form" >
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><span style="color:red;">*</span>角色名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="请输入角色名称" name="rulenameEdit"> 
+                                <input type="text" class="form-control" name="ruleIdEdit" style="display:none;"> 
+                            </div>
+                        </div>                                              
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" placeholder="请输入备注信息" rows="4" name="remarkEdit"></textarea>
+                            </div>
+                        </div>                       
+                    </div>                          					
+				</div>
+				<div class="panel-footer" style="text-align:right;">
+					<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                   	<button class="btn btn-success" type="button" id="editRuleBtn">保存修改</button>
+				</div>
+			</div>
+        </div>
+    </div>
+     
     <!-- 角色权限分配 -->
-    <div class="modal fade " id="rulePermissions" tabindex="-1" role="dialog" aria-labelledby="employeeInfoLabel" aria-hidden="true" style="display: none;">
+    <div class="modal fade " id="rulePermissionsEdit" tabindex="-1" role="dialog" aria-labelledby="rulePermissionsEditLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="panel">
 				<div class="panel-heading">
@@ -154,7 +180,7 @@
 							<div class="form-horizontal tasi-form">
 		                    	<div class="form-group">
 		                            <label class="col-sm-6 control-label">请选择需要添加的权限（可多选）</label>
-		                            
+		                            <input type="text" class="form-control" name="rulePermissionsId" >	     
 		                        </div>
 		                        <div class="form-group">
 		                            <label class="col-sm-1 control-label"></label>
@@ -175,7 +201,6 @@
 	
 	<!-- Javascript -->
 	<script src="../resource/js/jquery-3.2.1.js"></script>
-	<script src="../resource/js/bootstrap.min.js"></script>
 	<script src="../resource/js/jquery.dataTables.min.js"></script>
 	<script src="../resource/js/public.js"></script>
 	<script src="../js/rules.js"></script>

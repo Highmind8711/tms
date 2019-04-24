@@ -1,11 +1,16 @@
 
 var table;
+var domainid = 1;
+var permissionsList = {};
 
 function setRuleTable(){
 	table = $('#ruleTable').DataTable( {
 		ajax: {
 			url:'../rules',
 			dataSrc: 'data',	
+			header: {
+				"domainid":domainid
+			}
 		},
 		columns: [
             /*{
@@ -21,25 +26,22 @@ function setRuleTable(){
             	data: "rulename" ,
             	title: "角色名称"
             },{ 
-            	data: "domainid" ,
-            	title: "所属区域"
-            },{ 
             	data: "remark" ,
-            	title: "标记"
+            	title: "备注"
             },{
             	title:"操作",
             	orderable:false,
             }
         ], 
         "columnDefs" : [{
-        	"targets" : 4,
+        	"targets" : 3,
         	"data" : null,
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
 	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#ruleInfo' onclick='getRule("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#ruleEdit' onclick='editRule("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#rulePermissions' onclick='permissionsInit()'><i class='lnr lnr-bookmark'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#ruleEdit' onclick='editRuleInit("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#rulePermissionsEdit' onclick='getRulePermissions("+ row_ + ")'><i class='lnr lnr-bookmark'></i></button>"
 	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delRule("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
 	        			 
 	        	return html;
@@ -70,24 +72,10 @@ function setRuleTable(){
     });	
 }
 
-function permissionsInit(){
-	var str="";
-	$.get("../rulesnames", function(data) {
-		var _rules = data.data;
-		console.log(_rules);
-		$.each(_rules,function(i,v){
-			str += "<label class='fancy-checkbox'><input type='checkbox' id="+ v.id +"><span>"
-				+ v.rulename
-				+ "</span></label>"
-		});
-		$("#rulePermission_Init").html(str);
-	});
-}
-
 function createRule(){
 	var rule = new FormData();
 	rule.append("rulename",$("input[name='rulenameArea']").val());	
-	rule.append("domainid",$("#domainArea option:selected").val());
+	rule.append("domainid",domainid);
 	rule.append("remark",$("textarea[name='remarkArea']").val());
 
 	$.ajax({
@@ -116,7 +104,8 @@ function delRule(ruleID){
 	if(confirm("确认删除该角色？") == true){
 		$.ajax({
 	        type: "delete",
-	        url: "../rules/"+ruleID,	        
+	        url: "../rules/"+ruleID,	
+	        headers: {'domainid': domainid},
 			contentType:'json',			
 	        success: function (data) {
 	        	console.log(data);
@@ -145,24 +134,128 @@ function getRule(_rule){
 		+ _rule.remark
 				
 	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>权限分配</h4>" 
-		
-	/*if(_employee.rules.length != 0){
-		$.each(_employee.rules,function(i,v){
-			str += "<p>" 
-				+ v.rulename
-				+ "</p>";   						   			
-		});            	
+	
+	if(_rule.permissions != null){
+		if(_rule.permissions.length != 0 ){
+			$.each(_rule.permissions,function(i,v){
+				str += "<p>" 
+					+ v.name
+					+ "</p>";   						   			
+			});            	
+		}else{
+			str += "<p>暂无</p>";
+		}
 	}else{
 		str += "<p>暂无</p>";
 	}
 	
-	str	+= "</div>" ;*/
+	
+	str	+= "</div>" ;
 			
 	$("#ruleInfo_detail").html(str);	
 }
 
-function editRule(_rule){
+function editRule(){
 	
+	var _rules = {};
+	
+	_rules["id"]=$("input[name='ruleIdEdit']").val();
+	_rules["rulename"]=$("input[name='rulenameEdit']").val();
+	_rules["remark"]=$("textarea[name='remarkEdit']").val();
+	
+	$.ajax({
+		type: "put",
+        url: "../rules",
+        data: _rules,
+        success:function(data){
+        	if(data.status == 1){
+        		alert("修改成功！");
+        		table.ajax.reload();
+        		$('#ruleEdit').modal('hide');
+        	}else{
+        		alert("修改失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})	
+}
+
+function rulePermissionsInit(){
+	$.get("../permissions", function(data) {
+		if(data.status == 1){
+			permissionsList = data.data;
+		}else{
+			console.log(data.error);
+		}
+	});
+}
+
+function getRulePermissions(_rule){
+	
+	var str="";
+	var ruPermissionsList=[];	
+	$("#rulePermissions_Init").html("");
+	$("input[name='rulePermissionsId']").val(_rule.id);
+	
+	if(_rule.permissions != null){
+		if(_rule.permission.length != 0){
+			$.each(_rule.permission,function(i,v){
+				ruPermissionsList.push({"id":v.id,"name":v.name});
+			});		
+		}
+	}
+		
+	$.each(permissionsList,function(i,v){	
+		str += "<label class='fancy-checkbox' ><input type='checkbox' name='ruPermissions' value="+ v.id +"><span>"
+		+ v.name
+		+ "</span></label>"			
+	});		
+	$("#rulePermissions_Init").html(str);
+	
+	$.each(permissionsList,function(i,v){	
+		$.each(ruPermissionsList,function(j,w){
+			if(w.id == v.id){
+				$("input[type=checkbox][name='ruPermissions'][value='"+w.id+"']").prop('checked', true);
+			}
+		})			
+	});		
+}
+
+function editRulePermissions(){
+	
+	var ruPermissions = [];
+	var ruPermissionsChecked = $("input[name='ruPermissions']:checked");
+		
+	$.each(ruPermissionsChecked,function(i,v){	
+		ruPermissions.push({
+			"domainid":domainid,
+			"rule_id":$("input[name='rulePermissionsId']").val(),
+			"permission_id":this.value
+		})			
+	});
+	
+	console.log(ruPermissions);
+	
+	$.ajax({
+		type: "put",
+        url: "../rulepermissions",
+        data: JSON.stringify(ruPermissions),
+        success:function(data){
+        	if(data.status == 1){
+        		alert("角色权限分配成功！");
+        		table.ajax.reload();
+        		$('#rulePermissionsEdit').modal('hide');
+        	}else{
+        		alert("角色权限分配失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
+		
 }
 
 $(document).ready(function() {
@@ -172,10 +265,17 @@ $(document).ready(function() {
 	
 	/*数据初始化*/
 	setRuleTable();
+	rulePermissionsInit();
 
 	/*操作*/
 	$("#createRuleBtn").click(function(){
 		createRule();
+	})
+	$("#editRuleBtn").click(function(){
+		editRule();
+	})
+	$("#editRulePermissionsBtn").click(function(){
+		editRulePermissions();
 	})
 
 });

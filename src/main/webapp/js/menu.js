@@ -136,7 +136,7 @@ function createMenu(){
     });	
 }
 
-function editMenu(){
+function editMenuSave(){
 	
 	var _menu = {};
 	
@@ -174,7 +174,7 @@ $(document).ready(function() {
 		createMenu();
 	})
 	$("#editMenuBtn").click(function(){
-		editMenu();
+		editMenuSave();
 	})
 	
 	
