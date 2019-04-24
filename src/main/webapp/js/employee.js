@@ -3,6 +3,8 @@
 var table;
 var domainid = 1;
 var rulesList = {};
+var reader = new FileReader();
+var imgStr="";
 
 function setEmployeeTable(){
 	table = $('#employeeTable').DataTable( {
@@ -347,6 +349,36 @@ function editEmployeeRules(){
 	})
 }
 
+function readFile() {
+    var AllowImgFileSize = 2100000; 
+    var file = $("#userImg")[0].files[0];
+    var imgUrlBase64;
+    if (file) {
+        // 将文件以Data URL形式读入页面
+        imgUrlBase64 = reader.readAsDataURL(file);
+        reader.onload = function(e) {            
+            var suffix = "";
+            if (document.getElementById("userImg").value != '') {
+                suffix = document.getElementById("userImg").value.match(/^(.*)(\.)(.{1,8})$/)[3];
+                suffix = suffix.toUpperCase();
+            }
+            if (suffix != "BMP" && suffix != "JPG" && suffix != "JPEG" && suffix != "PNG") {
+                alert('上传失败，请上传头像图片！');
+                $('#userImg').fileinput('refresh');
+                return;
+            } else {
+                if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+                    alert('上传失败，请上传不大于2M的图片！');
+                    $('#userImg').fileinput('refresh');
+                    return;
+                } else {
+                    imgStr = reader.result;
+                };
+            };
+        };
+    };
+}
+
 
 $(document).ready(function() {
 	/*页面初始化*/
@@ -355,6 +387,7 @@ $(document).ready(function() {
 	/*数据初始化*/
 	setEmployeeTable();
 	employeeRulesInit();	
+	readFile()
 
 	/*操作*/
 	$("#createEmployeeBtn").click(function(){
@@ -366,12 +399,19 @@ $(document).ready(function() {
 	$("#editEmployeeRulesBtn").click(function(){
 		editEmployeeRules();
 	})
+	$("#userImg").change(function(){
+		readFile();
+		console.log($("#userImg").val());
+		console.log(imgStr);
+	});
 	
 });
 
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
 }
+
+
 
 var employeeVm = new Vue({
 	el:"#employeeVm",
@@ -385,7 +425,8 @@ var employeeVm = new Vue({
 			},
 			birthdayDate:'',
 			departmentIdEdit_:[],
-			birthdayEdit_:''
+			birthdayEdit_:'',
+				
 		};
     },
     created:function (){
@@ -460,8 +501,8 @@ var employeeVm = new Vue({
         		}
         	});
         	this.birthdayEdit_ = birDate;
-        }
-        
+        },
+       
     }
 })
 

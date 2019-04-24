@@ -10,19 +10,41 @@
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
 <link rel="stylesheet" href="../resource/table/css/demo_table.css">
+<link rel="stylesheet" href="../resource/css/bootstrap-fileupload.css">
 <link rel="stylesheet" href="../resource/css/main.css">
 <link rel="stylesheet" href="../resource/css/public.css">
-
-
-<!-- Javascript -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
-
 
 <title>票务平台用户管理</title>
 
 <style type="text/css">
 
 
+</style>
+
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 </style>
 
 </head> 
@@ -285,8 +307,27 @@
 		                            <div class="col-sm-9">
 		                                <input type="text" class="form-control" placeholder="请输入邮箱地址" name="emailEdit">
 		                            </div>
-		                        </div>
-		                        
+		                        </div>  
+		                        <div class="form-group">
+		                            <label class="col-sm-3 control-label">头像上传</label>
+		                            <div class="col-sm-9">
+		                                 <div class="fileupload fileupload-new" data-provides="fileupload">
+                                             <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                             	<img src="../resource/img/noimage.png" alt="">
+                                             </div>
+                                             <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 200px; line-height: 20px;"></div>
+                                             <div>
+                                              	 
+                                             <span class="btn btn-white btn-file" id = "fileBtn">
+                                             	<span class="fileupload-new"><i class="fa fa-paperclip"></i> 图片选择</span>
+                                              	<span class="fileupload-exists"><i class="fa fa-undo"></i> 调换图片</span>
+                                             	<input type="file" class="default" id = "userImg">
+                                             </span>
+                                                                                              
+                                             </div>
+                                         </div> 
+		                            </div>
+		                        </div> 
 		                    </div>
 					    </div>
 					    <div class="tab-pane fade " id="tab2">
@@ -396,6 +437,7 @@
 	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> --><!-- 生产环境版本 -->
 	<script src="https://unpkg.com/element-ui@2.7.2/lib/index.js"></script>
 	<script src="../resource/js/jquery.dataTables.min.js"></script>
+	<script src="../resource/js/bootstrap-fileupload.js"></script>
 	<script src="../resource/js/public.js"></script>
 	<script src="../js/employee.js"></script>
 
