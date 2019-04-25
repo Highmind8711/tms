@@ -2,7 +2,7 @@
 
 var webUrl = "http://localhost:8080"
 var table;
-var domainid = 1;
+var domainid = 2;
 var rulesList = {};
 var photoUrl = "";
 /*var reader = new FileReader();*/

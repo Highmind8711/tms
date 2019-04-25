@@ -65,6 +65,9 @@ public  class EmployeeServiceImpl implements EmployeeService{
     @Override
     public int update(Employee record) {
         // TODO Auto-generated method stub
+        if(record.getPhoto()!=null) {
+            
+        }
         return employeeMapper.updateByPrimaryKeySelective(record);
     }
 

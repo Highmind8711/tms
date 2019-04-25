@@ -29,7 +29,7 @@ public interface BaseService<T>  {
     * @Description  添加
     * @return
     */
-   int add(T record);
+   Long add(T record);
    /**
     * 
     * @Description 更新

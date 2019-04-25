@@ -96,45 +96,58 @@ var menuVm = new Vue({
     	},
     	menuRefresh:function(){
     		window.location.reload();
+    	},
+    	createMenu:function(){
+    		var menu = new FormData();
+    		let name;	
+    		let parent_id;
+    		let url;
+    		if($("#menuSelect option:selected").val() == 1){
+    			name=$("input[name='rootNameArea']").val();
+    			parent_id="0";
+    			
+    		}else if($("#menuSelect option:selected").val() == 2){
+    			name=$("input[name='subNameArea']").val();
+    			parent_id=$("#parent_idArea option:selected").val();
+    		}
+    		url=$("input[name='urlArea']").val();
+    		menu.append("name",name);		
+    		menu.append("parent_id",parent_id);	
+    		menu.append("domainid",domainid);
+    		menu.append("url",url);
+
+    		$.ajax({
+    	        type: "POST",
+    	        url: "../menus",
+    	        data: menu,
+    			contentType:false,
+    			processData:false,
+    	        success: function (data) {
+    	        	if(data.status == 1){
+    	    			alert("添加成功！");   	
+    	    			$('#menuCreate').modal('hide');
+    	    			if($("#menuSelect option:selected").val() == 1){
+    	    				_data.menuList.push( {"id":data.data,"name":name,"url":url,"menus":[]});
+    	    				
+    	    			}else if($("#menuSelect option:selected").val() == 2){
+    	    				$.each(_data.menuList,function(j,n){	
+    	        				if(parent_id == n.id){
+    	        					n.menus.push({"id":data.data,"name":name,"url":url});	        					
+    	        				}	        				
+    		        		})
+    	    			}
+    	    		}else{
+    	    			alert("添加失败！");
+    	    		}
+    	        },
+    	        error: function (message) {
+    	            console.log(message);
+    	        }
+    	    });	
     	}
     }   
 })
 
-function createMenu(){
-	var menu = new FormData();
-		
-	if($("#menuSelect option:selected").val() == 1){
-		menu.append("name",$("input[name='rootNameArea']").val());		
-		menu.append("parent_id","0");	
-		
-	}else if($("#menuSelect option:selected").val() == 2){
-		menu.append("name",$("input[name='subNameArea']").val());	
-		menu.append("parent_id",$("#parent_idArea option:selected").val());		
-	}
-	
-	menu.append("domainid",domainid);
-	menu.append("url",$("input[name='urlArea']").val());
-
-	$.ajax({
-        type: "POST",
-        url: "../menus",
-        data: menu,
-		contentType:false,
-		processData:false,
-        success: function (data) {
-        	if(data.status == 1){
-    			alert("添加成功！");   	
-    			$('#menuCreate').modal('hide');
-    			
-    		}else{
-    			alert("添加失败！");
-    		}
-        },
-        error: function (message) {
-            console.log(message);
-        }
-    });	
-}
 
 function editMenuSave(){
 	
@@ -170,9 +183,6 @@ $(document).ready(function() {
 	deSelectInit();
 	
 	/*操作*/
-	$("#createMenuBtn").click(function(){
-		createMenu();
-	})
 	$("#editMenuBtn").click(function(){
 		editMenuSave();
 	})

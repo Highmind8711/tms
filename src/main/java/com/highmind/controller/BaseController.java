@@ -73,7 +73,7 @@ public abstract class BaseController<T> {
     
     public String addResult(BaseService<T> baseService,T t) {
         // TODO Auto-generated method stub
-        int id =baseService.add(t);
+        Long id =baseService.add(t);
         if(id>0) {
             return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {

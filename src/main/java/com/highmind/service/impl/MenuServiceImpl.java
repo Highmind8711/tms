@@ -52,9 +52,10 @@ public class MenuServiceImpl implements MenuService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(Menu record) {
+    public Long add(Menu record) {
         // TODO Auto-generated method stub
-        return menuMapper.insertSelective(record);
+        menuMapper.insertSelective(record);
+        return record.getId();
     }
 
     /* (非 Javadoc)
