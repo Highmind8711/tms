@@ -98,7 +98,7 @@ public class PermissionServiceImpl implements PermissionService {
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(Permission record) {
+    public Long add(Permission record) {
         // TODO Auto-generated method stub
         permissionMapper.insertSelective(record);
         Long pid=record.getId();
@@ -118,7 +118,7 @@ public class PermissionServiceImpl implements PermissionService {
             result=permissionMenuMapper.insertSelective(permissionMenu);
             
 //        }
-        return result;
+        return (long) result;
     }
 
     /* (非 Javadoc)

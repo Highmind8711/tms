@@ -48,9 +48,9 @@ public class RulePermissionServiceImpl implements RulePermissionService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(RulePermission record) {
+    public Long add(RulePermission record) {
         // TODO Auto-generated method stub
-        return rulePermissionMapper.insertSelective(record);
+        return (long) rulePermissionMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

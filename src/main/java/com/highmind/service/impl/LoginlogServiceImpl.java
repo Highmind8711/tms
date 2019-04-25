@@ -72,9 +72,9 @@ public class LoginlogServiceImpl implements LoginlogService{
      * @see com.highmind.service.BaseService#add(java.lang.Object)
      */
     @Override
-    public int add(Loginlog record) {
+    public Long add(Loginlog record) {
         // TODO Auto-generated method stub
-        return loginlogMapper.insertSelective(record);
+        return (long) loginlogMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

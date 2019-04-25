@@ -110,6 +110,7 @@ var menuVm = new Vue({
     			name=$("input[name='subNameArea']").val();
     			parent_id=$("#parent_idArea option:selected").val();
     		}
+    		console.log(name);
     		url=$("input[name='urlArea']").val();
     		menu.append("name",name);		
     		menu.append("parent_id",parent_id);	
@@ -127,10 +128,11 @@ var menuVm = new Vue({
     	    			alert("添加成功！");   	
     	    			$('#menuCreate').modal('hide');
     	    			if($("#menuSelect option:selected").val() == 1){
-    	    				_data.menuList.push( {"id":data.data,"name":name,"url":url,"menus":[]});
+    	    				console.log("1234");
+    	    				this.menuList.push( {"id":data.data,"name":name,"url":url,"menus":[]});
     	    				
     	    			}else if($("#menuSelect option:selected").val() == 2){
-    	    				$.each(_data.menuList,function(j,n){	
+    	    				$.each(this.menuList,function(j,n){	
     	        				if(parent_id == n.id){
     	        					n.menus.push({"id":data.data,"name":name,"url":url});	        					
     	        				}	        				

@@ -47,9 +47,9 @@ public class DepartmentServiceImpl implements DepartmentService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(Department record) {
+    public Long add(Department record) {
         // TODO Auto-generated method stub
-        return departmentMapper.insertSelective(record);
+        return (long) departmentMapper.insertSelective(record);
     }
     /* (非 Javadoc)
      * Description:

@@ -48,9 +48,9 @@ public class RuleEmployeeServiceImpl implements RuleEmployeeService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(RuleEmployee record) {
+    public Long add(RuleEmployee record) {
         // TODO Auto-generated method stub
-        return ruleEmployeeMapper.insertSelective(record);
+        return (long) ruleEmployeeMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

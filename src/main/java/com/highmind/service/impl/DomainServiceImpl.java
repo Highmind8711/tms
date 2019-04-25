@@ -73,9 +73,9 @@ public class DomainServiceImpl implements DomainService {
      * @see com.highmind.service.BaseService#add(java.lang.Object)
      */
     @Override
-    public int add(Domain record) {
+    public Long add(Domain record) {
         // TODO Auto-generated method stub
-        return domainMapper.insertSelective(record);
+        return (long) domainMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

@@ -52,9 +52,9 @@ public class PermissionOperationServiceImpl implements PermissionOperationServic
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(PermissionOperation record) {
+    public Long add(PermissionOperation record) {
         // TODO Auto-generated method stub
-        return permissionOperationMapper.insertSelective(record);
+        return (long) permissionOperationMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

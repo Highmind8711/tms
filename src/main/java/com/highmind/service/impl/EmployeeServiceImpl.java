@@ -53,9 +53,9 @@ public  class EmployeeServiceImpl implements EmployeeService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(Employee record) {
+    public Long add(Employee record) {
         // TODO Auto-generated method stub
-        return employeeMapper.insertSelective(record);
+        return (long) employeeMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

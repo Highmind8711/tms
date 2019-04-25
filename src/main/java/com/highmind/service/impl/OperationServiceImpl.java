@@ -49,9 +49,9 @@ public class OperationServiceImpl implements OperationService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(Operation record) {
+    public Long add(Operation record) {
         // TODO Auto-generated method stub
-        return operationMapper.insertSelective(record);
+        return (long) operationMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

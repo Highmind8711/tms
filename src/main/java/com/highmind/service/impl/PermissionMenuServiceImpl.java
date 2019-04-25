@@ -52,9 +52,9 @@ public class PermissionMenuServiceImpl implements PermissionMenuService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(PermissionMenu record) {
+    public Long add(PermissionMenu record) {
         // TODO Auto-generated method stub
-        return permissionMenuMapper.insertSelective(record);
+        return (long) permissionMenuMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)

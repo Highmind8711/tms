@@ -60,9 +60,9 @@ public  class RuleServiceImpl implements RuleService{
      * @see com.highmind.service.baseService#add(java.lang.Object)
      */
     @Override
-    public int add(Rule record) {
+    public Long add(Rule record) {
         // TODO Auto-generated method stub
-        return ruleMapper.insertSelective(record);
+        return (long) ruleMapper.insertSelective(record);
     }
 
     /* (非 Javadoc)
