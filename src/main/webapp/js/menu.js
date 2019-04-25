@@ -98,6 +98,7 @@ var menuVm = new Vue({
     		window.location.reload();
     	},
     	createMenu:function(){
+    		var _data = this;
     		var menu = new FormData();
     		let name;	
     		let parent_id;
@@ -129,10 +130,10 @@ var menuVm = new Vue({
     	    			$('#menuCreate').modal('hide');
     	    			if($("#menuSelect option:selected").val() == 1){
     	    				console.log("1234");
-    	    				this.menuList.push( {"id":data.data,"name":name,"url":url,"menus":[]});
+    	    				_data.menuList.push( {"id":data.data,"name":name,"url":url,"menus":[]});
     	    				
     	    			}else if($("#menuSelect option:selected").val() == 2){
-    	    				$.each(this.menuList,function(j,n){	
+    	    				$.each(_data.menuList,function(j,n){	
     	        				if(parent_id == n.id){
     	        					n.menus.push({"id":data.data,"name":name,"url":url});	        					
     	        				}	        				

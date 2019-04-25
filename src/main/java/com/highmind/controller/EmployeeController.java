@@ -241,12 +241,20 @@ public class EmployeeController extends BaseController<Employee>{
         
     }
     @RequestMapping(value="/getInfo",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public void getinfo(String token) {
+    public String getinfo(String token) {
         System.out.println(token);
         if(JwtUtil.verify(token)) {
-            
+            Long userId=JwtUtil.getUserId(token);
+            Map<String,Object> map=new HashMap<String,Object>();
+            map.put("id", userId);
+            Employee employee=employeeService.selectById(map);
+            if(employee!=null) {
+                return JSONObject.toJSONString(Result.success(employee),successFilter,SerializerFeature.WriteMapNullValue);
+            }else{
+                return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+            }
         }else {
-           
+            return JSONObject.toJSONString(Result.error(CodeMsg.SESSION_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
         }
     }
 }
