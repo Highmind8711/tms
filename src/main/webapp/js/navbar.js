@@ -1,15 +1,59 @@
 
-
 var nemuList = "";
 
-$().ready(function(){
+function getToken(){
 	
-	getMenuList();	
-	getToken();
+	var str = sessionStorage.token;
+	/*console.log(str);*/
+}
+
+
+function getMenuList(){
+	
+	$.ajax({
+        type: "get",
+        url: "../menurecursion",
+        headers: {'domainid': domainid},
+        success: function (data) {
+        	if(data.status == 1){		        		
+        		
+        	}
+        	else{
+        		console.log(data.error);
+        	}
+        	
+        },
+        error: function (message) {
+            console.log(message);
+        }
+    });
+}
+
+
+function editPassword(){
+	
+	
+	
+	
+	
+}
+
+
+$().ready(function(){
+	/*页面初始化*/
+	getMenuHidden()
+	getMenuList()
+	
+	/*数据初始化*/
+	getToken()
+	
+	/*操作*/
+	
+	
 })
 	
 /*控制左侧菜单显示隐藏*/
-function getMenuList(){
+function getMenuHidden(){
 	$("#menubtn").click(function(){
 		var _width = $(document.body).outerWidth(true);
 		if(_width > 1024){
@@ -40,8 +84,14 @@ function getMenuActive(){
 	
 }
 
-function getToken(){
-	
-	var str = sessionStorage.token;
-	/*console.log(str);*/
-}
+
+
+
+
+
+
+
+
+
+
+
