@@ -45,14 +45,14 @@ import com.highmind.entity.Domain;
 public class DomainController extends BaseController<Domain>{
 
     @Override
-    @RequestMapping(value="/domain",method=RequestMethod.POST,produces = "text/json;charset=UTF-8") 
+    @RequestMapping(value="/domains",method=RequestMethod.POST,produces = "text/json;charset=UTF-8") 
     public String add(Domain t) { // TODO Auto-generated method stub 
         return super.addResult(domainService, t); 
     }
      
 
     @Override
-    @RequestMapping(value="/domain",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value="/domains",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAll(HttpServletRequest request) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
@@ -61,23 +61,24 @@ public class DomainController extends BaseController<Domain>{
 
 
      @Override
-     @RequestMapping(value="/domain/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8") 
+     @RequestMapping(value="/domains/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8") 
      public String getOne(@PathVariable("id")Long id,HttpServletRequest request) {
          // TODO Auto-generated method stub 
          String domainid=request.getHeader("domainid"); 
          return super.getOneResult(domainService, id,domainid); 
     }
     @Override
-    @RequestMapping(value="/domain",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") 
+    @RequestMapping(value="/domains",method=RequestMethod.PUT,produces = "text/json;charset=UTF-8") 
     public String update(Domain t) { 
         // TODO Auto-generated method stub 
         return super.updateResult(domainService, t); 
         
     }
     @Override
-    @RequestMapping(value="/domain/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") 
-    public String delete(Long id) { 
+    @RequestMapping(value="/domains/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") 
+    public String delete(@PathVariable("id")Long id) { 
         // TODO Auto-generated method stub 
+        //throw new NullPointerException();
         return super.deleteResult(domainService, id); 
         
     }

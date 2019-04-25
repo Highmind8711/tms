@@ -352,6 +352,7 @@ function editEmployeeRules(){
 function readFile() {
     var AllowImgFileSize = 2100000; 
     var file = $("#userImg")[0].files[0];
+    
     var imgUrlBase64;
     if (file) {
         // 将文件以Data URL形式读入页面

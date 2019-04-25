@@ -16,7 +16,8 @@ public class CodeMsg {
     public static CodeMsg ILLEGAL_REQUEST = new CodeMsg(0,"非法请求");
     public static CodeMsg SESSION_NOT_EXSIST =  new CodeMsg(0,"用户未登录");
     public static CodeMsg NOT_FIND_DATA = new CodeMsg(0,"查找不到对应数据");
-
+    //状态异常，这个是被捕获的固定状态
+    public static CodeMsg CASCADE_DELETE = new CodeMsg(3,"级联删除异常");
     public CodeMsg(int status, String error) {
         this.status = status;
         this.error = error;

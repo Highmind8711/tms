@@ -170,40 +170,28 @@
 	    <artifactId>fastjson</artifactId>
 	    <version>${fastjson.version}</version>
 	</dependency>
+	<!-- 虚拟数据 -->
     <dependency>
 		<groupId>org.mockito</groupId>
   		<artifactId>mockito-core</artifactId>
 		<version>${mockito-core.version}</version>
     </dependency>
+    <!-- 生成token工具 -->
     <dependency>
   		<groupId>com.auth0</groupId>
   		<artifactId>java-jwt</artifactId>
   		<version>3.8.0</version>
 	</dependency>
-	<dependency>
-  		<groupId>org.apache.shiro</groupId>
-  		<artifactId>shiro-all</artifactId>
-  		<version>${shiro.version}</version>
-	</dependency>
-	<dependency>
-    	<groupId>org.apache.shiro</groupId>
-    	<artifactId>shiro-cas</artifactId>
-    	<version>${shiro.version}</version>
-	</dependency>
-	<dependency>
-  		<groupId>org.pac4j</groupId>
-  		<artifactId>pac4j-cas</artifactId>
-  		<version>3.6.1</version>
-	</dependency>
-	<dependency>
-  		<groupId>io.buji</groupId>
-  		<artifactId>buji-pac4j</artifactId>
-  		<version>4.1.0</version>
-	</dependency>
+	<!-- 跨域 -->
 	<dependency>
     	<groupId>com.thetransactioncompany</groupId>
     	<artifactId>cors-filter</artifactId>
     	<version>1.3.2</version>
+	</dependency>
+	<dependency>
+  		<groupId>cn.hutool</groupId>
+  		<artifactId>hutool-core</artifactId>
+  		<version>4.5.6</version>
 	</dependency>
   </dependencies>
   <build>

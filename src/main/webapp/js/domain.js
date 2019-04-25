@@ -5,7 +5,7 @@ var domainid = 1;
 function setDomainTable(){
 	table = $('#domainTable').DataTable( {
 		ajax: {
-			url:'../domain',
+			url:'../domains',
 			dataSrc: 'data',	
 			header: {
 				"domainid":domainid
@@ -38,7 +38,7 @@ function setDomainTable(){
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
-	        	var html = "<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#domainEdit' onclick='editDomain("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
+	        	var html = "<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#domainEdit' onclick='getDomain("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
 	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delDomain("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
 		 
 	        	return html;
@@ -69,8 +69,33 @@ function setDomainTable(){
        
     });	
 }
+function createDomain(){
+	var domain = new FormData();
+	domain.append("domain_name",$("input[name='nameArea']").val());
+	domain.append("remark",$("textarea[name='remarkArea']").val());
 
-function deldomain(domainID){
+	$.ajax({
+        type: "POST",
+        url: "../domains",
+        data: domain,
+		contentType:false,
+		processData:false,
+        success: function (data) {
+        	if(data.status == 1){
+    			alert("添加成功！");   			
+    			table.ajax.reload();
+    			$('#domainCreate').modal('hide');
+    		}else{
+    			alert("添加失败！");
+    		}
+        },
+        error: function (message) {
+            console.log(message);
+        }
+    });
+}
+
+function delDomain(domainID){
 	if(confirm("确认删除该区域？") == true){
 		$.ajax({
 	        type: "delete",
@@ -81,7 +106,7 @@ function deldomain(domainID){
 	    			alert("删除成功！");
 	    			table.ajax.reload();
 	    		}else{
-	    			alert("删除失败！");
+	    			alert("删除异常！请检查是该区域下是否有部门或成员");
 	    		}
 	        },
 	        error: function (message) {
@@ -91,14 +116,39 @@ function deldomain(domainID){
 	}
 }
 
-function editdomain(_domain){
+function getDomain(_domain){
 	
 	console.log(_domain);
-	$("input[name='nameEdit']").val(_domain.name);	
+	$("input[name='nameEdit']").val(_domain.domain_name);	
 	$("input[name='remarkEdit']").val(_domain.remark);	
+	$("input[name='idEdit']").val(_domain.id);
 	
 }
-
+function editDomain(){
+	var _domain = {};
+	console.log(_domain);
+	_domain.id=$("input[name='idEdit']").val();
+	_domain.domain_name=$("input[name='nameEdit']").val();
+	_domain.remark=$("input[name='remarkEdit']").val();	
+	$.ajax({
+		type: "put",
+        url: "../domains",
+        data: _domain,
+        success:function(data){
+        	if(data.status == 1){
+        		alert("修改成功！");
+        		table.ajax.reload();
+        		$('#domainEdit').modal('hide');
+        	}else{
+        		/*console.log(data.error);*/
+        		alert("修改失败！");
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
+}
 $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
@@ -110,7 +160,9 @@ $(document).ready(function() {
 	$("#createDomainBtn").click(function(){
 		createDomain();
 	})
-	
+	$("#domainEditBtn").click(function(){
+		editDomain();
+	})
 });
 
 function navbar(){
