@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>票务平台用户管理</title>
 </head>
 <body>
 		<!-- NAVBAR -->
@@ -20,7 +20,9 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o"></i>&nbsp;<span>Administrator</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
-								<li><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
+								<li ><a data-toggle="modal" data-target="#passwordEdit">
+									<i class="lnr lnr-cog"></i> <span>修改密码</span></a>
+								</li>
 								<li><a href="#"><i class="lnr lnr-exit"></i> <span>注销</span></a></li>
 							</ul>
 						</li>
@@ -63,6 +65,55 @@
 			</div>
 		</aside>
 		<!-- END SIDEBAR -->
+		
+		<!-- Modal -->
+		<!-- 修改密码 -->
+	    <div class="modal fade " id="passwordEdit" tabindex="-1" role="dialog" aria-labelledby="passwordEditLabel" aria-hidden="true" style="display: none;">
+	        <div class="modal-dialog" role="document">
+	            <div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title">修改密码</h3>
+						<div class="right">
+							<button type="button" class="btn-remove" data-dismiss="modal" aria-hidden="true"><i class="lnr lnr-cross"></i></button>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="form-horizontal tasi-form">
+	                    	<div class="form-group">
+	                            <label class="col-sm-3 control-label">登录账号</label>
+	                            <div class="col-sm-9">
+	                            	<h5>Administrator</h5>
+	                                <input type="text" class="form-control" name="employeeId" style="display:none">
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+								<label class="col-sm-3 control-label">原登录密码</label>
+								<div class="col-sm-9">
+									<input type="text" onfocus="this.type='password'"
+										class="form-control" placeholder="请输入原登录密码"
+										name="psdEdit">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">新登录密码</label>
+								<div class="col-sm-9">
+									<input type="text" onfocus="this.type='password'"
+										class="form-control" placeholder="请输入新登录密码"
+										name="psdNewEdit">
+								</div>
+							</div>
+	                    </div>					
+					</div>
+					<div class="panel-footer" style="text-align:right;">
+						<button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+	                   	<button class="btn btn-success" type="button" id="editPassowordBtn">保存修改</button>
+					</div>
+				</div>
+	        </div>
+	    </div>
+    	<!-- END Modal -->
+		
+		
 		
 		<!-- Javascript -->
 		<script src="../resource/js/jquery-3.2.1.js"></script>

@@ -49,18 +49,22 @@ body{
 							<div class="form-auth-small" >
 								<div class="form-group">
 									<label for="signin-email" class="control-label sr-only">账号</label>
-									<input type="email" class="form-control" placeholder="请输入登录账号" name="signin-loginId">
+									<input type="text" class="form-control" placeholder="请输入登录账号" name="signin-loginId">
 								</div>
 								<div class="form-group">
 									<label for="signin-password" class="control-label sr-only">密码</label>
 									<input type="text" onfocus="this.type='password'" class="form-control" 
 												autocomplete="off" placeholder="请输入登录密码" name="signin-password" >
 								</div>
+								<div class="form-group">
+									<label for="signin-password" class="control-label sr-only">密码</label>
+									<input type="text"class="form-control" placeholder="请输入公司编码" name="signin-domainid" >
+								</div>
 								<div class="form-group clearfix">
-									<label class="fancy-checkbox element-left">
+									<!-- <label class="fancy-checkbox element-left">
 										<input type="checkbox">
 										<span>Remember me</span>
-									</label>
+									</label> -->
 								</div>
 								<button type="button" class="btn btn-primary btn-lg btn-block" id="loginBtn">登&emsp;&emsp;录</button>								
 							</div>

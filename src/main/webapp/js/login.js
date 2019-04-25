@@ -4,7 +4,7 @@ function signin(){
 	var signin = new FormData();
 	signin.append("loginid",$("input[name='signin-loginId']").val());
 	signin.append("password",$("input[name='signin-password']").val());
-	signin.append("domainid",10);
+	signin.append("domainid",$("input[name='signin-domainid']").val());
 	$.ajax({
         type: "POST",
         url: "../login",
@@ -13,7 +13,8 @@ function signin(){
 		processData:false,
         success: function (data) {
         	if(data.status == 1){ 	
-        		sessionStorage.setItem("token",data.token);		
+        		sessionStorage.setItem("token",data.token);	
+        		sessionStorage.setItem("domainid",data.domainid);	
         		window.location.href = "sys_employee.html";	
         		console.log(data.data.token)
     		}else{
