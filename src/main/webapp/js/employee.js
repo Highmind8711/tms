@@ -1,10 +1,11 @@
 
 
+var webUrl = "http://localhost:8080"
 var table;
 var domainid = 1;
 var rulesList = {};
-var reader = new FileReader();
-var imgStr="";
+var photoUrl = "";
+/*var reader = new FileReader();*/
 
 function setEmployeeTable(){
 	table = $('#employeeTable').DataTable( {
@@ -94,7 +95,7 @@ function createEmployee(){
 		employee.append("birthday",$("input[name='birthdayArea']").val());
 	}
 	
-	employee.append("photo",null);
+	employee.append("photo",photoUrl);
 	employee.append("loginId ",$("input[name='loginIdArea']").val());
 	employee.append("password", $("input[name='passwordArea']").val());
 	employee.append("seller ", $("input[name='isSeller']").prop('checked'));
@@ -113,7 +114,8 @@ function createEmployee(){
 		processData:false,
         success: function (data) {
         	if(data.status == 1){
-    			alert("添加成功！");   			
+    			alert("添加成功！");  
+    			photoUrl = "";
     			table.ajax.reload();
     			$('#employeeCreate').modal('hide');
     			
@@ -149,10 +151,19 @@ function delEmployee(employeeID){
 }
 
 function getEmployee(_employee){
+	console.log(_employee.photo)
 	var str="";
-	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li>姓名 <span>"
+	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li style='height:70px;'>头像 <span><img src='"
+	
+	if( _employee.photo != "null" && _employee.photo != ""){
+		str += webUrl +  _employee.photo;
+	}else{
+		str += "../resource/img/noimage.png";
+	}
+		
+	str	+= "' alt='' style='height:70px'></span></li><li>姓名 <span>" 
 		+ _employee.name 
-		+ "</span></li><li>所属区域 <span>" 
+		+ "</span></li><li>所属公司 <span>" 
 		+ domainid
 		+ "</span></li><li>所属部门 <span>" 
 		+ _employee.department.name
@@ -329,7 +340,6 @@ function editEmployeeRules(){
 		})			
 	});
 
-	
 	$.ajax({
 		type: "put",
         url: "../ruleemployees",
@@ -349,36 +359,37 @@ function editEmployeeRules(){
 	})
 }
 
-function readFile() {
-    var AllowImgFileSize = 2100000; 
-    var file = $("#userImg")[0].files[0];
-    
-    var imgUrlBase64;
-    if (file) {
-        // 将文件以Data URL形式读入页面
-        imgUrlBase64 = reader.readAsDataURL(file);
-        reader.onload = function(e) {            
-            var suffix = "";
-            if (document.getElementById("userImg").value != '') {
-                suffix = document.getElementById("userImg").value.match(/^(.*)(\.)(.{1,8})$/)[3];
-                suffix = suffix.toUpperCase();
-            }
-            if (suffix != "BMP" && suffix != "JPG" && suffix != "JPEG" && suffix != "PNG") {
-                alert('上传失败，请上传头像图片！');
-                $('#userImg').fileinput('refresh');
-                return;
-            } else {
-                if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
-                    alert('上传失败，请上传不大于2M的图片！');
-                    $('#userImg').fileinput('refresh');
-                    return;
-                } else {
-                    imgStr = reader.result;
-                };
-            };
-        };
-    };
+function photoImgUpload(imgFile){
+
+	console.log(imgFile)
+    var _emPhoto = new FormData();
+	_emPhoto.append("picture", imgFile);
+
+    $.ajax({
+        url: '../upload',
+        type: 'post',
+        data: _emPhoto,
+        datatype:'JSON',
+        fileElementId: 'fileContent',
+        processData: false,
+        contentType: false,
+        cache: false,
+        traditional: true,
+        success: function (data) {   
+        	var _data = $.parseJSON( data );
+        	if(_data.status = "1"){
+                photoUrl = _data.data    
+        	}else{
+        		console.log(data.error)
+        	}
+            
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+    });
 }
+
 
 
 $(document).ready(function() {
@@ -388,7 +399,6 @@ $(document).ready(function() {
 	/*数据初始化*/
 	setEmployeeTable();
 	employeeRulesInit();	
-	readFile()
 
 	/*操作*/
 	$("#createEmployeeBtn").click(function(){
@@ -400,11 +410,6 @@ $(document).ready(function() {
 	$("#editEmployeeRulesBtn").click(function(){
 		editEmployeeRules();
 	})
-	$("#userImg").change(function(){
-		readFile();
-		console.log($("#userImg").val());
-		console.log(imgStr);
-	});
 	
 });
 
@@ -508,6 +513,36 @@ var employeeVm = new Vue({
 })
 
 
+/*function readFile() {
+    var AllowImgFileSize = 2100000; 
+    var file = $("#userImg")[0].files[0];
+    console.log(file);
+    var imgUrlBase64="";
+    if (file) {
+        // 将文件以Data URL形式读入页面
+        imgUrlBase64 = reader.readAsDataURL(file);
+        reader.onload = function(e) {            
+            var suffix = "";
+            if (document.getElementById("userImg").value != '') {
+                suffix = document.getElementById("userImg").value.match(/^(.*)(\.)(.{1,8})$/)[3];
+                suffix = suffix.toUpperCase();
+            }
+            if (suffix != "BMP" && suffix != "JPG" && suffix != "JPEG" && suffix != "PNG") {
+                alert('上传失败，请上传头像图片！');
+                $('#userImg').fileinput('refresh');
+                return;
+            } else {
+                if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
+                    alert('上传失败，请上传不大于2M的图片！');
+                    return;
+                } else {
+                	fileUpload();
+                };
+            };
+        };
+    };
+}
+*/
 
 
 
