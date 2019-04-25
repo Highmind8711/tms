@@ -145,14 +145,14 @@ public class EmployeeController extends BaseController<Employee>{
             //将文件在服务器的存储路径返回
             jsonObject.put("status", 1);
             jsonObject.put("data", "upload_image/" + fileName);
-            return jsonObject.toString();
+            return jsonObject.toJSONString();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             System.out.println("上传失败");
             e.printStackTrace();
             jsonObject.put("status", 0);
             jsonObject.put("error", "上传失败");
-            return jsonObject.toString();
+            return jsonObject.toJSONString();
         }
     }
     @RequestMapping(value="/checkIsExist/{loginId}",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
