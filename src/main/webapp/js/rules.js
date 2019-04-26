@@ -247,7 +247,7 @@ function editRulePermissions(){
 	console.log(ruPermissions);
 	
 	$.ajax({
-		type: "put",
+		type: "post",
         url: "../rulepermissions",
         contentType: "application/json;charset=UTF-8",
         data: JSON.stringify(ruPermissions),
