@@ -59,10 +59,10 @@
     		and Sys_Employee.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
     	<if test="loginId!=null">
-            and Sys_Employee.loginId=#{loginId,jdbcType=BIGINT}
+            and Sys_Employee.loginId=#{loginId,jdbcType=BIGINT}  
         </if>
         <if test="password!=null">
-            and Sys_Employee.password=#{password}
+            and Sys_Employee.password=#{password} and Sys_Employee.isLoginEnabled=1
         </if>
     </where>
   </select>
@@ -79,11 +79,11 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
     insert into Sys_Employee (domainid, name, email, 
       department_id, loginId, isLoginEnabled, 
-      birthday, seller, qq, tel,
+      birthday, seller, qq, tel,password
       sex, photo)
     values (#{domainid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{department_id,jdbcType=BIGINT}, #{loginId,jdbcType=VARCHAR}, #{isLoginEnabled,jdbcType=TINYINT}, 
-      #{birthday,jdbcType=TIMESTAMP}, #{seller,jdbcType=BIT}, #{qq,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{seller,jdbcType=BIT}, #{qq,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{sex,jdbcType=BIGINT}, #{photo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.Employee" useGeneratedKeys="true">
@@ -125,6 +125,9 @@
       <if test="photo != null">
         photo,
       </if>
+      <if test="password != null">
+        password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="domainid != null">
@@ -162,6 +165,9 @@
       </if>
       <if test="photo != null">
         #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -204,6 +210,9 @@
       <if test="photo != null">
         photo = #{photo,jdbcType=VARCHAR},
       </if>
+      <if test="password != null">
+        password=#{password,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -220,6 +229,7 @@
       tel = #{tel,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=BIGINT},
+      password=#{password,jdbcType=VARCHAR},
       photo = #{photo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>

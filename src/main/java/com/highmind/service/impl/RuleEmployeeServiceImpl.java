@@ -80,7 +80,15 @@ public class RuleEmployeeServiceImpl implements RuleEmployeeService{
     @Override
     public int addRuleEmployees(List<RuleEmployee> ruleEmployees) {
         // TODO Auto-generated method stub
+       int time=0;
        for(RuleEmployee ruleEmployee:ruleEmployees) {
+           if(time==0) {
+               time++;
+               int delresult=ruleEmployeeMapper.deleteByEid(ruleEmployee.getEmployee_id());
+               if(delresult==0) {
+                   return 0;
+               }
+           }
            int result=ruleEmployeeMapper.insertSelective(ruleEmployee);
            if(result==0) {
                return 0;

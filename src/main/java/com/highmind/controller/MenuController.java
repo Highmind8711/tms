@@ -101,7 +101,7 @@ public class MenuController extends BaseController<Menu>{
      * JSONObject.toJSONString(jsonObject); }
      */
     
-    @RequestMapping(value="/menurecursion",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value="/menurecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findAllRecursion(String token,HttpSession session) {
         try {
             System.out.println(session.getAttribute("token"));

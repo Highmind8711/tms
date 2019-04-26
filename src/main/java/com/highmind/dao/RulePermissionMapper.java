@@ -19,4 +19,12 @@ public interface RulePermissionMapper {
     int updateByPrimaryKey(RulePermission record);
     
     List<RulePermission> selectRulePermission(Map<String,Object> map);
+    
+    /**
+     * 根据角色id删除全部权限
+     * @Description
+     * @param Eid
+     * @return
+     */
+    int deleteByRid(Long Rid);
 }

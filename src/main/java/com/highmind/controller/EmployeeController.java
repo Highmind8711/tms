@@ -240,7 +240,7 @@ public class EmployeeController extends BaseController<Employee>{
         session.invalidate();
         
     }
-    @RequestMapping(value="/getInfo",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value="/getInfo",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getinfo(String token) {
         System.out.println(token);
         if(JwtUtil.verify(token)) {

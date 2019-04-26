@@ -80,7 +80,15 @@ public class RulePermissionServiceImpl implements RulePermissionService{
     @Override
     public int addRulePermissions(List<RulePermission> rulePermissions) {
         // TODO Auto-generated method stub
+        int time=0;
         for(RulePermission rulePermission:rulePermissions) {
+            if(time==0) {
+                time++;
+                int delresult=rulePermissionMapper.deleteByRid(rulePermission.getRule_id());
+                if(delresult==0) {
+                    return 0;
+                }
+            }
             int result=rulePermissionMapper.insertSelective(rulePermission);
             if(result==0) {
                 return 0;

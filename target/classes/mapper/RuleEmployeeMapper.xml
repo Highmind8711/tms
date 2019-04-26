@@ -33,6 +33,10 @@
     delete from Sys_Rule_Employee
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByEid" parameterType="java.lang.Long">
+    delete from Sys_Rule_Employee
+    where employee_id = #{Eid,jdbcType=BIGINT}
+  </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.RuleEmployee" useGeneratedKeys="true">
     insert into Sys_Rule_Employee (domainid, employee_id, rule_id
       )

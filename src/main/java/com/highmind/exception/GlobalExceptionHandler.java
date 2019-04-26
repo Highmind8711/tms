@@ -61,7 +61,10 @@ public class GlobalExceptionHandler {
     public String exception1(Exception e) {
         Date d = new Date();
         String format = DateUtil.format(d, "yyyy-MM-dd HH:mm:ss");
+        logger.error("____________________________________________");
         logger.error("级联删除异常："+format);
+        logger.error(e);
+        logger.error("____________________________________________");
         System.out.println("异常");
         e.printStackTrace(); 
         return JSONObject.toJSONString(Result.error(CodeMsg.CASCADE_DELETE),errorFilter,SerializerFeature.WriteMapNullValue);  

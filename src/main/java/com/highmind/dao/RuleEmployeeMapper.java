@@ -19,4 +19,11 @@ public interface RuleEmployeeMapper {
     int updateByPrimaryKey(RuleEmployee record);
     
     List<RuleEmployee> selectRuleEmployee(Map<String,Object> map);
+    /**
+     * 根据用户id删除全部角色
+     * @Description
+     * @param Eid
+     * @return
+     */
+    int deleteByEid(Long Eid);
 }

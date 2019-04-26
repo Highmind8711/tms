@@ -33,6 +33,10 @@
     delete from Sys_Rule_Permission
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <delete id="deleteByRid" parameterType="java.lang.Long">
+    delete from Sys_Rule_Permission
+    where .rule_id = #{Rid,jdbcType=BIGINT}
+  </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.highmind.entity.RulePermission" useGeneratedKeys="true">
     insert into Sys_Rule_Permission (domainid, rule_id, permission_id
       )
