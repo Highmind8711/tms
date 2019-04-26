@@ -343,6 +343,7 @@ function editEmployeeRules(){
 	$.ajax({
 		type: "post",
         url: "../ruleemployees",
+        contentType: "application/json;charset=UTF-8",
         data: JSON.stringify(emRules),
         success:function(data){
         	if(data.status == 1){
