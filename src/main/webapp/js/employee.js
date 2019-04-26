@@ -341,7 +341,7 @@ function editEmployeeRules(){
 	});
 
 	$.ajax({
-		type: "put",
+		type: "post",
         url: "../ruleemployees",
         data: JSON.stringify(emRules),
         success:function(data){

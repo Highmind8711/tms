@@ -2,9 +2,11 @@
 function signin(){
 	
 	var signin = new FormData();
+	var domainid = $("input[name='signin-domainid']").val();
+	
 	signin.append("loginid",$("input[name='signin-loginId']").val());
 	signin.append("password",$("input[name='signin-password']").val());
-	signin.append("domainid",$("input[name='signin-domainid']").val());
+	signin.append("domainid",domainid);
 	$.ajax({
         type: "POST",
         url: "../login",
@@ -13,12 +15,11 @@ function signin(){
 		processData:false,
         success: function (data) {
         	if(data.status == 1){ 	
-        		sessionStorage.setItem("token",data.token);	
-        		sessionStorage.setItem("domainid",data.domainid);	
+        		sessionStorage.setItem("token",data.data.token);	
+        		sessionStorage.setItem("domainid",domainid);	
         		window.location.href = "sys_employee.html";	
-        		console.log(data.data.token)
     		}else{
-    			alert("用户名或密码错误！");
+    			alert("登录失败！请查看登录信息是否正确");
     		}
         },
         error: function (message) {
@@ -36,6 +37,8 @@ $().ready(function(){
 	$("#loginBtn").click(function(){
 		signin();
 	})
+	
+	console.log(sessionStorage)
 	
 })
 	
