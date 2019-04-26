@@ -84,10 +84,7 @@ public class RuleEmployeeServiceImpl implements RuleEmployeeService{
        for(RuleEmployee ruleEmployee:ruleEmployees) {
            if(time==0) {
                time++;
-               int delresult=ruleEmployeeMapper.deleteByEid(ruleEmployee.getEmployee_id());
-               if(delresult==0) {
-                   return 0;
-               }
+               ruleEmployeeMapper.deleteByEid(ruleEmployee.getEmployee_id());
            }
            int result=ruleEmployeeMapper.insertSelective(ruleEmployee);
            if(result==0) {

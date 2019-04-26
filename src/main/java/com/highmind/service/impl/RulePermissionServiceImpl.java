@@ -84,10 +84,7 @@ public class RulePermissionServiceImpl implements RulePermissionService{
         for(RulePermission rulePermission:rulePermissions) {
             if(time==0) {
                 time++;
-                int delresult=rulePermissionMapper.deleteByRid(rulePermission.getRule_id());
-                if(delresult==0) {
-                    return 0;
-                }
+                rulePermissionMapper.deleteByRid(rulePermission.getRule_id());
             }
             int result=rulePermissionMapper.insertSelective(rulePermission);
             if(result==0) {
