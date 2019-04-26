@@ -249,6 +249,7 @@ function editRulePermissions(){
 	$.ajax({
 		type: "put",
         url: "../rulepermissions",
+        contentType: "application/json;charset=UTF-8",
         data: JSON.stringify(ruPermissions),
         success:function(data){
         	if(data.status == 1){

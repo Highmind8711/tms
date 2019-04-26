@@ -29,14 +29,40 @@ function getBaseInfo(){
 
 
 function getSidebarList(){
-	
+	var str = "";
 	$.ajax({
         type: "get",
         url: "../menurecursion",
         data:{"token": token},
         success: function (data) {
         	if(data.status == 1){		        		
-        		console.log(data)
+        		console.log(data)        		
+        		$.each(data.data, function(i,v){       			
+					if(v.children.length > 0){
+						str += "<li><a href='#" 
+							+ v.url 
+							+ "' data-toggle='collapse' class='collapsed ' aria-expanded='false'><span>" 
+							+ v.name 
+							+ "</span><i class='icon-submenu lnr lnr-chevron-left'></i></a><div id='"
+							+ v.url 
+							+ "' class='collapse' aria-expanded='false' style='height: 0px;'><ul class='nav'>"
+
+							$.each(data.data.children, function(j,m){
+								str += "<li><a href='"
+									+ m.url
+									+ "' class=''>" 
+									+ m.name
+									+ "</a></li>"
+							})	
+						str +="</ul></div></li>"      				
+        			}else{
+        				str += "<li><a href='"
+            				+ v.url
+            				+ "' class=''><span>"
+            				+ v.name
+            				+ "</span></a></li>"
+        			}	
+        		})
         	}
         	else{
         		alert(data.error);
@@ -140,9 +166,8 @@ $().ready(function(){
 		})
 		
 	}else{
-		if(confirm("用户信息已失效，请重新登录！") == true){
-			window.location.href = "login.html";	
-		}		
+		alert("用户信息已失效，请重新登录！")
+		window.location.href = "login.html";		
 	}
 })
 	

@@ -33,12 +33,17 @@ function signin(){
 
 
 $().ready(function(){
-	/*操作*/
+	
+    /*操作*/
 	$("#loginBtn").click(function(){
 		signin();
 	})
-	
-	console.log(sessionStorage)
-	
 })
 	
+
+$(document).keyup(function(e) {
+	var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+    if (eCode == 13){
+    	signin();
+    }
+});
