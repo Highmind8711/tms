@@ -1,6 +1,6 @@
 
 var table;
-var domainid = 1;
+var domainid = 2;
 
 function setPermissionTable(){
 	table = $('#permissionTable').DataTable( {
@@ -188,6 +188,7 @@ function editPermission(){
 	_permission["menu_id"] = $("input[name='menuIdEdit']").val();	
 	_permission["type"] =  $("#typeEdit option:selected").val();
 	_permission["grouping"] = $("#groupingEdit option:selected").val();
+	_permission["remark"] = $("textarea[name='remarkEdit']").val();	
 	
 	console.log(_permission);
 	

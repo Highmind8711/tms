@@ -1,5 +1,5 @@
 
-var domainid = 1;
+var domainid = 2;
 
 var deprtmentVm = new Vue({
 	el:"#departmentVm",

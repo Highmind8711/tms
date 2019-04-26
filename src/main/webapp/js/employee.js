@@ -260,7 +260,7 @@ function editEmployee(){
 	_employee["seller"] =  $("input[name='isSellerEdit']").prop('checked');
 	_employee["photo"] = null;
 	
-	if($("input[name='isLoginEnabled']").prop('checked')) {
+	if($("input[name='isLoginEnabledEdit']").prop('checked')) {
 		_employee["isLoginEnabled"] = 1;
 	}else{
 		_employee["isLoginEnabled"] = 0;

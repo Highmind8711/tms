@@ -111,7 +111,7 @@
                             <div class="col-sm-9" >
                                 <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select           
                                 	@change="menuChange" style="width:100%"></el-cascader>
-                                <input type="text" class="form-control" name="menuIdArea" style="">
+                                <input type="text" class="form-control" name="menuIdArea" style="display:none;">
                             </div>                           
                         </div>                           
                         <div class="form-group">
@@ -170,7 +170,7 @@
                             <label class="col-sm-3 control-label"><span style="color:red;">*</span>权限名称</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" placeholder="请输入权限名称" name="nameEdit"> 
-                                <input type="text" class="form-control" name="permissionIdEdit" >
+                                <input type="text" class="form-control" name="permissionIdEdit" style="display:none;">
                             </div>
                         </div>                                            
                         <div class="form-group">
@@ -196,7 +196,7 @@
                             <div class="col-sm-9" >
                                 <el-cascader expand-trigger="hover" :options="menuList" :props="defaultProps" change-on-select v-model="menuIdEdit_"          
                                 	@change="menuEditChange" style="width:100%"></el-cascader>
-                                <input type="text" class="form-control" name="menuIdEdit" style="">
+                                <input type="text" class="form-control" name="menuIdEdit" style="display:none;">
                             </div>                           
                         </div>                           
                         <div class="form-group">

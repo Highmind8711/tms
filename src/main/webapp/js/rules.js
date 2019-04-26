@@ -1,6 +1,6 @@
 
 var table;
-var domainid = 1;
+var domainid = 2;
 var permissionsList = {};
 
 function setRuleTable(){
@@ -153,6 +153,14 @@ function getRule(_rule){
 	str	+= "</div>" ;
 			
 	$("#ruleInfo_detail").html(str);	
+}
+
+function editRuleInit(_rule){
+	
+	$("input[name='ruleIdEdit']").val(_rule.id)
+	$("input[name='rulenameEdit']").val(_rule.rulename);
+	$("textarea[name='remarkEdit']").val(_rule.remark);
+	
 }
 
 function editRule(){

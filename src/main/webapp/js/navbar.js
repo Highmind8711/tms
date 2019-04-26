@@ -12,7 +12,7 @@ function getMenuList(){
 	
 	$.ajax({
         type: "get",
-        url: "../menurecursion",
+        url: "../token",
         headers: {'domainid': domainid},
         success: function (data) {
         	if(data.status == 1){		        		
