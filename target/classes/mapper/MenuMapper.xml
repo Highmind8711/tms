@@ -120,7 +120,7 @@
 	   	<include refid="Base_Column_List" />
 	   	From
 	   	(
-		SELECT
+		SELECT DISTINCT
 		Sys_Menu.name,
 		Sys_Menu.url,
 		Sys_Menu.parent_id,
