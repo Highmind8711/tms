@@ -41,9 +41,8 @@ public class MenuServiceImpl implements MenuService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<Menu> selectAll() {
+    public List<Menu> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> map = new HashMap<String,Object>();
         return  menuMapper.selectMenu(map);
     }
 

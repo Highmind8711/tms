@@ -37,10 +37,9 @@ public class DepartmentServiceImpl implements DepartmentService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<Department> selectAll() {
+    public List<Department> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> hashMap = new HashMap<String,Object>();
-        return departmentMapper.selectDepartment(hashMap);
+        return departmentMapper.selectDepartment(map);
     }
     /* (非 Javadoc)
      * Description:

@@ -42,10 +42,9 @@ public  class EmployeeServiceImpl implements EmployeeService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<Employee> selectAll() {
+    public List<Employee> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> hashMap = new HashMap<String,Object>();
-        return employeeMapper.selectEmployee(hashMap);
+        return employeeMapper.selectEmployee(map);
     }
 
     /* (非 Javadoc)

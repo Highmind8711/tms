@@ -49,10 +49,9 @@ public  class RuleServiceImpl implements RuleService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<Rule> selectAll() {
+    public List<Rule> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> hashMap = new HashMap<String,Object>();
-        return ruleMapper.selectRuleEmployee(hashMap);
+        return ruleMapper.selectRuleEmployee(map);
     }
 
     /* (非 Javadoc)

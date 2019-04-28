@@ -63,9 +63,9 @@ public class DomainServiceImpl implements DomainService {
      * @see com.highmind.service.BaseService#selectAll()
      */
     @Override
-    public List<Domain> selectAll() {
+    public List<Domain> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        return domainMapper.selectDomain(null);
+        return domainMapper.selectDomain(map);
     }
 
     /* (非 Javadoc)

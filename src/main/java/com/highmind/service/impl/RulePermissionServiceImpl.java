@@ -37,9 +37,8 @@ public class RulePermissionServiceImpl implements RulePermissionService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<RulePermission> selectAll() {
+    public List<RulePermission> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> map = new HashMap<String,Object>();
         return rulePermissionMapper.selectRulePermission(map);
     }
 

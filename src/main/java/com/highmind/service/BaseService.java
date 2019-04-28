@@ -23,7 +23,7 @@ public interface BaseService<T>  {
    * @Description 查询全部
    * @return
    */
-   List<T> selectAll();
+   List<T> selectAll(Map<String,Object> map);
    /**
     * 
     * @Description  添加

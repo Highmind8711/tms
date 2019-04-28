@@ -41,9 +41,8 @@ public class PermissionOperationServiceImpl implements PermissionOperationServic
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<PermissionOperation> selectAll() {
+    public List<PermissionOperation> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> map = new HashMap<String,Object>();
         return permissionOperationMapper.selectPermissionOperation(map);
     }
 

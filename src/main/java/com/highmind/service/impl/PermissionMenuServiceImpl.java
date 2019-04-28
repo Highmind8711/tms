@@ -41,9 +41,8 @@ public class PermissionMenuServiceImpl implements PermissionMenuService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<PermissionMenu> selectAll() {
+    public List<PermissionMenu> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String, Object> map = new HashMap<String,Object>();
         return permissionMenuMapper.selectPermissionMenu(map);
     }
 

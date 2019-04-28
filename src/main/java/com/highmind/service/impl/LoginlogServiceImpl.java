@@ -62,9 +62,9 @@ public class LoginlogServiceImpl implements LoginlogService{
      * @see com.highmind.service.BaseService#selectAll()
      */
     @Override
-    public List<Loginlog> selectAll() {
+    public List<Loginlog> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        return loginlogMapper.selectLoginlog(null);
+        return loginlogMapper.selectLoginlog(map);
     }
 
     /* (非 Javadoc)

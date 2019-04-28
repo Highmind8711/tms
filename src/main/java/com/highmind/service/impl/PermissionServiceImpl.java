@@ -70,9 +70,9 @@ public class PermissionServiceImpl implements PermissionService {
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<Permission> selectAll() {
+    public List<Permission> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        List<Permission> permissions=permissionMapper.selectPermission(null);
+        List<Permission> permissions=permissionMapper.selectPermission(map);
         for (int i = 0; i < permissions.size(); i++) {
             Permission permission = permissions.get(i);
             /*

@@ -94,7 +94,9 @@ public abstract class BaseController<T> {
 
     }
     public String getAllResult(BaseService<T> baseService,String domainid) {
-        List<T> selectAll = baseService.selectAll();
+        Map<String,Object> hashMap=new HashMap<String,Object>();
+        hashMap.put("domainid", domainid);
+        List<T> selectAll = baseService.selectAll(hashMap);
         if(!selectAll.isEmpty()) {
             return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
         }else {

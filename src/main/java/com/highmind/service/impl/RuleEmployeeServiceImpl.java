@@ -37,9 +37,8 @@ public class RuleEmployeeServiceImpl implements RuleEmployeeService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<RuleEmployee> selectAll() {
+    public List<RuleEmployee> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String,Object> map = new HashMap<String,Object>();
         return ruleEmployeeMapper.selectRuleEmployee(map);
     }
 

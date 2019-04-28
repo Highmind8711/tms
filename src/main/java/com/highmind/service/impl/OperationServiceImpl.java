@@ -38,9 +38,8 @@ public class OperationServiceImpl implements OperationService{
      * @see com.highmind.service.baseService#selectAll()
      */
     @Override
-    public List<Operation> selectAll() {
+    public List<Operation> selectAll(Map<String,Object> map) {
         // TODO Auto-generated method stub
-        Map<String,Object> map = new HashMap<String,Object>();
         return operationMapper.selectOperation(map);
     }
 
