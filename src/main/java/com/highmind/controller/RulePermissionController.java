@@ -3,6 +3,7 @@ package com.highmind.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ public class RulePermissionController extends BaseController<RulePermission>{
 
    
     @RequestMapping(value="/rulepermissions",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String add(List<RulePermission> t) {
+    public String add(@RequestBody List<RulePermission> t) {
         // TODO Auto-generated method stub
         int id=rulePermissionService.addRulePermissions(t);
         if(id>0) {
