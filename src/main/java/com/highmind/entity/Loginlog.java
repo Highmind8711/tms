@@ -52,4 +52,18 @@ public class Loginlog {
     public void setIp(String ip) {
         this.ip = ip == null ? null : ip.trim();
     }
+    
+    
+
+
+
+    //一对一
+    private Employee employee;
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }

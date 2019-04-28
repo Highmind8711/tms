@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.highmind.entity.Loginlog">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="domainid" jdbcType="INTEGER" property="domainid" />
-    <result column="employee_id" jdbcType="BIGINT" property="employee_id" />
     <result column="enterdate" jdbcType="TIMESTAMP" property="enterdate" />
     <result column="ip" jdbcType="NVARCHAR" property="ip" />
+    <association property="employee" javaType="com.highmind.entity.Employee" select="com.highmind.dao.EmployeeMapper.selectByPrimaryKey" column="employee_id"/>
   </resultMap>
   <sql id="Base_Column_List">
     id, domainid, employee_id, enterdate, ip

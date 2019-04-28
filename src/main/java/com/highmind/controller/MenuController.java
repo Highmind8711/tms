@@ -102,14 +102,16 @@ public class MenuController extends BaseController<Menu>{
      */
     
     @RequestMapping(value="/menurecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String findAllRecursion(String token,HttpSession session) {
+    public String findAllRecursion(String token,HttpSession session,HttpServletRequest request) {
         try {
             System.out.println(session.getAttribute("token"));
+            String domainid=request.getHeader("domainid");
             if(session.getAttribute("token").toString().equals(token)) {
                 if(JwtUtil.verify(token)) {
                     Long userId=JwtUtil.getUserId(token);
                     Map<String,Object> map=new HashMap<String,Object>();
                     map.put("Eid", userId);
+                    map.put("domainid", domainid);
                     List<Menu> selectAll =menuService.findAllRecursion(map);
                     return getString(selectAll, !selectAll.isEmpty());
                 }else {

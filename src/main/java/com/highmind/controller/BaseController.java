@@ -98,7 +98,7 @@ public abstract class BaseController<T> {
         hashMap.put("domainid", domainid);
         List<T> selectAll = baseService.selectAll(hashMap);
         if(!selectAll.isEmpty()) {
-            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue,SerializerFeature.DisableCircularReferenceDetect);
         }else {
             return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
         }

@@ -170,6 +170,7 @@ $().ready(function(){
 
 		/*数据初始化*/
 		getBaseInfo();
+		console.log(domainid);
 		getSidebarList();
 		
 		/*操作*/
