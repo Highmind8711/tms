@@ -6,7 +6,7 @@ var permissionsList = {};
 function setRuleTable(){
 	table = $('#ruleTable').DataTable( {
 		ajax: {
-			url:'../rules',
+			url:'../rulePermissions',
 			dataSrc: 'data',	
 			header: {
 				"domainid":domainid
@@ -248,7 +248,7 @@ function editRulePermissions(){
 	
 	$.ajax({
 		type: "post",
-        url: "../rulepermissions",
+        url: "../rulePermissions",
         contentType: "application/json;charset=UTF-8",
         data: JSON.stringify(ruPermissions),
         success:function(data){

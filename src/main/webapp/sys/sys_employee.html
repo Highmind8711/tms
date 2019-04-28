@@ -417,20 +417,12 @@
 											<input type="text" class="form-control" placeholder="请输入账号"
 												name="loginIdEdit">
 										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-sm-3 control-label">原登录密码</label>
-										<div class="col-sm-9">
-											<input type="text" onfocus="this.type='password'"
-												class="form-control" placeholder="请输入原登录密码"
-												name="passwordEdit">
-										</div>
-									</div>
+									</div>									
 									<div class="form-group">
 										<label class="col-sm-3 control-label">新登录密码</label>
 										<div class="col-sm-9">
-											<input type="text" onfocus="this.type='password'"
-												class="form-control" placeholder="请输入新登录密码"
+											<input type="password" v-model="loginForm.password" autoComplete="new-password"
+												class="form-control" placeholder="请输入新登录密码（新密码会替换原密码）"
 												name="passwordNewEdit">
 										</div>
 									</div>

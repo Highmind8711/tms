@@ -24,8 +24,15 @@ function getBaseInfo(){
         	console.log(message);
         }
     });
-	
 }
+
+
+function strSplit(str){
+	var urlStr = [];
+	urlStr = str.split("*");
+	return 
+}
+
 
 
 function getSidebarList(){
@@ -37,14 +44,21 @@ function getSidebarList(){
         success: function (data) {
         	if(data.status == 1){		        		
         		console.log(data)        		
-        		$.each(data.data, function(i,v){       			
+        		$.each(data.data, function(i,v){  
+        			
+        			var urlStr = v.url.split("*");
+        			
+        			
+        			
 					if(v.children.length > 0){
 						str += "<li><a href='#" 
-							+ v.url 
-							+ "' data-toggle='collapse' class='collapsed ' aria-expanded='false'><span>" 
+							+ urlStr[0] 
+							+ "' data-toggle='collapse' class='collapsed ' aria-expanded='false'><i class='lnr lnr-"
+							+ urlStr[1]  
+							+ "'></i><span>" 
 							+ v.name 
 							+ "</span><i class='icon-submenu lnr lnr-chevron-left'></i></a><div id='"
-							+ v.url 
+							+ urlStr[0] 
 							+ "' class='collapse' aria-expanded='false' style='height: 0px;'><ul class='nav'>"
 
 							$.each(data.data.children, function(j,m){
@@ -57,8 +71,10 @@ function getSidebarList(){
 						str +="</ul></div></li>"      				
         			}else{
         				str += "<li><a href='"
-            				+ v.url
-            				+ "' class=''><span>"
+            				+ urlStr[0]
+            				+ "' class=''><i class='lnr lnr-"
+							+ urlStr[1]  
+							+ "'></i><span>"
             				+ v.name
             				+ "</span></a></li>"
         			}	

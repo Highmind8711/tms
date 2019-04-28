@@ -118,6 +118,7 @@ function createEmployee(){
     			photoUrl = "";
     			table.ajax.reload();
     			$('#employeeCreate').modal('hide');
+    			$('#employeeCreate input').value('');
     			
     		}else{
     			alert("添加失败！");
@@ -128,6 +129,8 @@ function createEmployee(){
         }
     });
 }
+
+
 
 function delEmployee(employeeID){
 	if(confirm("确认删除？") == true){
@@ -265,6 +268,10 @@ function editEmployee(){
 	}else{
 		_employee["isLoginEnabled"] = 0;
 	}
+	
+	if($("input[name='passwordNewEdit']").val() != "" || $("input[name='passwordNewEdit']").val() != null){
+		_employee["password"] = $("input[name='passwordNewEdit']").val();
+	}
 
 	console.log(_employee);
 	
@@ -396,6 +403,7 @@ function photoImgUpload(imgFile){
 $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
+	modalClear();
 	
 	/*数据初始化*/
 	setEmployeeTable();
@@ -416,6 +424,12 @@ $(document).ready(function() {
 
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
+}
+
+function modalClear(){
+	$('body').on('hidden.bs.modal', '.modal', function () {
+	    $(this).removeData('bs.modal');
+	});
 }
 
 
