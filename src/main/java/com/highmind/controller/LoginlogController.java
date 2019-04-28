@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.Loginlog;
 
@@ -39,6 +40,7 @@ import com.highmind.entity.Loginlog;
  * @Date 2019年4月17日 下午5:04:31
  * @version 1.0.0
  */
+@RestController
 public class LoginlogController extends BaseController<Loginlog>{
 
     /*
