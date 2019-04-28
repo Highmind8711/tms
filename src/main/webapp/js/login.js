@@ -17,7 +17,7 @@ function signin(){
         	if(data.status == 1){ 	
         		sessionStorage.setItem("token",data.data.token);	
         		sessionStorage.setItem("domainid",domainid);	
-        		window.location.href = "sys_employee.html";	
+        		window.location.href = "navbar.html";	
     		}else{
     			alert("登录失败！请查看登录信息是否正确");
     		}

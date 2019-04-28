@@ -13,16 +13,13 @@ function setRuleTable(){
 			}
 		},
 		columns: [
-            /*{
-	            "class":'details-control',
-	            orderable:false,
-	            data:null,
-	            defaultContent: ''
-	        },*/
-			{ 
-            	data: "id" ,
-            	title: "id"
-            },{ 
+			{
+				"data" : null, 
+				"title" : "编号",
+				"render" : function(data, type, full, meta){  
+					return meta.row + 1 + meta.settings._iDisplayStart;  
+				}
+			},{ 
             	data: "rulename" ,
             	title: "角色名称"
             },{ 

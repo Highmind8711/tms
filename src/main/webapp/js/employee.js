@@ -17,16 +17,13 @@ function setEmployeeTable(){
 			}
 		},
 		columns: [
-            /*{
-	            "class":'details-control',
-	            orderable:false,
-	            data:null,
-	            defaultContent: ''
-	        },*/
-			{ 
-            	data: "id" ,
-            	title: "id"
-            },{ 
+			{
+				"data" : null, 
+				"title" : "编号",
+				"render" : function(data, type, full, meta){  
+					return meta.row + 1 + meta.settings._iDisplayStart;  
+				}
+			},{ 
             	data: "name" ,
             	title: "员工姓名"
             },{
@@ -37,7 +34,8 @@ function setEmployeeTable(){
             	title: "员工账号"
             },{ 
             	data: "isLoginEnabled" ,
-            	title: "允许登录"
+            	title: "允许登录",
+            	orderable : false
             },{
             	title:"操作",
             	orderable:false,
@@ -55,6 +53,21 @@ function setEmployeeTable(){
 	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
         			 
 	        	return html;
+        	}
+        },{
+        	"targets" : 4,
+        	"data" : "isLoginEnabled",
+        	"render" : function(data, type, row) {
+        		var html = ""
+        		if(row.isLoginEnabled == "1"){
+        			
+        			html = "<span class='label label-success'><i class='fa fa-check'></i></span>"
+        			
+        		}else{
+        			html = "<span class='label label-default'><i class='fa fa-close'></i></span>"
+        		}
+        		
+        		return html;
         	}
         }],
         "order": [[0, 'asc']],

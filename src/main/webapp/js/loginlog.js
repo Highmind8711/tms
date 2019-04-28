@@ -18,17 +18,31 @@ function setLoginlogTable(){
 	            data:null,
 	            defaultContent: ''
 	        },*/
-			{ 
-            	data: "id" ,
-            	title: "id"
-            },{ 
-            	data: "employees.name" ,
+			{
+				"data" : null, 
+				"title" : "编号",
+				"render" : function(data, type, full, meta){  
+					return meta.row + 1 + meta.settings._iDisplayStart;  
+				}
+			},{ 
+            	data: "employee_id" ,
             	title: "员工姓名"
             },{ 
-            	data: "enterdate" ,
             	title: "登录时间"
             }
-        ],         
+        ],  
+        "columnDefs" : [{
+        	"targets" : 2,
+        	"render" : function(data, type, row) {
+        		if(row.enterdate != null){
+        			
+        			return formatDate(row.enterdate);
+        		}else{
+        			return "暂无时间"
+        		}
+        		
+        	}
+        }],
         "order": [[0, 'asc']],
 		"iDisplayLength":10,
         "bAutoWidth" : true,
@@ -54,6 +68,19 @@ function setLoginlogTable(){
        
     });	
 }
+
+function add0(m){return m<10?'0'+m:m }
+
+function formatDate(timestamp) { 	
+	var time = new Date(timestamp);
+	var year = time.getFullYear();
+	var month = time.getMonth()+1;
+	var date = time.getDate();
+	var hours = time.getHours();
+	var minutes = time.getMinutes();
+	var seconds = time.getSeconds();
+	return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
+} 
 
 
 $(document).ready(function() {

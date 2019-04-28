@@ -12,16 +12,13 @@ function setDomainTable(){
 			}
 		},
 		columns: [
-            /*{
-	            "class":'details-control',
-	            orderable:false,
-	            data:null,
-	            defaultContent: ''
-	        },*/
-			{ 
-            	data: "id" ,
-            	title: "id"
-            },{ 
+			{
+				"data" : null, 
+				"title" : "编号",
+				"render" : function(data, type, full, meta){  
+					return meta.row + 1 + meta.settings._iDisplayStart;  
+				}
+			},{ 
             	data: "domain_name" ,
             	title: "区域名称"
             },{ 

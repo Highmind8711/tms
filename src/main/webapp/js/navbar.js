@@ -32,6 +32,7 @@ function getSidebarList(){
 	$.ajax({
         type: "get",
         url: "../menurecursion",
+        headers: {'domainid': domainid},
         data:{"token": token},
         success: function (data) {
         	if(data.status == 1){		        		
