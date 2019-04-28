@@ -1,6 +1,6 @@
 
 var table;
-var domainid = 1;
+var domainid = 2;
 
 function setDomainTable(){
 	table = $('#domainTable').DataTable( {

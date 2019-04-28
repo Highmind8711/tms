@@ -207,12 +207,11 @@ function getRulePermissions(_rule){
 	$("#rulePermissions_Init").html("");
 	$("input[name='rulePermissionsId']").val(_rule.id);
 	
-	if(_rule.permissions != null){
-		if(_rule.permission.length != 0){
-			$.each(_rule.permission,function(i,v){
-				ruPermissionsList.push({"id":v.id,"name":v.name});
-			});		
-		}
+	
+	if(_rule.permissions.length != 0){
+		$.each(_rule.permissions,function(i,v){
+			ruPermissionsList.push({"id":v.id,"name":v.name});
+		});		
 	}
 		
 	$.each(permissionsList,function(i,v){	
@@ -248,7 +247,7 @@ function editRulePermissions(){
 	
 	$.ajax({
 		type: "post",
-        url: "../rulePermissions",
+        url: "../rulepermissions",
         contentType: "application/json;charset=UTF-8",
         data: JSON.stringify(ruPermissions),
         success:function(data){

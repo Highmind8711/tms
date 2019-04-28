@@ -27,14 +27,6 @@ function getBaseInfo(){
 }
 
 
-function strSplit(str){
-	var urlStr = [];
-	urlStr = str.split("*");
-	return 
-}
-
-
-
 function getSidebarList(){
 	var str = "";
 	$.ajax({
@@ -46,11 +38,14 @@ function getSidebarList(){
         		console.log(data)        		
         		$.each(data.data, function(i,v){  
         			
+        			
         			var urlStr = v.url.split("*");
         			
         			
         			
+        			
 					if(v.children.length > 0){
+						
 						str += "<li><a href='#" 
 							+ urlStr[0] 
 							+ "' data-toggle='collapse' class='collapsed ' aria-expanded='false'><i class='lnr lnr-"
