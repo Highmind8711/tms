@@ -129,6 +129,7 @@ public class MenuController extends BaseController<Menu>{
                 return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter,SerializerFeature.WriteMapNullValue);
             }
         }catch (Exception e){
+            e.printStackTrace();
             return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter,SerializerFeature.WriteMapNullValue);
         }
        
