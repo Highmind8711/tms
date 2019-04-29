@@ -13,7 +13,8 @@ function getBaseInfo(){
         success: function (data) {
         	if(data.status == 1){	
         		$("#userName").html(data.data.name)
-        		$("#userLoginId").html(data.data.loginId)        		
+        		$("#userLoginId").html(data.data.loginId) 
+        		sessionStorage.setItem("domainName",data.data.domain.domain_name);
         	}
         	else{
         		console.log(data.error);

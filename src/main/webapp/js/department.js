@@ -36,7 +36,7 @@ var deprtmentVm = new Vue({
 	        				}	        				
 		        		})
 	        		})
-	        		console.log(_data.rootDepartments);
+	        		
 	        	}
 	        	else{
 	        		console.log(data.data);
@@ -64,13 +64,27 @@ var deprtmentVm = new Vue({
     	        	if(data.status == 1){
     	        		if(data.data.employees.length > 0){
         	        		$.each(data.data.employees,function(i,v){
+        	        			
+        	        			var seller = ""
+        	        			var LoginEnabled = ""
+        	        			var sex = ""
+        	        			if(v.seller == true) seller = "是"
+	        					else seller = "否"
+	        		
+    	        				if(v.isLoginEnabled == "1") LoginEnabled = "是"
+    	        				else LoginEnabled = "否"
+    	        						
+    	        				if(v.sex == "1") sex = "男"
+    	    	        		else if(v.sex == "0") sex = "女"
+    	    	        		else sex = "暂无"
+    	        				
         	        			_data.deEmployeeList.push({
         	        				"id":v.id,
         	        				"name":v.name,
         	        				"loginId":v.loginId,
-        	        				"seller":v.seller,
-        	        				"isLoginEnabled":v.isLoginEnabled,
-        	        				"sex":v.sex,
+        	        				"seller": seller,
+        	        				"isLoginEnabled":LoginEnabled,
+        	        				"sex":sex,
         	        			});
             	        	})
         	        	}	
@@ -143,9 +157,7 @@ function createDepartment(){
         	if(data.status == 1){
     			alert("添加成功！");   	
     			$('#departmentCreate').modal('hide');
-    			$("#departmentCreate :input").each(function () {
-    		        $(this).val("");
-    			});
+    			window.location.reload();
     		}else{
     			alert("添加失败！");
     		}

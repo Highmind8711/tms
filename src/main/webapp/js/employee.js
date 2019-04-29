@@ -1,6 +1,7 @@
 
 var table;
 var domainid = sessionStorage.domainid;
+var domainidName = sessionStorage.domainName;
 var rulesList = {};
 var photoUrl = "";
 var webUrl = "http://127.0.0.1:8080/"
@@ -11,7 +12,7 @@ function setEmployeeTable(){
 		ajax: {
 			url:'../employees',
 			dataSrc: 'data',	
-			header: {
+			headers: {
 				"domainid":domainid
 			}
 		},
@@ -180,7 +181,7 @@ function getEmployee(_employee){
 	str	+= "' alt='' style='height:70px'></span></li><li>姓名 <span>" 
 		+ _employee.name 
 		+ "</span></li><li>所属公司 <span>" 
-		+ domainid
+		+ domainidName
 		+ "</span></li><li>所属部门 <span>" 
 		+ _employee.department.name
 		+ "</span></li><li>性别 <span>" 
@@ -249,13 +250,21 @@ function editEmployeeInit(_employee){
 	$("input[name='telEdit']").val(_employee.tel);	
 	$("input[name='qqEdit']").val(_employee.qq);	
 	$("input[name='emailEdit']").val(_employee.email);		
-	$("input[name='loginIdEdit']").val(_employee.loginId);	
+	$("input[name='loginIdEdit']").val(_employee.loginId);
+	$("input:checkbox[name='isSellerEdit']").prop('checked',_employee.seller);
+	
 	if(_employee.isLoginEnabled == "1"){
 		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked',true);
 	}else{
 		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked',false);
 	}	
-	$("input:checkbox[name='isSellerEdit']").prop('checked',_employee.seller);
+	
+	console.log(_employee)
+	if(_employee.photo.length > 0){
+		$("#employeeEdit .fileupload-new img").attr("src", webUrl + _employee.photo);
+	}else{
+		$("#employeeEdit .fileupload-new img").attr("src", "../resource/img/noimage.png");
+	}
 	
 }
 
@@ -274,7 +283,7 @@ function editEmployee(){
 	_employee["email"] =$("input[name='emailEdit']").val();		
 	_employee["loginId"] =$("input[name='loginIdEdit']").val();
 	_employee["seller"] =  $("input[name='isSellerEdit']").prop('checked');
-	_employee["photo"] = null;
+	_employee["photo"] = photoUrl;
 	
 	if($("input[name='isLoginEnabledEdit']").prop('checked')) {
 		_employee["isLoginEnabled"] = 1;
@@ -282,7 +291,7 @@ function editEmployee(){
 		_employee["isLoginEnabled"] = 0;
 	}
 	
-	if($("input[name='passwordNewEdit']").val() != "" || $("input[name='passwordNewEdit']").val() != null){
+	if($("input[name='passwordNewEdit']").val().length>0){
 		_employee["password"] = $("input[name='passwordNewEdit']").val();
 	}
 	
@@ -295,9 +304,15 @@ function editEmployee(){
         		alert("修改成功！");
         		table.ajax.reload();
         		$('#employeeEdit').modal('hide');
+        		if($("input[name='passwordNewEdit']").val().length>0){
+        			$("input[name='passwordNewEdit']").val("");
+        		}        		
         	}else{
         		/*console.log(data.error);*/
         		alert("修改失败！");
+        		if($("input[name='passwordNewEdit']").val().length>0){
+        			$("input[name='passwordNewEdit']").val("");
+        		} 
         	} 	
         },
         error: function (message) {
@@ -307,13 +322,21 @@ function editEmployee(){
 }
 
 function employeeRulesInit(){
-	$.get("../rulesnames", function(data) {
-		if(data.status == 1){
-			rulesList = data.data;
-		}else{
-			console.log(data.error);
-		}
-	});
+	$.ajax({
+		type: "get",
+        url: "../rules",
+        headers:{"domainid":domainid},
+        success:function(data){
+        	if(data.status == 1){
+        		rulesList = data.data;
+        	}else{
+        		console.log(data.error);
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
 }
 
 function getEmployeeRules(_employee){

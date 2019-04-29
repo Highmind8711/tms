@@ -1,18 +1,17 @@
 
 var table;
 var domainid = sessionStorage.domainid;
+var domainName = sessionStorage.domainName;
 var permissionsList = {};
 
 function setRuleTable(){
-	console.log(domainid);
 	table = $('#ruleTable').DataTable( {
 		ajax: {
 			url:'../rulePermissions',
-			dataSrc: 'data',
-			type: 'get',
-			headers: {
-				"domainid":domainid
-			}
+			dataSrc: 'data',				
+		    headers: {
+		    	'domainid':domainid    
+		    },
 		},
 		columns: [
 			{
@@ -129,8 +128,8 @@ function getRule(_rule){
 	console.log(_rule);
 	str = "<div class='profile-info'><h4 class='heading'>角色信息</h4><ul class='list-unstyled list-justify'><li>角色名称 <span>"
 		+ _rule.rulename 
-		+ "</span></li><li>所属区域 <span>" 
-		+ _rule.domainid
+		+ "</span></li><li>所属公司 <span>" 
+		+ domainName
 		+ "</span></li><li>备注 <span>" 
 		+ _rule.remark
 				
@@ -192,13 +191,23 @@ function editRule(){
 }
 
 function rulePermissionsInit(){
-	$.get("../permissions", function(data) {
-		if(data.status == 1){
-			permissionsList = data.data;
-		}else{
-			console.log(data.error);
-		}
-	});
+	$.ajax({
+		type: "get",
+        url: "../permissions",
+        headers:{"domainid":domainid},
+        success:function(data){
+        	if(data.status == 1){
+        		permissionsList = data.data;
+        	}else{
+        		console.log(data.error);
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
+	
+	
 }
 
 function getRulePermissions(_rule){

@@ -85,7 +85,7 @@ var menuVm = new Vue({
         	        		alert("删除成功！");
         	        		window.location.reload();
         	        	}else{
-        	        		alert("删除失败！");
+        	        		alert("删除失败！请检查该菜单是否包含子菜单或该菜单已添加至权限中，若包含，请先删除该级联关系");
         	        	} 	
         	        },
         	        error: function (message) {
