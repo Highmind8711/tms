@@ -147,7 +147,7 @@
     	<include refid="Base_Column_List" />
     	From 
     	(
-		SELECT
+		SELECT DISTINCT
 		Sys_Menu.name,
 		Sys_Menu.url,
 		Sys_Menu.parent_id,
@@ -159,8 +159,6 @@
 		LEFT JOIN Sys_Rule_Permission ON Sys_Rule_Permission.rule_id =  Sys_Rule_Employee.rule_id
 		LEFT JOIN Sys_Permission_Menu ON Sys_Permission_Menu.permission_id = Sys_Rule_Permission.permission_id
 		LEFT JOIN Sys_Menu ON Sys_Permission_Menu.menu_id = Sys_Menu.id
-		WHERE
-		Sys_Employee.id = 1
 	   	) as a 
 		WHERE a.parent_id=#{id} 
    </select>
