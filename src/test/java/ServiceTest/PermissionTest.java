@@ -66,13 +66,13 @@ public class PermissionTest {
     }
     @Test
     public void selectOne() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("id", 1);
         Permission de=permissionService.selectById(map);
     }
     @Test
     public void update() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("id", 1);
         Permission de=permissionService.selectById(map);
         de.setDomainid((long) 5);

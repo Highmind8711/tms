@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.highmind.entity.Loginlog;
@@ -88,7 +89,7 @@ public class LoginlogController extends BaseController<Loginlog>{
      * @RequestMapping(value="/loginlog/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") public
      * String delete(Long id) { // TODO Auto-generated method stub return super.deleteResult(loginlogService, id); }
      */
-    @RequestMapping(value="/loginlogbypage",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    @RequestMapping(value="/loginlogbypage",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
     public String getAllByPage(HttpServletRequest request,@RequestBody(required = false) List<Handle> handles) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
@@ -96,7 +97,7 @@ public class LoginlogController extends BaseController<Loginlog>{
         String pageSizeString=request.getParameter("pageSize");
         int pageNum;
         int pageSize;
-        if(pageNumString.matches("/^\\d+$/")||pageSizeString.matches("/^\\d+$/")) {
+        if(pageNumString.matches("^\\d+$")||pageSizeString.matches("^\\d+$")) {
             pageNum = Integer.parseInt(pageNumString);
             pageSize = Integer.parseInt(pageSizeString);
         }else {
@@ -106,28 +107,30 @@ public class LoginlogController extends BaseController<Loginlog>{
         StringBuffer strBuffer = new StringBuffer();
         String betweenLeft="";
         String betweenRight="";
-        for(Handle handle:handles) {
-            if(handle.getOperation().equals("=")) {
-                strBuffer.append(handle.getName());
-                strBuffer.append(handle.getOperation());
-                strBuffer.append(handle.getData()); 
-                sqlLits.add(strBuffer.toString());
-            }else if(handle.getOperation().equals("like")){
-                strBuffer.append(handle.getName());
-                strBuffer.append(handle.getOperation());
-                strBuffer.append("%"+handle.getData()+"%"); 
-                sqlLits.add(strBuffer.toString());
-            }else if(handle.getOperation().equals("between")){
-                betweenLeft=handle.getName()+handle.getOperation()+handle.getData();    
-            }else if(handle.getOperation().equals("end")) {
-                betweenRight=handle.getOperation()+handle.getData();
-            }else {
-                return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter);
-            }
-            if(!betweenLeft.equals("")||!betweenRight.equals("")) {
-                strBuffer.append(betweenLeft);
-                strBuffer.append(betweenRight);
-                sqlLits.add(strBuffer.toString());
+        if(handles!=null) {
+            for(Handle handle:handles) {
+                if(handle.getOperation().equals("=")) {
+                    strBuffer.append("and"+handle.getName());
+                    strBuffer.append(handle.getOperation());
+                    strBuffer.append(handle.getData()); 
+                    sqlLits.add(strBuffer.toString());
+                }else if(handle.getOperation().equals("like")){
+                    strBuffer.append("and"+handle.getName());
+                    strBuffer.append(handle.getOperation());
+                    strBuffer.append("%"+handle.getData()+"%"); 
+                    sqlLits.add(strBuffer.toString());
+                }else if(handle.getOperation().equals("between")){
+                    betweenLeft="and"+handle.getName()+handle.getOperation()+handle.getData();    
+                }else if(handle.getOperation().equals("end")) {
+                    betweenRight=handle.getOperation()+handle.getData();
+                }else {
+                    return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter);
+                }
+                if(!betweenLeft.equals("")||!betweenRight.equals("")) {
+                    strBuffer.append(betweenLeft);
+                    strBuffer.append(betweenRight);
+                    sqlLits.add(strBuffer.toString());
+                }
             }
         }
         Map<String,Object> map=new HashMap<String,Object>();
@@ -141,7 +144,7 @@ public class LoginlogController extends BaseController<Loginlog>{
         jsonObject.put("currentPage", pageNum);
         jsonObject.put("status", 1); 
         jsonObject.put("data", selectAll); 
-        return super.getAllResult(loginlogService,domainid);
+        return JSONObject.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue,SerializerFeature.DisableCircularReferenceDetect);
     }
     
 }

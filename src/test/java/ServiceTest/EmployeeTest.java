@@ -69,7 +69,7 @@ public class EmployeeTest {
     }
     @Test
     public void selectOne() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("id", 1);
         Employee de=employeeService.selectById(map);
     }

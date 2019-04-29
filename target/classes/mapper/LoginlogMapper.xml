@@ -22,6 +22,11 @@
     	<if test="domainid!=null">
     		 and Sys_Loginlog.domainid=#{domainid,jdbcType=BIGINT}
     	</if>
+    	<if test="handles!=null">
+    		<foreach item="item" index="index" collection="handles">
+            	#{item}
+            </foreach>
+    	</if>
     </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
