@@ -77,7 +77,7 @@ public abstract class BaseController<T> {
         if(id>0) {
             return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.INSERT_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.error(CodeMsg.INSERT_ERROR),errorFilter);
         }
         
     }
@@ -87,9 +87,9 @@ public abstract class BaseController<T> {
         hashMap.put("domainid", domainid);
         T selectById = baseService.selectById(hashMap);
         if(selectById!=null) {
-            return JSONObject.toJSONString(Result.success(selectById),successFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.success(selectById),successFilter,SerializerFeature.WriteMapNullValue,SerializerFeature.DisableCircularReferenceDetect);
         }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter);
         }
 
     }
@@ -100,7 +100,7 @@ public abstract class BaseController<T> {
         if(!selectAll.isEmpty()) {
             return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue,SerializerFeature.DisableCircularReferenceDetect);
         }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter);
         }
 
     }
@@ -109,7 +109,7 @@ public abstract class BaseController<T> {
         if(id>0) {
             return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.UPDATE_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.error(CodeMsg.UPDATE_ERROR),errorFilter);
         }
     }
     public String deleteResult(BaseService<T> baseService,Long id) {
@@ -117,7 +117,7 @@ public abstract class BaseController<T> {
         if(result>0) {
             return JSONObject.toJSONString(Result.success(id),successFilter,SerializerFeature.WriteMapNullValue);
         }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.DELETE_ERROR),errorFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.error(CodeMsg.DELETE_ERROR),errorFilter);
         }
         
     }
@@ -132,7 +132,7 @@ public abstract class BaseController<T> {
         if (b) {
             return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
         } else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter,SerializerFeature.WriteMapNullValue);
+            return JSONObject.toJSONString(Result.error(CodeMsg.NOT_FIND_DATA),errorFilter);
         }
     }
 }

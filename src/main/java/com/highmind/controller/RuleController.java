@@ -92,10 +92,12 @@ public class RuleController extends BaseController<Rule> {
     }
     
     @RequestMapping(value="/rulePermissions/{id}",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getOneRulePermission(@PathVariable("id")Long id) {
+    public String getOneRulePermission(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
+        String domainid=request.getHeader("domainid");
         HashMap<String, Object> hashMap=new HashMap<String,Object>();
         hashMap.put("id",id);
+        hashMap.put("domainid", domainid);
         List<Rule> selectById = ruleService.selectRulePermission(hashMap);
         
         Rule rule=!selectById.isEmpty()?selectById.get(0):null;
@@ -106,9 +108,12 @@ public class RuleController extends BaseController<Rule> {
         }
     }
     @RequestMapping(value="/rulePermissions",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
-    public String getAllRulePermission() {
+    public String getAllRulePermission(HttpServletRequest request) {
         // TODO Auto-generated method stub
+        String domainid=request.getHeader("domainid");
+        System.out.println(domainid+"头");
         HashMap<String, Object> hashMap=new HashMap<String,Object>();
+        hashMap.put("domainid", domainid);
         List<Rule> selectAll = ruleService.selectRulePermission(hashMap);
         if(!selectAll.isEmpty()) {
             return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);

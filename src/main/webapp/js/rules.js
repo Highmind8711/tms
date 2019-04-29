@@ -4,11 +4,14 @@ var domainid = sessionStorage.domainid;
 var permissionsList = {};
 
 function setRuleTable(){
+	console.log(domainid);
 	table = $('#ruleTable').DataTable( {
 		ajax: {
 			url:'../rulePermissions',
-			dataSrc: 'data',	
+			dataSrc: 'data',
+			type: 'get',
 			header: {
+				'123':"123",
 				"domainid":domainid
 			}
 		},

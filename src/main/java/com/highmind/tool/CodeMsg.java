@@ -10,9 +10,11 @@ public class CodeMsg {
     public static CodeMsg UPDATE_ERROR = new CodeMsg(0,"更新异常");
     public static CodeMsg DELETE_ERROR = new CodeMsg(0,"删除异常");
     public static CodeMsg PARAMETER_ISNULL = new CodeMsg(0,"输入参数为空");
+    public static CodeMsg PAGING_PARAMETERS_ERROR = new CodeMsg(0,"分页参数异常");
     // 业务异常
     public static CodeMsg USER_NOT_EXSIST = new CodeMsg(0,"用户不存在");
     public static CodeMsg USER_EXSIST = new CodeMsg(0,"用户存在");
+    // 非法请求产生的条件token非法，操作非法比如进行sql注入
     public static CodeMsg ILLEGAL_REQUEST = new CodeMsg(0,"非法请求");
     public static CodeMsg SESSION_NOT_EXSIST =  new CodeMsg(0,"用户未登录");
     public static CodeMsg NOT_FIND_DATA = new CodeMsg(0,"查找不到对应数据");

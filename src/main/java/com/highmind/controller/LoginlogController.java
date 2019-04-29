@@ -25,13 +25,26 @@
  *****************************************************************/
 package com.highmind.controller;
 
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.highmind.entity.Loginlog;
+import com.highmind.tool.CodeMsg;
+import com.highmind.tool.Handle;
+import com.highmind.tool.Result;
 
 /**
  * @ClassName LoginlogController
@@ -75,5 +88,60 @@ public class LoginlogController extends BaseController<Loginlog>{
      * @RequestMapping(value="/loginlog/{id}",method=RequestMethod.DELETE,produces = "text/json;charset=UTF-8") public
      * String delete(Long id) { // TODO Auto-generated method stub return super.deleteResult(loginlogService, id); }
      */
+    @RequestMapping(value="/loginlogbypage",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getAllByPage(HttpServletRequest request,@RequestBody(required = false) List<Handle> handles) {
+        // TODO Auto-generated method stub
+        String domainid=request.getHeader("domainid");
+        String pageNumString=request.getParameter("pageNum");
+        String pageSizeString=request.getParameter("pageSize");
+        int pageNum;
+        int pageSize;
+        if(pageNumString.matches("/^\\d+$/")||pageSizeString.matches("/^\\d+$/")) {
+            pageNum = Integer.parseInt(pageNumString);
+            pageSize = Integer.parseInt(pageSizeString);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.PAGING_PARAMETERS_ERROR),errorFilter);
+        }
+        List<String> sqlLits=new ArrayList<String>();
+        StringBuffer strBuffer = new StringBuffer();
+        String betweenLeft="";
+        String betweenRight="";
+        for(Handle handle:handles) {
+            if(handle.getOperation().equals("=")) {
+                strBuffer.append(handle.getName());
+                strBuffer.append(handle.getOperation());
+                strBuffer.append(handle.getData()); 
+                sqlLits.add(strBuffer.toString());
+            }else if(handle.getOperation().equals("like")){
+                strBuffer.append(handle.getName());
+                strBuffer.append(handle.getOperation());
+                strBuffer.append("%"+handle.getData()+"%"); 
+                sqlLits.add(strBuffer.toString());
+            }else if(handle.getOperation().equals("between")){
+                betweenLeft=handle.getName()+handle.getOperation()+handle.getData();    
+            }else if(handle.getOperation().equals("end")) {
+                betweenRight=handle.getOperation()+handle.getData();
+            }else {
+                return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter);
+            }
+            if(!betweenLeft.equals("")||!betweenRight.equals("")) {
+                strBuffer.append(betweenLeft);
+                strBuffer.append(betweenRight);
+                sqlLits.add(strBuffer.toString());
+            }
+        }
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("domainid", domainid);
+        map.put("handles", handles);
+        JSONObject jsonObject=new JSONObject();
+        PageHelper.startPage(pageNum, pageSize);
+        List<Loginlog> selectAll = loginlogService.selectAll(map);
+        int total =(int) new PageInfo<>(selectAll).getTotal();
+        jsonObject.put("total", total); 
+        jsonObject.put("currentPage", pageNum);
+        jsonObject.put("status", 1); 
+        jsonObject.put("data", selectAll); 
+        return super.getAllResult(loginlogService,domainid);
+    }
     
 }
