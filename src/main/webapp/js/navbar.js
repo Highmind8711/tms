@@ -12,7 +12,6 @@ function getBaseInfo(){
         data:{"token": token},
         success: function (data) {
         	if(data.status == 1){	
-        		console.log(data)
         		$("#userName").html(data.data.name)
         		$("#userLoginId").html(data.data.loginId)        		
         	}
@@ -35,16 +34,10 @@ function getSidebarList(){
         headers: {'domainid': domainid},
         data:{"token": token},
         success: function (data) {
-        	if(data.status == 1){		        		
-        		console.log(data)        		
+        	if(data.status == 1){		        		      		
         		$.each(data.data, function(i,v){  
         			
-        			
-        			var urlStr = v.url.split("*");
-        			
-        			
-        			
-        			
+        			var urlStr = v.url.split("*");        			
 					if(v.children.length > 0){
 						
 						str += "<li><a href='#" 
@@ -57,7 +50,8 @@ function getSidebarList(){
 							+ urlStr[0] 
 							+ "' class='collapse' aria-expanded='false' style='height: 0px;'><ul class='nav'>"
 
-							$.each(data.data.children, function(j,m){
+							$.each(v.children, function(j,m){
+								
 								str += "<li><a href='"
 									+ m.url
 									+ "' class=''>" 
@@ -75,6 +69,7 @@ function getSidebarList(){
             				+ "</span></a></li>"
         			}	
         		})
+        		$("#sideNavbar").html(str);
         	}
         	else{
         		alert(data.error);
@@ -161,7 +156,6 @@ $().ready(function(){
 	
 	if(sessionStorage.getItem("token") != null){
 		
-		console.log(sessionStorage)
 		domainid = sessionStorage.domainid;
 		token = sessionStorage.token;
 		
@@ -170,7 +164,6 @@ $().ready(function(){
 
 		/*数据初始化*/
 		getBaseInfo();
-		console.log(domainid);
 		getSidebarList();
 		
 		/*操作*/
@@ -206,7 +199,6 @@ function getMenuHidden(){
 				$("#menubtn i").removeClass("lnr-arrow-left-circle").addClass("lnr-arrow-right-circle");
 			}
 		}
-		/*console.log(_width);*/
 	})
 }
 

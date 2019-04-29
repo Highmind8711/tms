@@ -1,5 +1,5 @@
 
-var domainid = 1;
+var domainid = sessionStorage.domainid;
 
 var menuVm = new Vue({
 	el:"#menuVm",

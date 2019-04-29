@@ -1,5 +1,5 @@
 
-var domainid = 2;
+var domainid = sessionStorage.domainid;
 
 var deprtmentVm = new Vue({
 	el:"#departmentVm",

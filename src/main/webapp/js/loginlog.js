@@ -1,6 +1,6 @@
 
 var table;
-var domainid = 2;
+var domainid = sessionStorage.domainid;
 
 function setLoginlogTable(){
 	table = $('#loginlogTable').DataTable( {

@@ -1,8 +1,8 @@
 
 
-var webUrl = "http://localhost:8080"
+var webUrl = "http://localhost:8080/"
 var table;
-var domainid = 2;
+var domainid = sessionStorage.domainid;
 var rulesList = {};
 var photoUrl = "";
 /*var reader = new FileReader();*/
@@ -131,8 +131,9 @@ function createEmployee(){
     			photoUrl = "";
     			table.ajax.reload();
     			$('#employeeCreate').modal('hide');
-    			$('#employeeCreate input').value('');
-    			
+    			$("#employeeCreate :input").each(function () {
+    		        $(this).val("");
+    			});
     		}else{
     			alert("添加失败！");
     		}
@@ -142,8 +143,6 @@ function createEmployee(){
         }
     });
 }
-
-
 
 function delEmployee(employeeID){
 	if(confirm("确认删除？") == true){
@@ -167,12 +166,14 @@ function delEmployee(employeeID){
 }
 
 function getEmployee(_employee){
-	console.log(_employee.photo)
+
+	console.log(_employee)
 	var str="";
 	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li style='height:70px;'>头像 <span><img src='"
 	
 	if( _employee.photo != "null" && _employee.photo != ""){
-		str += webUrl +  _employee.photo;
+		str += webUrl + _employee.photo;
+		console.log(str)
 	}else{
 		str += "../resource/img/noimage.png";
 	}
@@ -251,9 +252,9 @@ function editEmployeeInit(_employee){
 	$("input[name='emailEdit']").val(_employee.email);		
 	$("input[name='loginIdEdit']").val(_employee.loginId);	
 	if(_employee.isLoginEnabled == "1"){
-		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked','true');
+		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked',true);
 	}else{
-		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked','false');
+		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked',false);
 	}	
 	$("input:checkbox[name='isSellerEdit']").prop('checked',_employee.seller);
 	
@@ -285,8 +286,6 @@ function editEmployee(){
 	if($("input[name='passwordNewEdit']").val() != "" || $("input[name='passwordNewEdit']").val() != null){
 		_employee["password"] = $("input[name='passwordNewEdit']").val();
 	}
-
-	console.log(_employee);
 	
 	$.ajax({
 		type: "put",
@@ -382,7 +381,6 @@ function editEmployeeRules(){
 
 function photoImgUpload(imgFile){
 
-	console.log(imgFile)
     var _emPhoto = new FormData();
 	_emPhoto.append("picture", imgFile);
 
@@ -416,7 +414,6 @@ function photoImgUpload(imgFile){
 $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
-	modalClear();
 	
 	/*数据初始化*/
 	setEmployeeTable();
@@ -438,14 +435,6 @@ $(document).ready(function() {
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
 }
-
-function modalClear(){
-	$('body').on('hidden.bs.modal', '.modal', function () {
-	    $(this).removeData('bs.modal');
-	});
-}
-
-
 
 var employeeVm = new Vue({
 	el:"#employeeVm",
@@ -541,36 +530,6 @@ var employeeVm = new Vue({
 })
 
 
-/*function readFile() {
-    var AllowImgFileSize = 2100000; 
-    var file = $("#userImg")[0].files[0];
-    console.log(file);
-    var imgUrlBase64="";
-    if (file) {
-        // 将文件以Data URL形式读入页面
-        imgUrlBase64 = reader.readAsDataURL(file);
-        reader.onload = function(e) {            
-            var suffix = "";
-            if (document.getElementById("userImg").value != '') {
-                suffix = document.getElementById("userImg").value.match(/^(.*)(\.)(.{1,8})$/)[3];
-                suffix = suffix.toUpperCase();
-            }
-            if (suffix != "BMP" && suffix != "JPG" && suffix != "JPEG" && suffix != "PNG") {
-                alert('上传失败，请上传头像图片！');
-                $('#userImg').fileinput('refresh');
-                return;
-            } else {
-                if (AllowImgFileSize != 0 && AllowImgFileSize < reader.result.length) {
-                    alert('上传失败，请上传不大于2M的图片！');
-                    return;
-                } else {
-                	fileUpload();
-                };
-            };
-        };
-    };
-}
-*/
 
 
 
