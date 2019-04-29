@@ -1,10 +1,9 @@
 
-
-var webUrl = "http://localhost:8080/"
 var table;
 var domainid = sessionStorage.domainid;
 var rulesList = {};
 var photoUrl = "";
+var webUrl = "http://127.0.0.1:8080/"
 /*var reader = new FileReader();*/
 
 function setEmployeeTable(){
@@ -34,7 +33,7 @@ function setEmployeeTable(){
             	title: "员工账号"
             },{ 
             	data: "isLoginEnabled" ,
-            	title: "允许登录",
+            	title: "是否允许登录",
             	orderable : false
             },{
             	title:"操作",
@@ -134,6 +133,8 @@ function createEmployee(){
     			$("#employeeCreate :input").each(function () {
     		        $(this).val("");
     			});
+    			$("#employeeCreate .fileupload-preview img").attr("src","../resource/img/noimage.png");
+    			
     		}else{
     			alert("添加失败！");
     		}
@@ -167,13 +168,11 @@ function delEmployee(employeeID){
 
 function getEmployee(_employee){
 
-	console.log(_employee)
 	var str="";
 	str = "<div class='profile-info'><h4 class='heading'>个人信息</h4><ul class='list-unstyled list-justify'><li style='height:70px;'>头像 <span><img src='"
 	
 	if( _employee.photo != "null" && _employee.photo != ""){
 		str += webUrl + _employee.photo;
-		console.log(str)
 	}else{
 		str += "../resource/img/noimage.png";
 	}
@@ -414,6 +413,7 @@ function photoImgUpload(imgFile){
 $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
+	
 	
 	/*数据初始化*/
 	setEmployeeTable();

@@ -128,8 +128,11 @@ var menuVm = new Vue({
     	        	if(data.status == 1){
     	    			alert("添加成功！");   	
     	    			$('#menuCreate').modal('hide');
+    	    			$("#menuCreate :input").each(function () {
+    	    		        $(this).val("");
+    	    			});
     	    			if($("#menuSelect option:selected").val() == 1){
-    	    				console.log("1234");
+    	    				
     	    				_data.menuList.push( {"id":data.data,"name":name,"url":url,"menus":[]});
     	    				
     	    			}else if($("#menuSelect option:selected").val() == 2){

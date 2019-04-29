@@ -86,7 +86,9 @@ function createRule(){
     			alert("添加成功！");   			
     			table.ajax.reload();
     			$('#ruleCreate').modal('hide');
-    			
+    			$("#ruleCreate :input").each(function () {
+    		        $(this).val("");
+    			});
     		}else{
     			alert("添加失败！");
     		}

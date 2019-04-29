@@ -47,6 +47,16 @@ function setPermissionTable(){
 	        			 
 	        	return html;
         	}
+        },{
+        	"targets" : 3,        	
+        	"render" : function(data, type, row) {
+        		if(row.type == "1"){
+        			return "菜单权限"      			
+        		}else{
+        			return "暂无"
+        		}
+        		
+        	}
         }],
         "order": [[0, 'asc']],
 		"iDisplayLength":100,
@@ -93,7 +103,9 @@ function createPermission(){
     			alert("添加成功！");   			
     			table.ajax.reload();
     			$('#permissionCreate').modal('hide');
-    			
+    			$("#permissionCreate :input").each(function () {
+    		        $(this).val("");
+    			});
     		}else{
     			alert("添加失败！");
     		}
@@ -133,11 +145,17 @@ function getPermission(_permission){
 		+ _permission.name 
 		+ "</span></li><li>所属区域 <span>" 
 		+ _permission.domainid
-		+ "</span></li><li>权限分组<span>" 
+		+ "</span></li><li>权限模块<span>" 
 		+ _permission.grouping
 		+ "</span></li><li>权限类型<span>" 
-		+ _permission.type
-		+ "</span></li><li>备注 <span>" 
+		
+	if(_permission.type == "1"){
+		str += "菜单权限"
+	}else{
+		str += "暂无"
+	}
+ 
+	str += "</span></li><li>备注 <span>" 
 		+ _permission.remark
 				
 	str	+= "</span></li></ul></div><div class='profile-info'><h4 class='heading'>菜单权限</h4>" 

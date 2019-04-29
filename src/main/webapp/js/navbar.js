@@ -16,11 +16,15 @@ function getBaseInfo(){
         		$("#userLoginId").html(data.data.loginId)        		
         	}
         	else{
-        		alert(data.error);
+        		console.log(data.error);
+        		alert("用户信息已失效，请重新登录！")
+        		window.location.href = "login.html";		
         	}	
         },
         error: function (message) {
         	console.log(message);
+        	alert("用户信息已失效，请重新登录！")
+    		window.location.href = "login.html";		
         }
     });
 }
@@ -34,8 +38,10 @@ function getSidebarList(){
         headers: {'domainid': domainid},
         data:{"token": token},
         success: function (data) {
-        	if(data.status == 1){		        		      		
+        	if(data.status == 1){	
+        		console.log(data)
         		$.each(data.data, function(i,v){  
+        			
         			
         			var urlStr = v.url.split("*");        			
 					if(v.children.length > 0){
@@ -72,11 +78,11 @@ function getSidebarList(){
         		$("#sideNavbar").html(str);
         	}
         	else{
-        		alert(data.error);
+        		console.log(data.error);    		
         	}	
         },
         error: function (message) {
-        	console.log(message);
+        	console.log(message);        	
         }
     });
 }
@@ -102,10 +108,12 @@ function editPassword(){
            		}       		
         	}
         	else{
-        		alert(data.error);
+        		alert("修改密码失败，请重试！")
+        		console.log(data.error);       		
         	}	
         },
         error: function (message) {
+        	alert("修改密码失败，请重试！")
         	console.log(message);
         }
     });	
@@ -131,12 +139,12 @@ function pswChange(userId){
         		$("input[name='psdNewEdit']").val("");
         	}
         	else{
-        		alert("修改失败！")
+        		alert("修改失败，请重试！")
         		console.log(data.error);
         	}	
         },
         error: function (message) {
-        	alert("修改失败！");
+        	alert("修改失败，请重试");
         	console.log(message);
         }
     });

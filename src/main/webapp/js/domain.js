@@ -82,6 +82,9 @@ function createDomain(){
     			alert("添加成功！");   			
     			table.ajax.reload();
     			$('#domainCreate').modal('hide');
+    			$("#domainCreate :input").each(function () {
+    		        $(this).val("");
+    			});
     		}else{
     			alert("添加失败！");
     		}

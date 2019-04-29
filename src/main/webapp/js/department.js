@@ -143,7 +143,9 @@ function createDepartment(){
         	if(data.status == 1){
     			alert("添加成功！");   	
     			$('#departmentCreate').modal('hide');
-    			
+    			$("#departmentCreate :input").each(function () {
+    		        $(this).val("");
+    			});
     		}else{
     			alert("添加失败！");
     		}
