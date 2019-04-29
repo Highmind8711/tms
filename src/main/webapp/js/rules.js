@@ -10,8 +10,7 @@ function setRuleTable(){
 			url:'../rulePermissions',
 			dataSrc: 'data',
 			type: 'get',
-			header: {
-				'123':"123",
+			headers: {
 				"domainid":domainid
 			}
 		},

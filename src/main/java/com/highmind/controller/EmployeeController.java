@@ -108,11 +108,11 @@ public class EmployeeController extends BaseController<Employee>{
     @RequestMapping("/upload")
     public String uploadImage(MultipartFile picture, HttpServletRequest request) {
         JSONObject jsonObject=new JSONObject();
-        String Url=request.getRequestURL().toString();
-        System.out.println(Url);
-        String url_temp=Url.substring(0, Url.lastIndexOf("/"));
-        System.out.println(url_temp);
-        String url=url_temp.substring(0, url_temp.lastIndexOf("/")+1);
+        String urlAll=request.getRequestURL().toString();
+        System.out.println(urlAll);
+        String urlTemp=urlAll.substring(0, urlAll.lastIndexOf("/"));
+        System.out.println(urlTemp);
+        String url=urlTemp.substring(0, urlTemp.lastIndexOf("/")+1);
         System.out.println(url);
         try {
             Properties prop=PropertyHolder.getProps();
