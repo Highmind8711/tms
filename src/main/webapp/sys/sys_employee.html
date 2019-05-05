@@ -163,7 +163,7 @@
 												style="color: red;">*</span>姓名</label>
 											<div class="col-sm-9">
 												<input type="text" class="form-control" placeholder="请输入姓名"
-													autofocus="autofocus" name="nameArea">
+													autofocus="autofocus" name="nameArea" >
 											</div>
 										</div>
 									</td>									
@@ -254,17 +254,19 @@
 								<label class="col-sm-3 control-label"><span
 									style="color: red;">*</span>登录账号</label>
 								<div class="col-sm-9">
-									<input type="text" class="form-control" autocomplete="off"
-										placeholder="请输入登录账号" name="loginIdArea">
-								</div>
+									<div class="input-group" >
+										<input type="text" class="form-control" autocomplete="off" placeholder="请输入登录账号" name="loginIdArea" >
+										<span class="input-group-addon"><i class="fa fa-check"></i></span>									
+									</div>								
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label"><span
 									style="color: red;">*</span>登录密码</label>
 								<div class="col-sm-9">
-									<input type="text" onfocus="this.type='password'"
-										class="form-control" autocomplete="off" placeholder="请输入登录密码"
-										name="passwordArea">
+									<input type="password" autoComplete="new-password"
+										class="form-control" placeholder="请输入登录密码"
+										name="passwordArea" required>
 								</div>
 							</div>
 							<div class="form-group">
@@ -418,8 +420,10 @@
 										<label class="col-sm-3 control-label"><span
 												style="color: red;">*</span>登录账号</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" placeholder="请输入账号"
-												name="loginIdEdit">
+											<div class="input-group" >
+												<input type="text" class="form-control" placeholder="请输入账号" name="loginIdEdit">
+												<span class="input-group-addon"><i class="fa fa-check"></i></span>									
+											</div>
 										</div>
 									</div>									
 									<div class="form-group">

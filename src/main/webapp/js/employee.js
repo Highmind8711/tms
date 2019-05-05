@@ -118,7 +118,7 @@ function createEmployee(){
 	}else{
 		employee.append("isLoginEnabled ", "0");
 	}
-	
+		
 	$.ajax({
         type: "POST",
         url: "../employees",
@@ -132,7 +132,9 @@ function createEmployee(){
     			table.ajax.reload();
     			$('#employeeCreate').modal('hide');
     			$("#employeeCreate :input").each(function () {
-    		        $(this).val("");
+    				if($(this).attr("name") != "departmentIdArea"){
+    					$(this).val("");
+    				}
     			});
     			$("#employeeCreate .fileupload-preview img").attr("src","../resource/img/noimage.png");
     			
@@ -436,28 +438,86 @@ function photoImgUpload(imgFile){
 $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
-	
-	
+		
 	/*数据初始化*/
 	setEmployeeTable();
 	employeeRulesInit();	
 
 	/*操作*/
-	$("#createEmployeeBtn").click(function(){
-		createEmployee();
+	$("#createEmployeeBtn").click(function(){		
+		var checkList = ["nameArea","departmentIdArea","loginIdArea","passwordArea"]
+		if(checkIsNull(checkList) == true){
+			createEmployee();
+		}else{
+			alert("请将带 ' * '标志的必填项填写完整！")
+		}	
 	})
 	$("#editEmployeeBtn").click(function(){
-		editEmployee();
+		var checkList = ["nameEdit","departmentIdEdit","loginIdEdit"]
+		if(checkIsNull(checkList) == true){
+			editEmployee();
+		}else{
+			alert("请将带 ' * '标志的必填项填写完整！")
+		}	
+		
 	})
 	$("#editEmployeeRulesBtn").click(function(){
 		editEmployeeRules();
 	})
 	
+	/*事件监听*/
+	$("input[name='loginIdArea']").blur(function(){
+		checkIsExist("input[name='loginIdArea']");
+	})
+	$("input[name='loginIdEdit']").blur(function(){
+		checkIsExist("input[name='loginIdEdit']");
+	})
 });
 
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
 }
+
+function checkIsExist(_this){
+	
+	var _Loginid = $(_this).val()
+	
+	console.log(_Loginid)
+	/*console.log($(_this).next())*/
+	/*$.ajax({
+		type:"post",
+		url:"/checkIsExist/" + _Loginid,
+		headers:{"domainid":domainid},
+		success:function(data){
+			if(data.status == 1){
+				console.log($(_this).next())
+        	}else{
+        		console.log(data.error);
+        	} 
+		},
+		error:function(message){
+			console.log(message);
+		}			
+	})*/		
+	
+}
+
+function checkIsNull(_checkList){
+	
+	var isReturn = false;//标识是否跳出方法	
+	$.each(_checkList, function(i, v) {				
+		if ($("input[name='" + v+ "']").val() == ""|| $.trim($("input[name='" + v+ "']").val()).length == 0) {	
+			$("input[name='" + v+ "']").focus();
+			isReturn = true;
+			console.log(isReturn)
+			return false;
+		}	
+	});	
+	if (isReturn) return false;
+	
+	return true;	
+}
+
 
 var employeeVm = new Vue({
 	el:"#employeeVm",

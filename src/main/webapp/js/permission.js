@@ -104,9 +104,18 @@ function createPermission(){
     			alert("添加成功！");   			
     			table.ajax.reload();
     			$('#permissionCreate').modal('hide');
-    			$("#permissionCreate :input").each(function () {
-    		        $(this).val("");
+    			$("#employeeCreate :input").each(function () {
+    				if($(this).attr("name") == "groupingArea"
+    					|| $(this).attr("name") == "typeArea"
+    					|| $(this).attr("name") == "menuIdArea")
+    				{
+    					
+    				}else{
+    					$(this).val("");
+    				}
     			});
+    			$("input[name='nameArea']").val("");
+    			$("textarea[name='remarkArea']").val("")
     		}else{
     			alert("添加失败！");
     		}

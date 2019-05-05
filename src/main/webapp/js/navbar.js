@@ -40,7 +40,7 @@ function getSidebarList(){
         data:{"token": token},
         success: function (data) {
         	if(data.status == 1){	
-        		console.log(data)
+        		
         		$.each(data.data, function(i,v){  
         			
         			
