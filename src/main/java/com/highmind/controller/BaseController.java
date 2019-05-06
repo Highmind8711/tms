@@ -82,7 +82,7 @@ public abstract class BaseController<T> {
         
     }
     public String getOneResult(BaseService<T> baseService,Long id,String domainid) {
-        Map<String,Object> hashMap=new HashMap<String,Object>();
+        Map<String,Object> hashMap=new HashMap<String,Object>(16);
         hashMap.put("id",id);
         hashMap.put("domainid", domainid);
         T selectById = baseService.selectById(hashMap);
@@ -94,7 +94,7 @@ public abstract class BaseController<T> {
 
     }
     public String getAllResult(BaseService<T> baseService,String domainid) {
-        Map<String,Object> hashMap=new HashMap<String,Object>();
+        Map<String,Object> hashMap=new HashMap<String,Object>(16);
         hashMap.put("domainid", domainid);
         List<T> selectAll = baseService.selectAll(hashMap);
         if(!selectAll.isEmpty()) {

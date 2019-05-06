@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
         Date d = new Date();
         String format = DateUtil.format(d, "yyyy-MM-dd HH:mm:ss");
         logger.error("____________________________________________");
-        logger.error("级联删除异常："+format);
+        logger.error("数据库异常："+format);
         logger.error(e);
         logger.error("____________________________________________");
         System.out.println("异常");

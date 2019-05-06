@@ -73,6 +73,12 @@ public class Department {
         this.children = children;
     }
 
+    @Override
+    public String toString() {
+        return "Department [id=" + id + ", domainid=" + domainid + ", ml_parent=" + ml_parent + ", name=" + name
+                + ", remark=" + remark + ", employees=" + employees + ", children=" + children + "]";
+    }
+
     
     
 }

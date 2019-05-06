@@ -155,17 +155,17 @@ public class EmployeeController extends BaseController<Employee>{
         }
     }
     @RequestMapping(value="/checkIsExist/{loginId}",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String checkIsExist(@PathVariable("loginId")Long id,HttpServletRequest request) {
+    public String checkIsExist(@PathVariable("loginId")String id,HttpServletRequest request) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
         Map<String,Object> map=new HashMap<String,Object>();
         map.put("loginId",id);
         map.put("domainid", domainid);
         Employee employee=employeeService.checkUser(map);
-        if(employee.getId()>0) {
-            return JSONObject.toJSONString(Result.success(employee.getId()),successFilter,SerializerFeature.WriteMapNullValue);
-        }else {
+        if(employee!=null) {
             return JSONObject.toJSONString(Result.error(CodeMsg.USER_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+        }else {
+            return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
         }
     }
     @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
