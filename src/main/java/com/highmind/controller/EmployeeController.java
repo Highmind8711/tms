@@ -162,10 +162,15 @@ public class EmployeeController extends BaseController<Employee>{
         map.put("loginId",id);
         map.put("domainid", domainid);
         Employee employee=employeeService.checkUser(map);
+        JSONObject jsonObject=new JSONObject();
         if(employee!=null) {
-            return JSONObject.toJSONString(Result.error(CodeMsg.USER_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+            jsonObject.put("data", "用户存在");
+            jsonObject.put("status", 0);
+            return JSONObject.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
         }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.USER_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+            jsonObject.put("data", "用户不存在");
+            jsonObject.put("status", 1);
+            return JSONObject.toJSONString(jsonObject,SerializerFeature.WriteMapNullValue);
         }
     }
     @RequestMapping(value="/login",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
