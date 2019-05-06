@@ -264,10 +264,13 @@ function editEmployeeInit(_employee){
 	console.log(_employee)
 	if(_employee.photo.length > 0){
 		$("#employeeEdit .fileupload-new img").attr("src", webUrl + _employee.photo);
+		$("#employeeEdit .fileupload-preview img").attr("src", webUrl + _employee.photo);
 	}else{
 		$("#employeeEdit .fileupload-new img").attr("src", "../resource/img/noimage.png");
+		$("#employeeEdit .fileupload-preview img").attr("src", "../resource/img/noimage.png");
 	}
 	
+	$("input[name='loginIdEdit']").next().empty().append("<i class='fa fa-check'></i>");
 }
 
 function editEmployee(){
@@ -404,33 +407,47 @@ function editEmployeeRules(){
 }
 
 function photoImgUpload(imgFile){
+	
 
-    var _emPhoto = new FormData();
-	_emPhoto.append("picture", imgFile);
-
-    $.ajax({
-        url: '../upload',
-        type: 'post',
-        data: _emPhoto,
-        datatype:'JSON',
-        fileElementId: 'fileContent',
-        processData: false,
-        contentType: false,
-        cache: false,
-        traditional: true,
-        success: function (data) {   
-        	var _data = $.parseJSON( data );
-        	if(_data.status = "1"){
-                photoUrl = _data.data    
-        	}else{
-        		console.log(data.error)
-        	}
-            
-        },
-        error: function (message) {
-            console.log(message);
-        }  
-    });
+	console.log(imgFile)
+	
+	var filepath = imgFile.name;
+	var filesize = imgFile.size;
+	var extStart = filepath.lastIndexOf(".");
+    var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+     
+    if (ext != ".BMP" && ext != ".PNG" && ext != ".GIF" && ext != ".JPG" && ext != ".JPEG") {
+        alert("头像图片仅限于bmp,png,gif,jpeg,jpg格式！请重新选择"); 
+    }else{
+    	if ( filesize > 10*1024*1024) {
+            alert("头像图片不得大于10MB！请重新选择");
+        }else{
+            var _emPhoto = new FormData();
+        	_emPhoto.append("picture", imgFile);
+            $.ajax({
+                url: '../upload',
+                type: 'post',
+                data: _emPhoto,
+                datatype:'JSON',
+                fileElementId: 'fileContent',
+                processData: false,
+                contentType: false,
+                cache: false,
+                traditional: true,
+                success: function (data) {   
+                	var _data = $.parseJSON( data );
+                	if(_data.status = "1"){
+                        photoUrl = _data.data    
+                	}else{
+                		console.log(data.error)
+                	}  
+                },
+                error: function (message) {
+                    console.log(message);
+                }  
+            });
+        }
+    }
 }
 
 
@@ -444,18 +461,34 @@ $(document).ready(function() {
 	employeeRulesInit();	
 
 	/*操作*/
+	var existflag = [0, 1];
+	
 	$("#createEmployeeBtn").click(function(){		
 		var checkList = ["nameArea","departmentIdArea","loginIdArea","passwordArea"]
 		if(checkIsNull(checkList) == true){
-			createEmployee();
+			if(existflag[0] == "1"){
+				createEmployee();
+			}
+			else if(existflag[0] == "2"){
+				alert("登录账号已存在！请修改登录账号")
+			}else{
+				alert("账号验证失败！")
+			}
 		}else{
 			alert("请将带 ' * '标志的必填项填写完整！")
 		}	
 	})
 	$("#editEmployeeBtn").click(function(){
 		var checkList = ["nameEdit","departmentIdEdit","loginIdEdit"]
-		if(checkIsNull(checkList) == true){
-			editEmployee();
+		if(checkIsNull(checkList) == true){		
+			if(existflag[1] == "1"){
+				editEmployee();
+			}
+			else if(existflag[1] == "2"){
+				alert("登录账号已存在！请修改登录账号")
+			}else{
+				alert("验证错误！")
+			}
 		}else{
 			alert("请将带 ' * '标志的必填项填写完整！")
 		}	
@@ -466,11 +499,13 @@ $(document).ready(function() {
 	})
 	
 	/*事件监听*/
-	$("input[name='loginIdArea']").blur(function(){
-		checkIsExist("input[name='loginIdArea']");
+	$("input[name='loginIdArea']").change(function(){
+		existflag[0] = checkIsExist("input[name='loginIdArea']");
+		
 	})
-	$("input[name='loginIdEdit']").blur(function(){
-		checkIsExist("input[name='loginIdEdit']");
+	$("input[name='loginIdEdit']").change(function(){
+		existflag[1] = checkIsExist("input[name='loginIdEdit']");
+		
 	})
 });
 
@@ -481,25 +516,31 @@ function navbar(){
 function checkIsExist(_this){
 	
 	var _Loginid = $(_this).val()
+	var _flag = 0
 	
-	console.log(_Loginid)
-	/*console.log($(_this).next())*/
-	/*$.ajax({
+	$.ajax({
 		type:"post",
-		url:"/checkIsExist/" + _Loginid,
+		url:"../checkIsExist/" + _Loginid,
 		headers:{"domainid":domainid},
+		async: false,
 		success:function(data){
 			if(data.status == 1){
-				console.log($(_this).next())
-        	}else{
-        		console.log(data.error);
+				console.log(data.data);
+				$(_this).next().empty();
+				$(_this).next().append("<i class='fa fa-check'></i>");
+				_flag = 1;
+        	}else if(data.status == 0){
+        		console.log(data.data);
+        		$(_this).next().empty();
+				$(_this).next().append("<i class='fa fa-close'></i>");		
+        		_flag = 2;
         	} 
 		},
 		error:function(message){
-			console.log(message);
+			console.log(message);		
 		}			
-	})*/		
-	
+	})		
+	return _flag;
 }
 
 function checkIsNull(_checkList){
@@ -509,7 +550,6 @@ function checkIsNull(_checkList){
 		if ($("input[name='" + v+ "']").val() == ""|| $.trim($("input[name='" + v+ "']").val()).length == 0) {	
 			$("input[name='" + v+ "']").focus();
 			isReturn = true;
-			console.log(isReturn)
 			return false;
 		}	
 	});	
