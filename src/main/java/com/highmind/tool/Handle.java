@@ -61,5 +61,11 @@ public class Handle {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "Handle [operation=" + operation + ", name=" + name + ", data=" + data + "]";
+    }
+    
     
 }

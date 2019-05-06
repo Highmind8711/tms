@@ -26,6 +26,8 @@
 package com.highmind.controller;
 
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.github.pagehelper.PageHelper;
@@ -90,11 +94,17 @@ public class LoginlogController extends BaseController<Loginlog>{
      * String delete(Long id) { // TODO Auto-generated method stub return super.deleteResult(loginlogService, id); }
      */
     @RequestMapping(value="/loginlogbypage",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
-    public String getAllByPage(HttpServletRequest request,@RequestBody(required = false) List<Handle> handles) {
+    public String getAllByPage(HttpServletRequest request, @RequestBody Map<String, Object> pram) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
-        String pageNumString=request.getParameter("pageNum");
-        String pageSizeString=request.getParameter("pageSize");
+        String pageNumString=(String) pram.get("pageNum");
+        String pageSizeString=(String) pram.get("pageSize");
+        List<Handle> handles=null;
+        if(pram.get("handles")!=null) {
+            String jsonString = JSONArray.toJSONString(pram.get("handles")); 
+            System.out.println(jsonString);
+            handles=JSONArray.parseArray(jsonString, Handle.class);
+        }
         int pageNum;
         int pageSize;
         if(pageNumString.matches("^\\d+$")||pageSizeString.matches("^\\d+$")) {
@@ -109,6 +119,7 @@ public class LoginlogController extends BaseController<Loginlog>{
         String betweenRight="";
         if(handles!=null) {
             for(Handle handle:handles) {
+                System.out.println(handle.toString());
                 if(handle.getOperation().equals("=")) {
                     strBuffer.append("and"+handle.getName());
                     strBuffer.append(handle.getOperation());

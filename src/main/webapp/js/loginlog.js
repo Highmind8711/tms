@@ -20,17 +20,30 @@ var loginlogVm = new Vue({
 			userEnterdate:[]
 		}
 	},
-	createed:function(){
-		var _data = this;  	
+	created:function(){
+		var _data = this;
+		// 格式
+		let arr=[];
+		let handle1=new Object();
+		handle1.operation= "and";
+		handle1.name= "123";
+		handle1.data="123";
+		let handle2=new Object();
+		handle2.operation= "or";
+		handle2.name= "123";
+		handle2.data="123";
+		arr.push(handle1);
+		arr.push(handle2);
     	$.ajax({
 	        type: "post",
 	        url: "../loginlogbypage",
+	        contentType : 'application/json;charset=utf-8',
 	        headers: {'domainid': domainid},
-	        data:{
-	        	"pageNum":"1",
-	        	"pageSize":"20",
-	        },
-	        
+	        data: JSON.stringify({
+	        	pageNum:"1",
+	        	pageSize:"20",
+	        	handles:arr
+	        }),//将对象序列化成JSON字符串 
 	        success: function (data) {
 	        	if(data.status == 1){		        		
 	        		console.log(data.data)
