@@ -1,6 +1,7 @@
 
 var table;
 var domainid = sessionStorage.domainid;
+var domainidName = sessionStorage.domainName;
 var rulesList = {};
 var photoUrl = "";
 var webUrl = "http://127.0.0.1:8080/"
@@ -11,7 +12,7 @@ function setEmployeeTable(){
 		ajax: {
 			url:'../employees',
 			dataSrc: 'data',	
-			header: {
+			headers: {
 				"domainid":domainid
 			}
 		},
@@ -117,7 +118,7 @@ function createEmployee(){
 	}else{
 		employee.append("isLoginEnabled ", "0");
 	}
-	
+		
 	$.ajax({
         type: "POST",
         url: "../employees",
@@ -131,7 +132,9 @@ function createEmployee(){
     			table.ajax.reload();
     			$('#employeeCreate').modal('hide');
     			$("#employeeCreate :input").each(function () {
-    		        $(this).val("");
+    				if($(this).attr("name") != "departmentIdArea"){
+    					$(this).val("");
+    				}
     			});
     			$("#employeeCreate .fileupload-preview img").attr("src","../resource/img/noimage.png");
     			
@@ -180,7 +183,7 @@ function getEmployee(_employee){
 	str	+= "' alt='' style='height:70px'></span></li><li>姓名 <span>" 
 		+ _employee.name 
 		+ "</span></li><li>所属公司 <span>" 
-		+ domainid
+		+ domainidName
 		+ "</span></li><li>所属部门 <span>" 
 		+ _employee.department.name
 		+ "</span></li><li>性别 <span>" 
@@ -249,13 +252,21 @@ function editEmployeeInit(_employee){
 	$("input[name='telEdit']").val(_employee.tel);	
 	$("input[name='qqEdit']").val(_employee.qq);	
 	$("input[name='emailEdit']").val(_employee.email);		
-	$("input[name='loginIdEdit']").val(_employee.loginId);	
+	$("input[name='loginIdEdit']").val(_employee.loginId);
+	$("input:checkbox[name='isSellerEdit']").prop('checked',_employee.seller);
+	
 	if(_employee.isLoginEnabled == "1"){
 		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked',true);
 	}else{
 		$("input:checkbox[name='isLoginEnabledEdit']").prop('checked',false);
 	}	
-	$("input:checkbox[name='isSellerEdit']").prop('checked',_employee.seller);
+	
+	console.log(_employee)
+	if(_employee.photo.length > 0){
+		$("#employeeEdit .fileupload-new img").attr("src", webUrl + _employee.photo);
+	}else{
+		$("#employeeEdit .fileupload-new img").attr("src", "../resource/img/noimage.png");
+	}
 	
 }
 
@@ -274,7 +285,7 @@ function editEmployee(){
 	_employee["email"] =$("input[name='emailEdit']").val();		
 	_employee["loginId"] =$("input[name='loginIdEdit']").val();
 	_employee["seller"] =  $("input[name='isSellerEdit']").prop('checked');
-	_employee["photo"] = null;
+	_employee["photo"] = photoUrl;
 	
 	if($("input[name='isLoginEnabledEdit']").prop('checked')) {
 		_employee["isLoginEnabled"] = 1;
@@ -282,7 +293,7 @@ function editEmployee(){
 		_employee["isLoginEnabled"] = 0;
 	}
 	
-	if($("input[name='passwordNewEdit']").val() != "" || $("input[name='passwordNewEdit']").val() != null){
+	if($("input[name='passwordNewEdit']").val().length>0){
 		_employee["password"] = $("input[name='passwordNewEdit']").val();
 	}
 	
@@ -295,9 +306,15 @@ function editEmployee(){
         		alert("修改成功！");
         		table.ajax.reload();
         		$('#employeeEdit').modal('hide');
+        		if($("input[name='passwordNewEdit']").val().length>0){
+        			$("input[name='passwordNewEdit']").val("");
+        		}        		
         	}else{
         		/*console.log(data.error);*/
         		alert("修改失败！");
+        		if($("input[name='passwordNewEdit']").val().length>0){
+        			$("input[name='passwordNewEdit']").val("");
+        		} 
         	} 	
         },
         error: function (message) {
@@ -307,13 +324,21 @@ function editEmployee(){
 }
 
 function employeeRulesInit(){
-	$.get("../rulesnames", function(data) {
-		if(data.status == 1){
-			rulesList = data.data;
-		}else{
-			console.log(data.error);
-		}
-	});
+	$.ajax({
+		type: "get",
+        url: "../rules",
+        headers:{"domainid":domainid},
+        success:function(data){
+        	if(data.status == 1){
+        		rulesList = data.data;
+        	}else{
+        		console.log(data.error);
+        	} 	
+        },
+        error: function (message) {
+            console.log(message);
+        }  
+	})
 }
 
 function getEmployeeRules(_employee){
@@ -413,28 +438,86 @@ function photoImgUpload(imgFile){
 $(document).ready(function() {
 	/*页面初始化*/
 	navbar();
-	
-	
+		
 	/*数据初始化*/
 	setEmployeeTable();
 	employeeRulesInit();	
 
 	/*操作*/
-	$("#createEmployeeBtn").click(function(){
-		createEmployee();
+	$("#createEmployeeBtn").click(function(){		
+		var checkList = ["nameArea","departmentIdArea","loginIdArea","passwordArea"]
+		if(checkIsNull(checkList) == true){
+			createEmployee();
+		}else{
+			alert("请将带 ' * '标志的必填项填写完整！")
+		}	
 	})
 	$("#editEmployeeBtn").click(function(){
-		editEmployee();
+		var checkList = ["nameEdit","departmentIdEdit","loginIdEdit"]
+		if(checkIsNull(checkList) == true){
+			editEmployee();
+		}else{
+			alert("请将带 ' * '标志的必填项填写完整！")
+		}	
+		
 	})
 	$("#editEmployeeRulesBtn").click(function(){
 		editEmployeeRules();
 	})
 	
+	/*事件监听*/
+	$("input[name='loginIdArea']").blur(function(){
+		checkIsExist("input[name='loginIdArea']");
+	})
+	$("input[name='loginIdEdit']").blur(function(){
+		checkIsExist("input[name='loginIdEdit']");
+	})
 });
 
 function navbar(){
 	 $(".navHeader").load("../sys/navbar.html");
 }
+
+function checkIsExist(_this){
+	
+	var _Loginid = $(_this).val()
+	
+	console.log(_Loginid)
+	/*console.log($(_this).next())*/
+	/*$.ajax({
+		type:"post",
+		url:"/checkIsExist/" + _Loginid,
+		headers:{"domainid":domainid},
+		success:function(data){
+			if(data.status == 1){
+				console.log($(_this).next())
+        	}else{
+        		console.log(data.error);
+        	} 
+		},
+		error:function(message){
+			console.log(message);
+		}			
+	})*/		
+	
+}
+
+function checkIsNull(_checkList){
+	
+	var isReturn = false;//标识是否跳出方法	
+	$.each(_checkList, function(i, v) {				
+		if ($("input[name='" + v+ "']").val() == ""|| $.trim($("input[name='" + v+ "']").val()).length == 0) {	
+			$("input[name='" + v+ "']").focus();
+			isReturn = true;
+			console.log(isReturn)
+			return false;
+		}	
+	});	
+	if (isReturn) return false;
+	
+	return true;	
+}
+
 
 var employeeVm = new Vue({
 	el:"#employeeVm",

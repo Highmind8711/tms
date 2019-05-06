@@ -1,13 +1,14 @@
 
 var table;
 var domainid = sessionStorage.domainid;
+var domainName = sessionStorage.domainName;
 
 function setPermissionTable(){
 	table = $('#permissionTable').DataTable( {
 		ajax: {
 			url:'../permissions',
 			dataSrc: 'data',	
-			header: {
+			headers: {
 				"domainid":domainid
 			}
 		},
@@ -103,9 +104,18 @@ function createPermission(){
     			alert("添加成功！");   			
     			table.ajax.reload();
     			$('#permissionCreate').modal('hide');
-    			$("#permissionCreate :input").each(function () {
-    		        $(this).val("");
+    			$("#employeeCreate :input").each(function () {
+    				if($(this).attr("name") == "groupingArea"
+    					|| $(this).attr("name") == "typeArea"
+    					|| $(this).attr("name") == "menuIdArea")
+    				{
+    					
+    				}else{
+    					$(this).val("");
+    				}
     			});
+    			$("input[name='nameArea']").val("");
+    			$("textarea[name='remarkArea']").val("")
     		}else{
     			alert("添加失败！");
     		}
@@ -143,8 +153,8 @@ function getPermission(_permission){
 	console.log(_permission);
 	str = "<div class='profile-info'><h4 class='heading'>权限信息</h4><ul class='list-unstyled list-justify'><li>权限名称 <span>"
 		+ _permission.name 
-		+ "</span></li><li>所属区域 <span>" 
-		+ _permission.domainid
+		+ "</span></li><li>所属公司 <span>" 
+		+ domainName
 		+ "</span></li><li>权限模块<span>" 
 		+ _permission.grouping
 		+ "</span></li><li>权限类型<span>" 

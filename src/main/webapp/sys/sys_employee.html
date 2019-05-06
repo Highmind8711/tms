@@ -163,7 +163,7 @@
 												style="color: red;">*</span>姓名</label>
 											<div class="col-sm-9">
 												<input type="text" class="form-control" placeholder="请输入姓名"
-													autofocus="autofocus" name="nameArea">
+													autofocus="autofocus" name="nameArea" >
 											</div>
 										</div>
 									</td>									
@@ -254,17 +254,19 @@
 								<label class="col-sm-3 control-label"><span
 									style="color: red;">*</span>登录账号</label>
 								<div class="col-sm-9">
-									<input type="text" class="form-control" autocomplete="off"
-										placeholder="请输入登录账号" name="loginIdArea">
-								</div>
+									<div class="input-group" >
+										<input type="text" class="form-control" autocomplete="off" placeholder="请输入登录账号" name="loginIdArea" >
+										<span class="input-group-addon"><i class="fa fa-check"></i></span>									
+									</div>								
+								</div>								
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label"><span
 									style="color: red;">*</span>登录密码</label>
 								<div class="col-sm-9">
-									<input type="text" onfocus="this.type='password'"
-										class="form-control" autocomplete="off" placeholder="请输入登录密码"
-										name="passwordArea">
+									<input type="password" autoComplete="new-password"
+										class="form-control" placeholder="请输入登录密码"
+										name="passwordArea" required>
 								</div>
 							</div>
 							<div class="form-group">
@@ -313,7 +315,8 @@
 							<div class="tab-pane fade active in" id="tab1">
 								<div class="form-horizontal tasi-form">
 									<div class="form-group">
-										<label class="col-sm-3 control-label">姓名</label>
+										<label class="col-sm-3 control-label"><span
+												style="color: red;">*</span>姓名</label>
 										<div class="col-sm-9">
 											<input type="text" class="form-control" placeholder="请输入姓名"
 												name="nameEdit"> <input type="text"
@@ -322,7 +325,8 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label">性别</label>
+										<label class="col-sm-3 control-label"><span
+												style="color: red;">*</span>性别</label>
 										<div class="col-sm-2" style="padding-top: 7px;">
 											<label class="fancy-radio"> <input name="sexEdit"
 												value="0" type="radio"> <span><i></i>&emsp;女</span>
@@ -336,7 +340,8 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label">所属部门</label>
+										<label class="col-sm-3 control-label"><span
+												style="color: red;">*</span>所属部门</label>
 										<div class="col-sm-9">
 											<el-cascader expand-trigger="hover" :options="departmentList"
 												:props="defaultProps" change-on-select
@@ -391,10 +396,10 @@
 											<div class="fileupload fileupload-new"
 												data-provides="fileupload">
 												<div class="fileupload-new thumbnail"
-													style="width: 200px; height: 150px;">
+													style="max-width: 200px; max-height: 200px; line-height: 20px;">
 													<img src="../resource/img/noimage.png" alt="">
 												</div>
-												<div class="fileupload-preview fileupload-exists thumbnail"
+												<div class="fileupload-preview fileupload-exists thumbnail" id="employeeEdit_imgEdit"
 													style="max-width: 200px; max-height: 200px; line-height: 20px;"></div>
 												<div>
 													<span class="btn btn-white btn-file" id="photoImgEditBtn"> <span
@@ -412,10 +417,13 @@
 							<div class="tab-pane fade " id="tab2">
 								<div class="form-horizontal tasi-form">
 									<div class="form-group">
-										<label class="col-sm-3 control-label">登录账号</label>
+										<label class="col-sm-3 control-label"><span
+												style="color: red;">*</span>登录账号</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" placeholder="请输入账号"
-												name="loginIdEdit">
+											<div class="input-group" >
+												<input type="text" class="form-control" placeholder="请输入账号" name="loginIdEdit">
+												<span class="input-group-addon"><i class="fa fa-check"></i></span>									
+											</div>
 										</div>
 									</div>									
 									<div class="form-group">

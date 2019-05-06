@@ -7,7 +7,7 @@ function setDomainTable(){
 		ajax: {
 			url:'../domains',
 			dataSrc: 'data',	
-			header: {
+			headers: {
 				"domainid":domainid
 			}
 		},
