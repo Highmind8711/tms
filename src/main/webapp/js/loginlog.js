@@ -67,7 +67,7 @@ var loginlogVm = new Vue({
 			}
 			if(this.userEnterdate.length > 0){
 				this.searchList.push({"operation":"between","name":"enterdate","data":this.userEnterdate[0]})	
-				this.searchList.push({"operation":"end","name":"enterdate","data":this.userEnterdate[1]})	
+				this.searchList.push({"operation":"and","name":"enterdate","data":this.userEnterdate[1]})	
 			}
 			
 			console.log(this.searchList);

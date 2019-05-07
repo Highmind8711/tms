@@ -66,13 +66,13 @@ public class MenuTest {
     }
     @Test
     public void selectOne() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("id", 1);
         Menu de=menuService.selectById(map);
     }
     @Test
     public void update() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("id", 1);
         Menu de=menuService.selectById(map);
         de.setDomainid((long) 5);

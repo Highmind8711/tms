@@ -113,7 +113,7 @@ public  class RuleServiceImpl implements RuleService{
                      * permissionOperation=permissionOperations.size()!=0?permissionOperations.get(0):null;
                      * permission.setOperation(permissionOperation.getOperation()); }else
                      */if(permission.getType().equals("2")) {
-                        Map<String,Object> tempMap=new HashMap<String,Object>();
+                        Map<String,Object> tempMap=new HashMap<String,Object>(16);
                         tempMap.put("id", permission.getId());
                         List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(tempMap);
                         PermissionMenu permissionMenu=selectPermissionMenu.size()!=0?selectPermissionMenu.get(0):null;

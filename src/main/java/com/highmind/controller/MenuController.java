@@ -117,7 +117,7 @@ public class MenuController extends BaseController<Menu>{
             if(session.getAttribute("token").toString().equals(token)) {
                 if(JwtUtil.verify(token)) {
                     Long userId=JwtUtil.getUserId(token);
-                    Map<String,Object> map=new HashMap<String,Object>();
+                    Map<String,Object> map=new HashMap<String,Object>(16);
                     map.put("Eid", userId);
                     map.put("domainid", domainid);
                     List<Menu> selectAll =menuService.findAllRecursion(map);

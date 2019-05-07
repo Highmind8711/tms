@@ -39,7 +39,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -104,40 +103,45 @@ public class LoginlogController extends BaseController<Loginlog>{
             System.out.println(jsonString);
             handles=JSONArray.parseArray(jsonString, Handle.class);
         }       
-        List<String> sqlLits=new ArrayList<String>();
+        List<String> sqlLits=null;
         StringBuffer strBuffer = new StringBuffer();
         String betweenLeft="";
         String betweenRight="";
         if(handles!=null) {
+            sqlLits=new ArrayList<String>();
             for(Handle handle:handles) {
                 System.out.println(handle.toString());
-                if(handle.getOperation().equals("=")) {
-                    strBuffer.append("and"+handle.getName());
+                if("=".equals(handle.getOperation())) {
+                    strBuffer.append("and "+handle.getName()+" ");
                     strBuffer.append(handle.getOperation());
                     strBuffer.append(handle.getData()); 
                     sqlLits.add(strBuffer.toString());
-                }else if(handle.getOperation().equals("like")){
-                    strBuffer.append("and"+handle.getName());
-                    strBuffer.append(handle.getOperation());
-                    strBuffer.append("%"+handle.getData()+"%"); 
+                }else if("like".equals(handle.getOperation())){
+                    strBuffer.append("and "+handle.getName()+" ");
+                    strBuffer.append(handle.getOperation()+" ");
+                    strBuffer.append("'%"+handle.getData()+"%'"); 
                     sqlLits.add(strBuffer.toString());
-                }else if(handle.getOperation().equals("between")){
-                    betweenLeft="and"+handle.getName()+handle.getOperation()+handle.getData();    
-                }else if(handle.getOperation().equals("end")) {
-                    betweenRight=handle.getOperation()+handle.getData();
+                }else if("between".equals(handle.getOperation())){
+                    betweenLeft="and "+handle.getName()+" "+handle.getOperation()+" '"+handle.getData()+"' ";    
+                }else if("and".equals(handle.getOperation())) {
+                    betweenRight=handle.getOperation()+" '"+handle.getData()+"' ";
                 }else {
                     return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter);
-                }
-                if(!betweenLeft.equals("")||!betweenRight.equals("")) {
-                    strBuffer.append(betweenLeft);
-                    strBuffer.append(betweenRight);
-                    sqlLits.add(strBuffer.toString());
-                }
+                }  
+            }
+            if(!betweenLeft.equals("")||!betweenRight.equals("")) {
+                strBuffer.append(betweenLeft);
+                strBuffer.append(betweenRight);
+                sqlLits.add(strBuffer.toString());
+            }
+            for (String string : sqlLits) {
+                System.out.println(string);
             }
         }
+
         Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("domainid", domainid);
-        map.put("handles", handles);
+        map.put("handles", sqlLits);
         JSONObject jsonObject=new JSONObject();
         PageHelper.startPage(pageNum, pageSize);
         List<Loginlog> selectAll = loginlogService.selectAll(map);

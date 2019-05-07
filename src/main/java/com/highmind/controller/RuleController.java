@@ -95,7 +95,7 @@ public class RuleController extends BaseController<Rule> {
     public String getOneRulePermission(@PathVariable("id")Long id,HttpServletRequest request) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
-        HashMap<String, Object> hashMap=new HashMap<String,Object>();
+        HashMap<String, Object> hashMap=new HashMap<String,Object>(16);
         hashMap.put("id",id);
         hashMap.put("domainid", domainid);
         List<Rule> selectById = ruleService.selectRulePermission(hashMap);
@@ -112,7 +112,7 @@ public class RuleController extends BaseController<Rule> {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
         System.out.println(domainid+"头");
-        HashMap<String, Object> hashMap=new HashMap<String,Object>();
+        HashMap<String, Object> hashMap=new HashMap<String,Object>(16);
         hashMap.put("domainid", domainid);
         List<Rule> selectAll = ruleService.selectRulePermission(hashMap);
         if(!selectAll.isEmpty()) {

@@ -75,7 +75,7 @@ public class EmployeeTest {
     }
     @Test
     public void update() {
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("id", 1);
         Employee de=employeeService.selectById(map);
         de.setDomainid((long) 5);

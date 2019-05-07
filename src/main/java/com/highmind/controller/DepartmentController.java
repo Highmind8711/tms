@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.highmind.entity.Department;
+import com.highmind.tool.ConstantClass;
 
 /**
  * @ClassName DepartmentController
@@ -63,7 +64,7 @@ public class DepartmentController extends BaseController<Department>{
     @RequestMapping(value="/departmentnames",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getAllName(HttpServletRequest request) {
         String domainid=request.getHeader("domainid");
-        Map<String, Object> map=new HashMap<String, Object>();
+        Map<String, Object> map=new HashMap<String, Object>(16);
         map.put("domainid", domainid);
         List<Department> selectAll = departmentService.selectDepartmentName(map);
         return getString(selectAll, !selectAll.isEmpty());
@@ -92,11 +93,11 @@ public class DepartmentController extends BaseController<Department>{
     @RequestMapping(value="/departmentrecursion",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findAllRecursion(HttpServletRequest request) {
         Long domainid=null ;
-        if(request.getHeader("domainid")!=null) {
-            domainid=Long.valueOf(request.getHeader("domainid"));
+        if(request.getHeader(ConstantClass.DOMAINID)!=null) {
+            domainid=Long.valueOf(request.getHeader(ConstantClass.DOMAINID));
         }
        
-        Map<String, Object> map=new HashMap<String, Object>();
+        Map<String, Object> map=new HashMap<String, Object>(16);
         map.put("domainid", domainid);
         List<Department> selectAll = departmentService.findAllRecursion(null);
         return getString(selectAll, !selectAll.isEmpty());
@@ -104,7 +105,7 @@ public class DepartmentController extends BaseController<Department>{
     @RequestMapping(value="/findroot",method=RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String findRoot(HttpServletRequest request) {
         String domainid=request.getHeader("domainid");
-        Map<String, Object> map=new HashMap<String, Object>();
+        Map<String, Object> map=new HashMap<String, Object>(16);
         map.put("domainid", domainid);
         List<Department> selectAll = departmentService.findRoot(map);
         return getString(selectAll, !selectAll.isEmpty());

@@ -21,6 +21,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.highmind.entity.Employee;
 import com.highmind.entity.Loginlog;
 import com.highmind.tool.CodeMsg;
+import com.highmind.tool.ConstantClass;
 import com.highmind.tool.JwtUtil;
 import com.highmind.tool.PropertyHolder;
 import com.highmind.tool.Result;
@@ -158,7 +159,7 @@ public class EmployeeController extends BaseController<Employee>{
     public String checkIsExist(@PathVariable("loginId")String id,HttpServletRequest request) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("loginId",id);
         map.put("domainid", domainid);
         Employee employee=employeeService.checkUser(map);
@@ -185,7 +186,7 @@ public class EmployeeController extends BaseController<Employee>{
 //        }
 //        
         
-        Map<String,Object> mapLogin=new HashMap<String,Object>();
+        Map<String,Object> mapLogin=new HashMap<String,Object>(16);
         
         mapLogin.put("loginId",loginid);
         mapLogin.put("password",password);
@@ -221,19 +222,19 @@ public class EmployeeController extends BaseController<Employee>{
      */
     public static String getIpAddress(HttpServletRequest request) {  
         String ip = request.getHeader("x-forwarded-for");  
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+        if (ip == null || ip.length() == 0 || ConstantClass.UNKNOWN.equalsIgnoreCase(ip)) {  
             ip = request.getHeader("Proxy-Client-IP");  
         }  
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+        if (ip == null || ip.length() == 0 || ConstantClass.UNKNOWN.equalsIgnoreCase(ip)) {  
             ip = request.getHeader("WL-Proxy-Client-IP");  
         }  
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+        if (ip == null || ip.length() == 0 || ConstantClass.UNKNOWN.equalsIgnoreCase(ip)) {  
             ip = request.getHeader("HTTP_CLIENT_IP");  
         }  
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+        if (ip == null || ip.length() == 0 || ConstantClass.UNKNOWN.equalsIgnoreCase(ip)) {  
             ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
         }  
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+        if (ip == null || ip.length() == 0 || ConstantClass.UNKNOWN.equalsIgnoreCase(ip)) {  
             ip = request.getRemoteAddr();  
         }  
         return ip;  
@@ -249,7 +250,7 @@ public class EmployeeController extends BaseController<Employee>{
         System.out.println(token);
         if(JwtUtil.verify(token)) {
             Long userId=JwtUtil.getUserId(token);
-            Map<String,Object> map=new HashMap<String,Object>();
+            Map<String,Object> map=new HashMap<String,Object>(16);
             map.put("id", userId);
             Employee employee=employeeService.selectById(map);
             if(employee!=null) {

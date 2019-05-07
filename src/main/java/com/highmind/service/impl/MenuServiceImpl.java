@@ -74,7 +74,7 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public int del(Long id) {
         // TODO Auto-generated method stub
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("Mid",id);
         List<PermissionMenu> selectPermissionMenu = permissionMenuMapper.selectPermissionMenu(map);
         if(!selectPermissionMenu.isEmpty()) {

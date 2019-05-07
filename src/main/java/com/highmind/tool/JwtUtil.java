@@ -59,7 +59,7 @@ public class JwtUtil {
         // 私钥及加密算法
         Algorithm algorithm=Algorithm.HMAC256(TOKEN_SECRET);
         // 设置头部信息
-        HashMap<String, Object> header=new HashMap<String ,Object>();
+        HashMap<String, Object> header=new HashMap<String ,Object>(16);
         header.put("typ",JWT_TYP);
         header.put("alg",JWT_ALG);
         return JWT.create()

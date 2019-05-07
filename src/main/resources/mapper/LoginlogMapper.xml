@@ -6,15 +6,42 @@
     <result column="domainid" jdbcType="INTEGER" property="domainid" />
     <result column="enterdate" jdbcType="TIMESTAMP" property="enterdate" />
     <result column="ip" jdbcType="NVARCHAR" property="ip" />
-    <association property="employee" javaType="com.highmind.entity.Employee" select="com.highmind.dao.EmployeeMapper.selectByPrimaryKey" column="employee_id"/>
+    <association property="employee" javaType="com.highmind.entity.Employee">
+    		<id column="Eid" jdbcType="BIGINT" property="id" />
+	    	<result column="Edomainid" jdbcType="BIGINT" property="domainid" />
+	    	<result column="Ename" jdbcType="VARCHAR" property="name" />
+	    	<result column="Eemail" jdbcType="VARCHAR" property="email" />
+	    	<result column="Edepartment_id" jdbcType="BIGINT" property="department_id" />
+	    	<result column="EloginId" jdbcType="VARCHAR" property="loginId" />
+	    	<result column="EisLoginEnabled" jdbcType="TINYINT" property="isLoginEnabled" />
+	    	<result column="Ebirthday" jdbcType="TIMESTAMP" property="birthday" />
+            <result column="Etel" jdbcType="VARCHAR" property="tel"/>
+	    	<result column="Eqq" jdbcType="VARCHAR" property="qq" />
+	    	<result column="Esex" jdbcType="BIGINT" property="sex" />
+            <result column="Eseller" jdbcType="BIT" property="seller" />
+	    	<result column="Ephoto" jdbcType="VARCHAR" property="photo" />
+	    	<result column="password" jdbcType="VARCHAR" property="password"/>
+    </association>
   </resultMap>
   <sql id="Base_Column_List">
-    id, domainid, employee_id, enterdate, ip
+    Sys_Loginlog.id, Sys_Loginlog.domainid, Sys_Loginlog.employee_id, Sys_Loginlog.enterdate, Sys_Loginlog.ip
+  </sql>
+    <sql id="Employee_Base_Column_List">
+    Sys_Employee.id as Eid, Sys_Employee.domainid as Edomainid, Sys_Employee.name as Ename, 
+    Sys_Employee.email as Eemail, Sys_Employee.department_id as Edepartment_id, 
+    Sys_Employee.loginId as EloginId, Sys_Employee.isLoginEnabled as EisLoginEnabled, 
+    Sys_Employee.birthday as Ebirthday,Sys_Employee.seller as Eseller,Sys_Employee.qq as Eqq ,
+    Sys_Employee.sex as Esex, Sys_Employee.photo as Ephoto, Sys_Employee.password as Epassword,
+    Sys_Employee.tel as Etel
   </sql>
   <select id="selectLoginlog" parameterType="Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Employee_Base_Column_List"/>
     from Sys_Loginlog
+    LEFT JOIN Sys_Employee 
+    ON Sys_Employee.id=Sys_Loginlog.employee_id
     <where>
     	<if test="id!=null">
     		 and Sys_Loginlog.id=#{id,jdbcType=BIGINT}
@@ -24,7 +51,7 @@
     	</if>
     	<if test="handles!=null">
     		<foreach item="item" index="index" collection="handles">
-            	#{item}
+            	${item}
             </foreach>
     	</if>
     </where>
