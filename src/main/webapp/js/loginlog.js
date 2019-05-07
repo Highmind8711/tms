@@ -26,16 +26,10 @@ var loginlogVm = new Vue({
 	        contentType : 'application/json;charset=utf-8',
 	        headers: {'domainid': domainid},
 	        data: JSON.stringify({
-<<<<<<< HEAD
+
 	        	pageNum:1,
-	        	pageSize:20,
-	        	handles:arr
-	        }),//将对象序列化成JSON字符串 
-=======
-	        	pageNum:"1",
-	        	pageSize:"10",
+	        	pageSize:10,
 	        }),
->>>>>>> ea0c332d110240df3963ab8197957bb1afb69f85
 	        success: function (data) {
 	        	if(data.status == 1){		        		
 	        		console.log(data)
