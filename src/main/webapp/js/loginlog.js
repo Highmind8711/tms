@@ -53,17 +53,21 @@ var loginlogVm = new Vue({
 			this.pageInit.pageNum = val
 	        this.tableReload();
 		},
+		handleDateChange(val){
+			console.log(val)
+		},	
 		searchClick(){
 			this.searchList = [];
 			
 			if(this.userName != ""){
-				this.searchList.push({"operation":"%","name":"name","data":this.userName})
+				this.searchList.push({"operation":"like","name":"name","data":this.userName})
 			}
 			if(this.userLoginid != ""){
-				this.searchList.push({"operation":"%","name":"loginId","data":this.userLoginid})
+				this.searchList.push({"operation":"like","name":"loginId","data":this.userLoginid})
 			}
 			if(this.userEnterdate.length > 0){
-				this.searchList.push({"operation":"between","name":"enterdata","data":this.userEnterdate})				
+				this.searchList.push({"operation":"between","name":"enterdate","data":this.userEnterdate[0]})	
+				this.searchList.push({"operation":"end","name":"enterdate","data":this.userEnterdate[1]})	
 			}
 			
 			console.log(this.searchList);
