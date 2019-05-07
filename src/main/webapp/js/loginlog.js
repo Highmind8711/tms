@@ -40,8 +40,8 @@ var loginlogVm = new Vue({
 	        contentType : 'application/json;charset=utf-8',
 	        headers: {'domainid': domainid},
 	        data: JSON.stringify({
-	        	pageNum:"1",
-	        	pageSize:"20",
+	        	pageNum:1,
+	        	pageSize:20,
 	        	handles:arr
 	        }),//将对象序列化成JSON字符串 
 	        success: function (data) {

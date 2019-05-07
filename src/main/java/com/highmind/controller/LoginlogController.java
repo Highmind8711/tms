@@ -26,7 +26,6 @@
 package com.highmind.controller;
 
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,22 +96,14 @@ public class LoginlogController extends BaseController<Loginlog>{
     public String getAllByPage(HttpServletRequest request, @RequestBody Map<String, Object> pram) {
         // TODO Auto-generated method stub
         String domainid=request.getHeader("domainid");
-        String pageNumString=(String) pram.get("pageNum");
-        String pageSizeString=(String) pram.get("pageSize");
+        Integer pageNum=(Integer) pram.get("pageNum");
+        Integer pageSize=(Integer) pram.get("pageSize");
         List<Handle> handles=null;
         if(pram.get("handles")!=null) {
             String jsonString = JSONArray.toJSONString(pram.get("handles")); 
             System.out.println(jsonString);
             handles=JSONArray.parseArray(jsonString, Handle.class);
-        }
-        int pageNum;
-        int pageSize;
-        if(pageNumString.matches("^\\d+$")||pageSizeString.matches("^\\d+$")) {
-            pageNum = Integer.parseInt(pageNumString);
-            pageSize = Integer.parseInt(pageSizeString);
-        }else {
-            return JSONObject.toJSONString(Result.error(CodeMsg.PAGING_PARAMETERS_ERROR),errorFilter);
-        }
+        }       
         List<String> sqlLits=new ArrayList<String>();
         StringBuffer strBuffer = new StringBuffer();
         String betweenLeft="";
@@ -144,7 +135,7 @@ public class LoginlogController extends BaseController<Loginlog>{
                 }
             }
         }
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>(16);
         map.put("domainid", domainid);
         map.put("handles", handles);
         JSONObject jsonObject=new JSONObject();
