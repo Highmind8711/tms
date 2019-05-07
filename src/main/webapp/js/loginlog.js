@@ -43,6 +43,13 @@ var loginlogVm = new Vue({
 	            console.log(message);
 	        }
 	    });
+    	
+    	document.onkeydown = function(e) {
+    	var key = window.event.keyCode;
+	    	if (key == 13) {
+	    		_this.searchClick();
+	    	}
+    	}
 	},
 	methods:{
 		handleSizeChange(val) {
@@ -65,12 +72,20 @@ var loginlogVm = new Vue({
 			if(this.userLoginid != ""){
 				this.searchList.push({"operation":"like","name":"loginId","data":this.userLoginid})
 			}
-			if(this.userEnterdate.length > 0){
-				this.searchList.push({"operation":"between","name":"enterdate","data":this.userEnterdate[0]})	
-				this.searchList.push({"operation":"and","name":"enterdate","data":this.userEnterdate[1]})	
+			if(this.userEnterdate != null){
+				if(this.userEnterdate.length > 0){
+					this.searchList.push({"operation":"between","name":"enterdate","data":this.userEnterdate[0]})	
+					
+					/*var date = this.userEnterdate[1]
+					date.setDate(date.getDate()+1)*/
+					this.searchList.push({"operation":"and","name":"enterdate","data":this.userEnterdate[1]})	
+				}	
 			}
 			
-			console.log(this.searchList);
+		
+			console.log(this.userEnterdate);
+			
+			
 			this.tableReload()
 			// 格式
 			/*let arr=[];
@@ -113,24 +128,25 @@ var loginlogVm = new Vue({
 		            console.log(message);
 		        }
 		    });
-		}
+		},
+		add0(m){
+			return m<10?'0'+m:m 
+		},
+		formatDate(row, column, cellValue, index) { 
+			const daterc = row[column.property]
+			var time = new Date(daterc);
+			var year = time.getFullYear();
+			var month = time.getMonth()+1;
+			var date = time.getDate();
+			var hours = time.getHours();
+			var minutes = time.getMinutes();
+			var seconds = time.getSeconds();
+			return year+'-'+ this.add0(month)+'-'+ this.add0(date)+' '+ this.add0(hours)+':'+ this.add0(minutes)+':'+ this.add0(seconds);
+		},	
 	}
-
 })
 
-
-function add0(m){return m<10?'0'+m:m }
-
-function formatDate(timestamp) { 	
-	var time = new Date(timestamp);
-	var year = time.getFullYear();
-	var month = time.getMonth()+1;
-	var date = time.getDate();
-	var hours = time.getHours();
-	var minutes = time.getMinutes();
-	var seconds = time.getSeconds();
-	return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
-} 
+ 
 
 $(document).ready(function() {
 	/*页面初始化*/
