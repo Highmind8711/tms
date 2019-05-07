@@ -6,7 +6,7 @@ var loginlogVm = new Vue({
 	data(){
 		return{
 			loginlogTable: [],
-			pageInitList:{
+			pageInit:{
 				"total":0,
 				"pageNum":1,
 				"pageSize":10,
@@ -26,15 +26,14 @@ var loginlogVm = new Vue({
 	        contentType : 'application/json;charset=utf-8',
 	        headers: {'domainid': domainid},
 	        data: JSON.stringify({
-
-	        	pageNum:1,
-	        	pageSize:10,
+	        	pageNum:_this.pageInit.pageNum,
+	        	pageSize:_this.pageInit.pageSize,
 	        }),
 	        success: function (data) {
 	        	if(data.status == 1){		        		
 	        		console.log(data)
 	        		_this.loginlogTable = data.data
-	        		_this.loginlogTotal = data.total
+	        		_this.pageInit.total = data.total
 	        	}
 	        	else{
 	        		console.log(data.data);
@@ -47,27 +46,28 @@ var loginlogVm = new Vue({
 	},
 	methods:{
 		handleSizeChange(val) {
-	        console.log(`每页 ${val} 条`);
+	        this.pageInit.pageSize = val
+	        this.tableReload();
 		},		
 		handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			this.pageInit.pageNum = val
+	        this.tableReload();
 		},
 		searchClick(){
-			var _this = this;  
 			this.searchList = [];
 			
 			if(this.userName != ""){
-				this.searchList.push({"operation":"%","name":"name","data":_this.userName})
+				this.searchList.push({"operation":"%","name":"name","data":this.userName})
 			}
 			if(this.userLoginid != ""){
-				this.searchList.push({"operation":"%","name":"loginid","data":_this.userLoginid})
+				this.searchList.push({"operation":"%","name":"loginId","data":this.userLoginid})
 			}
 			if(this.userEnterdate.length > 0){
-				_this.searchList.push({"operation":"between","name":"enterdata","data":_this.userEnterdate})				
+				this.searchList.push({"operation":"between","name":"enterdata","data":this.userEnterdate})				
 			}
 			
 			console.log(this.searchList);
-				
+			this.tableReload()
 			// 格式
 			/*let arr=[];
 			let handle1=new Object();
@@ -88,19 +88,21 @@ var loginlogVm = new Vue({
 			$.ajax({
 		        type: "post",
 		        url: "../loginlogbypage",
+		        contentType : 'application/json;charset=utf-8',
 		        headers: {'domainid': domainid},
 		        data:JSON.stringify({
-		        	pageNum:_this.pageInitList.pageNum,
-		        	pageSize:_this.pageInitList.pageSize,
+		        	pageNum:_this.pageInit.pageNum,
+		        	pageSize:_this.pageInit.pageSize,
 		        	handles:_this.searchList
-		        }),//将对象序列化成JSON字符串 
-		        
+		        }),
 		        success: function (data) {
 		        	if(data.status == 1){		        		
-		        		console.log(data.data)		
+		        		console.log(data)
+		        		_this.loginlogTable = data.data
+		        		_this.pageInit.total = data.total
 		        	}
 		        	else{
-		        		console.log(data.data);
+		        		console.log(data);
 		        	} 	
 		        },
 		        error: function (message) {
