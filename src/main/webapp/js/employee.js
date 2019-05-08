@@ -47,10 +47,10 @@ function setEmployeeTable(){
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo' onclick='getEmployee("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployeeInit("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRulesEdit' onclick='getEmployeeRules("+ row_ + ")'><i class='lnr lnr-bookmark'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
+	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#employeeInfo' onclick='getEmployee("+ row_ + ")' title='员工详细信息查看'><i class='lnr lnr-magnifier'></i></button>" 
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#employeeEdit' onclick='editEmployeeInit("+ row_ + ")' title='员工信息编辑'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#employeeRulesEdit' onclick='getEmployeeRules("+ row_ + ")' title='员工角色分配'><i class='lnr lnr-bookmark'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delEmployee("+ id_ + ")' title='删除员工'><i class='lnr lnr-trash'></i></button>"
         			 
 	        	return html;
         	}

@@ -35,8 +35,8 @@ function setDomainTable(){
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
-	        	var html = "<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#domainEdit' onclick='getDomain("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delDomain("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
+	        	var html = "<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#domainEdit' onclick='getDomain("+ row_ + ")' title='区域信息编辑'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delDomain("+ id_ + ")' title='删除区域'><i class='lnr lnr-trash'></i></button>"
 		 
 	        	return html;
         	}
