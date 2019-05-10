@@ -193,6 +193,12 @@
   		<artifactId>hutool-core</artifactId>
   		<version>4.5.6</version>
 	</dependency>
+	<!--AOP  -->
+	<dependency>
+      	<groupId>aopalliance</groupId>
+      	<artifactId>aopalliance</artifactId>
+      	<version>${aopalliance.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>HM</finalName>
