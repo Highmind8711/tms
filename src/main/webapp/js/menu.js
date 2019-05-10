@@ -83,7 +83,7 @@ var menuVm = new Vue({
         	        success:function(data){
         	        	if(data.status == 1){
         	        		alert("删除成功！");
-        	        		window.location.reload();
+        	        		menuVm.menuRefresh();
         	        	}else{
         	        		alert("删除失败！请检查该菜单是否包含子菜单或该菜单已添加至权限中，若包含，请先删除该级联关系");
         	        	} 	
@@ -93,9 +93,6 @@ var menuVm = new Vue({
         	        }  
         		})  
     		}	   			
-    	},
-    	menuRefresh:function(){
-    		window.location.reload();
     	},
     	createMenu:function(){
     		var _data = this;
@@ -129,6 +126,9 @@ var menuVm = new Vue({
     	    			alert("添加成功！");   	
     	    			$('#menuCreate').modal('hide');
     	    			$("#menuCreate :input").each(function () {
+    	    				if($(this).attr("name") != "menuSelect"){
+    	    					$(this).val("");
+    	    				}
     	    		        $(this).val("");
     	    			});
     	    			if($("#menuSelect option:selected").val() == 1){
@@ -142,6 +142,7 @@ var menuVm = new Vue({
     	        				}	        				
     		        		})
     	    			}
+    	    			window.location.reload();
     	    		}else{
     	    			alert("添加失败！");
     	    		}
@@ -150,12 +151,46 @@ var menuVm = new Vue({
     	            console.log(message);
     	        }
     	    });	
-    	}
+    	},
+    	menuRefresh:function(){
+    		var _data = this;
+    		_data.menuList = []
+        	
+        	$.ajax({
+    	        type: "get",
+    	        url: "../menus",
+    	        headers: {'domainid': domainid},
+    	        success: function (data) {
+    	        	if(data.status == 1){		        		
+    	        		console.log(data.data)
+    	        		$.each(data.data,function(i,v){	  			
+    	        			if(v.parent_id == 0){
+    		        			_data.menuList.push( {"id":v.id,"name":v.name,"url":v.url,"menus":[]});
+    	        			}
+    	        		})
+    	        		$.each(data.data,function(i,v){	 
+    	        			$.each(_data.menuList,function(j,n){	
+    	        				if(v.parent_id == n.id){
+    	        					n.menus.push({"id":v.id,"name":v.name,"url":v.url});	        					
+    	        				}	        				
+    		        		})
+    	        		})
+    	        	}
+    	        	else{
+    	        		console.log(data.data);
+    	        	}
+    	        	
+    	        },
+    	        error: function (message) {
+    	            console.log(message);
+    	        }
+    	    });
+    	},
     }   
 })
 
 
-function editMenuSave(){
+function editMenu(){
 	
 	var _menu = {};
 	
@@ -172,6 +207,7 @@ function editMenuSave(){
         	if(data.status == 1){
         		alert("修改成功！");
         		$('#menuEdit').modal('hide');
+        		menuVm.menuRefresh();
         	}else{
         		alert("修改失败！");
         	} 	
@@ -190,7 +226,7 @@ $(document).ready(function() {
 	
 	/*操作*/
 	$("#editMenuBtn").click(function(){
-		editMenuSave();
+		editMenu();
 	})
 	
 	

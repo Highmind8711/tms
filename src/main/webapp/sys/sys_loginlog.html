@@ -44,19 +44,17 @@
 									<div class="form-horizontal tasi-form" >				                       
 			                        	<div class="form-group">
 				                            <label class="col-sm-1 control-label">用户姓名</label>
-				                            <div class="col-sm-5">
-												<el-input v-model="userName" placeholder="请输入用户姓名"></el-input>				                            
-											</div>
-				                        </div>
-				                        <div class="form-group">
-				                            <label class="col-sm-1 control-label">登录账号</label>
-				                            <div class="col-sm-5">
-												<el-input v-model="userLoginid" placeholder="请输入用户登录账号"></el-input>				                            
-											</div>
-				                        </div>                     
+				                            <div class="col-sm-4">
+												<el-input v-model="userName" placeholder="请输入用户姓名" ></el-input>				                            
+											</div>	
+											<label class="col-sm-1 control-label">登录账号</label>
+				                            <div class="col-sm-4">
+												<el-input v-model="userLoginid" placeholder="请输入用户登录账号" ></el-input>				                            
+											</div>																			
+				                        </div>			                           
 				                       	<div class="form-group" >
 				                            <label class="col-sm-1 control-label">登录时间</label>
-				                            <div class="col-sm-9" width="100%">
+				                            <div class="col-sm-7" width="100%">
 					                            <el-date-picker
 											      v-model="userEnterdate"
 											      type="daterange"
@@ -64,31 +62,36 @@
 											      @change="handleDateChange"
 											      value-format="yyyy-MM-dd"
 											      format="yyyy-MM-dd"
-											      range-separator="至"
+											      range-separator="-"
 											      start-placeholder="开始日期"
 											      end-placeholder="结束日期">
 											    </el-date-picker>
 				                            </div>
-				                            <div class="col-sm-2">
-					                            <el-button type="primary" icon="el-icon-search" v-on:click="searchClick">查询</el-button>
-				                            </div>
+				                            <div class="col-sm-4" style="text-align:right">
+												<el-button type="primary" icon="el-icon-search" @click="searchClick">查询</el-button>                   
+											</div>	
 				                        </div>  
 				                        <div class="form-group">
 				                            <div class="col-md-12">											
-											<el-table :data="loginlogTable" border style="width: 100%;" >
-											    <el-table-column fixed sortable prop="id" label="id" width=""></el-table-column>
-											    <el-table-column fixed sortable prop="employee.name" label="用户姓名" width=""></el-table-column>
-											    <el-table-column fixed sortable prop="employee.loginId" label="登录账号" width=""></el-table-column>
-											    <el-table-column sortable prop="enterdate" label="登录时间" width=""></el-table-column>											     
+											<el-table :data="loginlogTable" border style="width: 100%;" max-height="600">
+												<el-table-column fixed width="60" align="center">          
+													<template scope="scope">            
+														<span>{{scope.$index + (pageInit.pageNum-1)*pageInit.pageSize + 1}} </span>          
+													</template>      
+												</el-table-column>											   
+											    <el-table-column sortable prop="employee.name" label="用户姓名" width=""></el-table-column>
+											    <el-table-column sortable prop="employee.loginId" label="登录账号" width=""></el-table-column>
+											    <el-table-column sortable prop="enterdate" :formatter="formatDate"  label="登录时间" width=""></el-table-column>											     
 											</el-table>
 										</div>
-										<div class="form-group">
-				                            <div class="col-sm-12">
-												<el-pagination
+										<div class="form-group" style="margin-bottom:0;">									
+				                            <div class="col-sm-12"  style="margin-top:15px;">
+												<el-pagination align="center"
 											      @size-change="handleSizeChange"
 											      @current-change="handleCurrentChange"
 											      :current-page="pageInit.pageNum"
-											      :page-sizes="[10, 20, 50, 100, 200]"
+											      :pager-count="11"
+											      :page-sizes="[10, 20, 50, 100, 200, 500, 1000]"
 											      :page-size="pageInit.pageSize"
 											      layout="total, sizes, prev, pager, next, jumper"
 											      :total="pageInit.total">

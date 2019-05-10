@@ -42,9 +42,9 @@ function setPermissionTable(){
         	"render" : function(data, type, row) {
         		var id_ = '"' + row.id + '"';
         		var row_ = JSON.stringify(row);
-	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#permissionInfo' onclick='getPermission("+ row_ + ")'><i class='lnr lnr-magnifier'></i></button>" 
-	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#permissionEdit' onclick='editPermissionInit("+ row_ + ")'><i class='lnr lnr-pencil'></i></button>"
-	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delPermission("+ id_ + ")'><i class='lnr lnr-trash'></i></button>"
+	        	var html = "<button type='button' class='btn btn-info btn-xs' data-toggle='modal' data-target='#permissionInfo' onclick='getPermission("+ row_ + ")' title='权限详细信息查看'><i class='lnr lnr-magnifier'></i></button>" 
+	        		 + "&nbsp;<button type='button' class='btn btn-success btn-xs' data-toggle='modal' data-target='#permissionEdit' onclick='editPermissionInit("+ row_ + ")' title='权限信息编辑'><i class='lnr lnr-pencil'></i></button>"
+	        		 + "&nbsp;<button type='button' class='btn btn-danger btn-xs' onclick='delPermission("+ id_ + ")' title='删除权限'><i class='lnr lnr-trash'></i></button>"
 	        			 
 	        	return html;
         	}
@@ -103,17 +103,7 @@ function createPermission(){
         	if(data.status == 1){
     			alert("添加成功！");   			
     			table.ajax.reload();
-    			$('#permissionCreate').modal('hide');
-    			$("#employeeCreate :input").each(function () {
-    				if($(this).attr("name") == "groupingArea"
-    					|| $(this).attr("name") == "typeArea"
-    					|| $(this).attr("name") == "menuIdArea")
-    				{
-    					
-    				}else{
-    					$(this).val("");
-    				}
-    			});
+    			$('#permissionCreate').modal('hide'); 			
     			$("input[name='nameArea']").val("");
     			$("textarea[name='remarkArea']").val("")
     		}else{

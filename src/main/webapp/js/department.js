@@ -114,7 +114,7 @@ var deprtmentVm = new Vue({
         	        success:function(data){
         	        	if(data.status == 1){
         	        		alert("删除成功！");
-        	        		window.location.reload();
+        	        		deprtmentVm.departmentRefresh();
         	        		
         	        	}else{
         	        		alert("删除失败！");
@@ -127,7 +127,39 @@ var deprtmentVm = new Vue({
     		}	   			
     	},
     	departmentRefresh:function(){
-    		window.location.reload();
+    		var _data = this;
+    		_data.departmentList = [];
+        	
+        	$.ajax({
+    	        type: "get",
+    	        url: "../departments",
+    	        headers: {'domainid': domainid},
+    	        success: function (data) {
+    	        	if(data.status == 1){		        		
+    	        		/*console.log(data.data)*/
+    	        		$.each(data.data,function(i,v){	  			
+    	        			if(v.ml_parent == 0){
+    		        			_data.departmentList.push( {"id":v.id,"name":v.name,"remark":v.remark,"departments":[]});
+    	        			}
+    	        		})
+    	        		$.each(data.data,function(i,v){	 
+    	        			$.each(_data.departmentList,function(j,n){	
+    	        				if(v.ml_parent == n.id){
+    	        					n.departments.push({"id":v.id,"name":v.name,"remark":v.remark});	        					
+    	        				}	        				
+    		        		})
+    	        		})
+    	        		
+    	        	}
+    	        	else{
+    	        		console.log(data.data);
+    	        	}
+    	        	
+    	        },
+    	        error: function (message) {
+    	            console.log(message);
+    	        }
+    	    });
     	}
     }   
 })
@@ -187,6 +219,7 @@ function editDepartment(){
         	if(data.status == 1){
         		alert("修改成功！");
         		$('#departmentEdit').modal('hide');
+        		deprtmentVm.departmentRefresh();
         	}else{
         		alert("修改失败！");
         	} 	
