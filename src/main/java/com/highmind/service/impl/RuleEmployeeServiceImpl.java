@@ -1,6 +1,5 @@
 package com.highmind.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +83,10 @@ public class RuleEmployeeServiceImpl implements RuleEmployeeService{
            if(time==0) {
                time++;
                ruleEmployeeMapper.deleteByEid(ruleEmployee.getEmployee_id());
+               //为全删做准备
+               if(ruleEmployee.getRule_id()==0) {
+                   return 1;
+               }
            }
            int result=ruleEmployeeMapper.insertSelective(ruleEmployee);
            if(result==0) {

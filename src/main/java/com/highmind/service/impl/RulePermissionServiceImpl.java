@@ -1,6 +1,5 @@
 package com.highmind.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +83,10 @@ public class RulePermissionServiceImpl implements RulePermissionService{
             if(time==0) {
                 time++;
                 rulePermissionMapper.deleteByRid(rulePermission.getRule_id());
+                //为全删做准备
+                if(rulePermission.getPermission_id()==0) {
+                    return 1;
+                }
             }
             int result=rulePermissionMapper.insertSelective(rulePermission);
             if(result==0) {
