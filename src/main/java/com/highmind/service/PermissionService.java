@@ -2,6 +2,7 @@ package com.highmind.service;
 
 
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,4 +23,11 @@ public interface PermissionService extends BaseService<Permission>{
      * @return
      */
     Set<String> selectPermissionByEid(Map<String, Object> map);
+    /**
+     * 查询组根据用户id
+     * @Description
+     * @param map
+     * @return
+     */
+    List<String> selectGroupByEid(Map<String,Object> map);
 }

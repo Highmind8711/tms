@@ -161,6 +161,16 @@ public class PermissionServiceImpl implements PermissionService {
         }
         return strings;
     }
+
+    /* (非 Javadoc)
+     * Description:
+     * @see com.highmind.service.PermissionService#selectGroupByEid(java.util.Map)
+     */
+    @Override
+    public List<String> selectGroupByEid(Map<String, Object> map) {
+        // TODO Auto-generated method stub
+        return permissionMapper.selectGroupByEid(map);
+    }
     
 
    

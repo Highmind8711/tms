@@ -25,4 +25,11 @@ public interface PermissionMapper {
      * @return
      */
     List<Permission> selectPermissionByEid(Map<String,Object> map);
+    /**
+     * 查询当前用户的组
+     * @Description
+     * @param map
+     * @return
+     */
+    List<String> selectGroupByEid(Map<String,Object> map);
 }

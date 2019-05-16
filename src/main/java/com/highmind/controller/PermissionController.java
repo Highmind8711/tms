@@ -1,13 +1,24 @@
 package com.highmind.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.highmind.entity.Menu;
 import com.highmind.entity.Permission;
+import com.highmind.tool.CodeMsg;
+import com.highmind.tool.JwtUtil;
+import com.highmind.tool.Result;
 
 /**
  * @ClassName PermissionController
@@ -59,5 +70,31 @@ public class PermissionController extends BaseController<Permission> {
     public String update(Permission t) {
         // TODO Auto-generated method stub
         return super.updateResult(permissionService, t);
+    }
+    
+    @RequestMapping(value="/group",method=RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    public String findGroup(String token,HttpSession session,HttpServletRequest request) {
+        try {
+            System.out.println(session.getAttribute("token"));
+            String domainid=request.getHeader("domainid");
+            if(session.getAttribute("token").toString().equals(token)) {
+                if(JwtUtil.verify(token)) {
+                    Long userId=JwtUtil.getUserId(token);
+                    Map<String,Object> map=new HashMap<String,Object>(16);
+                    map.put("Eid", userId);
+                    map.put("domainid", domainid);
+                    List<String> selectAll =permissionService.selectGroupByEid(map);
+                    return JSONObject.toJSONString(Result.success(selectAll),successFilter,SerializerFeature.WriteMapNullValue);
+                }else {
+                    return JSONObject.toJSONString(Result.error(CodeMsg.SESSION_NOT_EXSIST),errorFilter,SerializerFeature.WriteMapNullValue);
+                }
+            }else {
+                return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter,SerializerFeature.WriteMapNullValue);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return JSONObject.toJSONString(Result.error(CodeMsg.ILLEGAL_REQUEST),errorFilter,SerializerFeature.WriteMapNullValue);
+        }
+       
     }
 }
