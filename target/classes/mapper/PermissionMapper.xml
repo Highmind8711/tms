@@ -126,7 +126,7 @@
     	</if>
     </where>
   </select>
-    <select id="selectGroupByEid" parameterType="Map" resultMap="List">
+    <select id="selectGroupByEid" parameterType="Map" resultType="java.lang.String">
     select 
     DISTINCT Sys_Permission.grouping
     from Sys_Employee
