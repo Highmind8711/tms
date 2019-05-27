@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.highmind.entity.Menu;
 import com.highmind.entity.Permission;
 import com.highmind.tool.CodeMsg;
 import com.highmind.tool.JwtUtil;

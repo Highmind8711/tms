@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://java.sun.com/xml/ns/javaee"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
  
   <!-- spring的配置文件-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-    	classpath:applicationContext.xml
+        classpath:applicationContext.xml
     </param-value>
   </context-param>
   <listener>
@@ -52,15 +52,16 @@
     <servlet-name>mvc-dispatcher</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <!-- 跨域 -->
   <filter>
-  	<filter-name>CorsFilter</filter-name>
-  	<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+      <filter-name>CorsFilter</filter-name>
+      <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
   </filter>
   <filter-mapping>
-  	<filter-name>CorsFilter</filter-name>
-  	<url-pattern>/*</url-pattern>
+      <filter-name>CorsFilter</filter-name>
+      <url-pattern>/*</url-pattern>
   </filter-mapping>
- <filter>
+  <filter>
     <filter-name>CORS</filter-name>
     <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
 
@@ -80,11 +81,56 @@
         <param-name>cors.supportedMethods</param-name>
         <param-value>DELETE,PUT,GET, POST, HEAD, OPTIONS</param-value>
     </init-param>
-</filter>
+  </filter>
 
 
-<filter-mapping>
+  <filter-mapping>
     <filter-name>CORS</filter-name>
     <url-pattern>/*</url-pattern>
-</filter-mapping>
+  </filter-mapping>
+  
+   <!--druid 监控 -->
+    <filter>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <async-supported>true</async-supported>
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>/static/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sessionStatMaxCount</param-name>
+            <param-value>1000</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>DruidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+ 
+    <!-- druid监控 -->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <init-param>  
+            <!-- 允许清空统计数据 -->  
+            <param-name>resetEnable</param-name>
+            <param-value>true</param-value>
+            </init-param>
+            <init-param>
+            <!-- 用户名 -->
+            <param-name>loginUsername</param-name>
+            <param-value>administrator</param-value>
+            </init-param>
+            <init-param>
+            <!-- 密码 -->
+            <param-name>loginPassword</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
 </web-app>

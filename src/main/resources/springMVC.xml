@@ -31,5 +31,6 @@
  
     <!-- 对上传文件的解析-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+    <!--  全局异常捕捉点 -->
     <bean class="com.highmind.exception.GlobalExceptionHandler"/>
 </beans>

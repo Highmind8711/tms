@@ -44,8 +44,20 @@
         <property name="poolPreparedStatements" value="true" />
         <property name="maxPoolPreparedStatementPerConnectionSize"
                   value="20" />
+                  
+        <property name="asyncInit" value="true" />          
+        <!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="log4j" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>       
     </bean>
- 
+ 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="3000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
     <!--Mybatis的SessionFactory配置-->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="typeAliasesPackage" value="com.highmind.entity"/>
